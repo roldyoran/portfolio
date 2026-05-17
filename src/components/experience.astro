@@ -31,24 +31,24 @@ const t = useTranslations(lang);
   </div>
 
   {experience.map((exp, index) => (
-    <div class={`reveal-hidden exp-row grid grid-cols-1 md:grid-cols-[52px_1fr_2fr_auto] gap-4 md:gap-8 items-start px-4 md:px-12 py-8 md:py-10 border-t border-line relative overflow-hidden`}>
+    <div class={`reveal-hidden exp-row grid grid-cols-1 md:grid-cols-[52px_1fr_2fr_auto] gap-4 md:gap-12 items-start px-4 md:px-12 py-8 md:py-10 border-t border-line relative overflow-hidden`}>
       <div class="exp-n font-mono text-[0.72rem] md:text-[0.62rem] text-t3 flex md:pt-1 gap-2 md:block">
         <span class="text-o">{String(index + 1).padStart(2, '0')}</span>
       </div>
       <div>
-        <div class="font-big text-[1.5rem] md:text-[1.85rem] leading-none tracking-wider">{exp.company}</div>
-        <div class="font-mono text-[0.72rem] md:text-[0.62rem] text-o2 mt-1 tracking-wider">{exp.location}</div>
-        <div class="text-[0.92rem] font-semibold text-t1 mb-1 mt-3 md:mt-0">{lang === 'es' && exp.roleEs ? exp.roleEs : exp.role}</div>
+        <div class="font-big text-[1.8rem] md:text-[2.4rem] leading-none tracking-wider">{exp.company}</div>
+        <div class="font-mono text-[0.85rem] md:text-[0.9rem] text-o2 mt-1.5 tracking-wider">{exp.location}</div>
+        <div class="text-[1.1rem] font-semibold text-t1 mb-1.5 mt-4 md:mt-0">{lang === 'es' && exp.roleEs ? exp.roleEs : exp.role}</div>
       </div>
       <div>
-        <p class="text-[0.84rem] text-t2 leading-relaxed">{lang === 'es' && exp.descriptionEs ? exp.descriptionEs : exp.description}</p>
-        <div class="flex gap-1 flex-wrap mt-2.5">
+        <p class="text-[1rem] md:text-[1.05rem] text-t2 leading-relaxed">{lang === 'es' && exp.descriptionEs ? exp.descriptionEs : exp.description}</p>
+        <div class="flex gap-1.5 flex-wrap mt-3">
           {exp.tech.map((techItem) => (
-            <span class="chip">{techItem}</span>
+            <span class="chip text-[0.8rem]">{techItem}</span>
           ))}
         </div>
       </div>
-      <div class="exp-date font-mono text-[0.82rem] md:text-[0.75rem] text-t3 tracking-wider md:text-right pt-1 whitespace-nowrap order-first md:order-last mb-2 md:mb-0">
+      <div class="exp-date font-mono text-[0.9rem] md:text-[0.85rem] text-t3 tracking-wider md:text-right pt-1 whitespace-nowrap order-first md:order-last mb-2 md:mb-0">
         {lang === 'es' && exp.period.startEs ? exp.period.startEs : exp.period.start} — {lang === 'es' && exp.period.endEs ? exp.period.endEs : exp.period.end}
       </div>
     </div>
