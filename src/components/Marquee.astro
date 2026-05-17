@@ -12,7 +12,7 @@ const doubledItems = [...items, ...items];
 
 <div class="marquee-strip border-y border-line py-3 overflow-hidden bg-bg2 relative z-10">
   <div class="marquee-inner flex whitespace-nowrap font-mono text-[0.62rem] tracking-[0.15em] uppercase text-t3">
-    <div class="marquee-content flex gap-12 shrink-0">
+    <div class="marquee-content flex gap-6 shrink-0">
       {
         doubledItems.map((item, index) => {
           const Icon = icons[item];
@@ -30,7 +30,7 @@ const doubledItems = [...items, ...items];
         })
       }
     </div>
-    <div class="marquee-content flex gap-12 shrink-0" aria-hidden="true">
+    <div class="marquee-content flex gap-6 shrink-0" aria-hidden="true">
       {
         doubledItems.map((item, index) => {
           const Icon = icons[item];
