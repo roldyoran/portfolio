@@ -9,7 +9,7 @@ export interface MarqueeOptions {
 
 const defaultOptions: Required<MarqueeOptions> = {
   selector: ".marquee-inner",
-  speed: 40,
+  speed: 80,
   pauseOnHover: true,
   direction: "left",
 };
