@@ -145,7 +145,7 @@ export const projects: Project[] = [
       "Public voting site for the 50th chapter of the manga Antagonista by Saikomic. Users vote for their top 3 favorite characters. Built with Astro, React, and Turso (libSQL) database.",
     taglineEs:
       "Sitio público de votación para el capítulo 50 del manga Antagonista de Saikomic. Los usuarios votan por sus 3 personajes favoritos. Construido con Astro, React y base de datos Turso (libSQL).",
-    tech: ["Astro", "React", "Tailwind CSS", "TypeScript", "Turso", "libSQL"],
+    tech: ["Astro", "React", "Tailwind CSS", "TypeScript", "Turso"],
     demo: "https://votaciones-antagonista.vercel.app/",
     github: "https://github.com/roldyoran/antagonista-site",
   },
@@ -260,6 +260,8 @@ export const skillsWithIcons: SkillWithIcon[] = skillsData
 export function getSkillIcon(name: string): any {
   return techIcons[name] ?? null;
 }
+
+export { techIcons };
 
 export function getSkillsByCategory(category: string): Skill[] {
   return skills.filter((s) => s.category === category);

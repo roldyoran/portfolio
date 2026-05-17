@@ -1,6 +1,7 @@
 ---
 import type { Lang } from '@/i18n/config';
 import { useTranslations } from '@/i18n/ui';
+import { techIcons } from '@/data/content';
 
 interface Experience {
   id: number;
@@ -43,9 +44,15 @@ const t = useTranslations(lang);
       <div>
         <p class="text-[1rem] md:text-[1.05rem] text-t2 leading-relaxed">{lang === 'es' && exp.descriptionEs ? exp.descriptionEs : exp.description}</p>
         <div class="flex gap-1.5 flex-wrap mt-3">
-          {exp.tech.map((techItem) => (
-            <span class="chip text-[0.8rem]">{techItem}</span>
-          ))}
+          {exp.tech.map((techItem) => {
+            const Icon = techIcons[techItem];
+            return (
+              <span class="chip inline-flex items-center gap-1.5">
+                {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-40" /> : null}
+                {techItem}
+              </span>
+            );
+          })}
         </div>
       </div>
       <div class="exp-date font-mono text-[0.9rem] md:text-[0.85rem] text-t3 tracking-wider md:text-right pt-1 whitespace-nowrap order-first md:order-last mb-2 md:mb-0">
