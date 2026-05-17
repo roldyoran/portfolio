@@ -41,7 +41,12 @@ const contactInfo = lang === "es"
   <!-- Section header -->
   <div class="reveal-hidden section-header flex-col md:flex-row md:items-baseline md:justify-between text-center md:text-left">
     <span class="sec-num">[ 05 ]</span>
-    <h2 class="sec-title text-center md:text-left mt-2 md:mt-0 md:ml-4">{t.contact.title}<br />{t.contact.subtitle}<br /><span class="text-o">{t.contact.highlight}</span></h2>
+    <h2 class="sec-title text-center md:text-left mt-2 md:mt-0 md:ml-4">
+      {t.contact.title}
+      {t.contact.subtitle ? <><br />{t.contact.subtitle}</> : null}
+      <br />
+      <span class="text-o">{t.contact.highlight}</span>
+    </h2>
     <div class="mt-4 md:mt-0 flex flex-col gap-3 w-full max-w-md ml-auto">
       <ButtonGroup variant="primary" email={email} iconLeft="mail" iconRight="arrow-right" label={t.contact.sendMessage} class="w-full text-[1.05rem] md:text-[1.125rem] py-3" />
       <div class="flex gap-2 md:gap-2.5 w-full">

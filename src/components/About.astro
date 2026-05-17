@@ -47,7 +47,7 @@ const skillsByCategory = categories.reduce(
             <section class="skill-category mb-2">
               <details class="md:block" open>
                 <summary class="flex items-center justify-between md:static md:mb-2 md:cursor-default">
-                  <span class="font-mono text-[0.6rem] text-o tracking-widest uppercase">{category}</span>
+                  <span class="font-mono text-[0.6rem] text-o tracking-widest uppercase">{t.about.categories[category] ?? category}</span>
                   <span class="md:hidden font-mono text-[0.6rem] text-t3">{categorySkills.length}</span>
                 </summary>
                 <div class="chips mt-2 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-1 gap-1.5 md:gap-2">
