@@ -3,6 +3,7 @@ import ButtonGroup from "@/components/button-group.astro";
 import type { Project } from "@/data/types";
 import type { Lang } from "@/i18n/config";
 import { useTranslations } from "@/i18n/ui";
+import { techIcons } from "@/data/content";
 
 interface Props {
   projects: Project[];
@@ -31,9 +32,15 @@ const t = useTranslations(lang);
         </div>
         <p class="proj-tagline text-[0.86rem] text-t2 leading-[1.55] mb-2.5 max-w-full md:max-w-[540px]">{lang === 'es' && project.taglineEs ? project.taglineEs : project.tagline}</p>
         <div class="proj-stack flex gap-1.25 flex-wrap mb-3">
-          {project.tech.map((techItem) => (
-            <span class="chip">{techItem}</span>
-          ))}
+          {project.tech.map((techItem) => {
+            const Icon = techIcons[techItem];
+            return (
+              <span class="chip inline-flex items-center gap-1.5">
+                {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-40" /> : null}
+                {techItem}
+              </span>
+            );
+          })}
         </div>
         <div class="proj-image-placeholder mb-4 md:mb-0">
           <span class="proj-image-text">{t.projects.projectImage}</span>
