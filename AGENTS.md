@@ -50,6 +50,18 @@ src/
     └── astro.svg
 ```
 
+## Language conventions
+
+- **TypeScript only**: All scripts, modules, and logic must be written in TypeScript (`.ts` or `.astro` files).
+- **No JavaScript**: Plain JavaScript (`.js`) files are not allowed. Never create `.js` files or use `any` types unless absolutely unavoidable.
+
+## Naming conventions
+
+- All component files must use **kebab-case** (e.g. `marquee.astro`, `button-group.astro`).
+- All icon files under `src/components/icons/` and `src/components/icons/tech/` must use **kebab-case** (e.g. `react.astro`, `cloudflare-workers.astro`, `google-mail.astro`).
+- Never use PascalCase, camelCase, or uppercase letters in file names.
+- Imports must match the kebab-case file names exactly.
+
 ## Quick reference (important points)
 
 - Do not run a full build unless the site owner explicitly asks you to. Development work should be done against the dev server.
@@ -72,10 +84,11 @@ src/
 - Marquee & tech icons:
   - Marquee icons are composed in `content.ts` from `config.marquee` plus the unified `techIcons` mapping. The resulting IconMap is passed to `src/components/marquee.astro` as the IconMap type (see `src/data/types.ts`).
   - Tech SVGs live under `src/components/icons/tech` and are normal Astro components with `currentColor` for fill so they follow text color.
+  - The marquee animation is handled entirely by Motion in `src/scripts/marquee.ts`. The `<style>` block in `marquee.astro` only contains `width: max-content` and `noscript` fallbacks — no CSS keyframes or animations.
 - SVG icons & UI icons:
-  - Small UI icons come from `@lucide/astro` and the project's own `src/components/icons/` set.
+  - All icon files under `src/components/icons/` and `src/components/icons/tech/` use kebab-case. Small UI icons come from `@lucide/astro` and the project's own `src/components/icons/` set.
 - Components & client scripts:
-  - All client-side logic lives in `src/scripts/*.ts`. Components import them like `<script>import "@/scripts/home-motion"</script>` inside `.astro` files. There should be no inline script tags with raw JavaScript in `.astro` files.
+  - All component files use kebab-case naming. All client-side logic lives in `src/scripts/*.ts`. Components import them like `<script>import "@/scripts/home-motion"</script>` inside `.astro` files. There should be no inline script tags with raw JavaScript in `.astro` files.
 - Layout & sections:
   - The site uses a single layout at `src/layouts/layout.astro` that sets language attributes (`lang`), description, and `hreflang` alternates. Home pages are at `src/pages/index.astro` and `src/pages/es/index.astro` for English and Spanish.
 - Breakpoints and responsive behavior:
@@ -83,7 +96,7 @@ src/
 - Internationalization (i18n):
   - Two locales are supported: English (`/`) and Spanish (`/es/`). UI strings and translation helpers are in `src/i18n/config.ts` and `src/i18n/ui.ts`. When adding copy, maintain `*Es` fields for long-form Spanish variants where used.
 - Motion & accessibility:
-  - Motion scripts and reveal animations live under `src/scripts/` (hero-motion, home-motion). Respect `prefers-reduced-motion` — where the project already removes animations when reduced-motion is requested by the user.
+  - Motion scripts and reveal animations live under `src/scripts/` (hero-motion, home-motion, marquee). Respect `prefers-reduced-motion` — where the project already removes animations when reduced-motion is requested by the user.
 - Projects listing & icons:
   - Project cards are rendered in `src/components/projects.astro`. Tech stacks are shown as `.chip` elements and project action buttons live in `ButtonGroup`.
 
@@ -100,12 +113,7 @@ src/
 - Content & types: `src/data/content.ts`, `src/data/types.ts`
 - Styles & tokens: `src/styles/global.css`
 - Scripts (client): `src/scripts/*.ts`
-- Components: `src/components/*.astro` (icons under `src/components/icons/`)
+- Components: `src/components/*.astro` (icons under `src/components/icons/` and `src/components/icons/tech/`)
 - GitHub stats helper: `src/lib/get-github-stats.ts`
 - Pages / locales: `src/pages/index.astro`, `src/pages/es/index.astro`
 - Dev scripts (package.json): `dev`, `build`, `preview` → run them with `bun dev`, `bun build`, `bun preview` or `bun run dev` etc.
-
-If you want, I can also:
-- Update `package.json` to change the `packageManager` field to reflect Bun, or
-- Add a short troubleshooting checklist for Tailwind not generating classes (content globs, server restart, purge safelisting), or
-- Run the dev server here (requires permission) to verify UI changes live.
