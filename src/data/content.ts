@@ -189,7 +189,7 @@ const config: Config = {
   location: "Prados de Villa Hermosa, San Miguel Petapa, Guatemala",
   locationEs: "Prados de Villa Hermosa, San Miguel Petapa, Guatemala",
   available: true,
-  email: "edgaralvares4208@gmail.com",
+  email: "www.edgaralvarez4208@gmail.com",
   social: {
     linkedin: "https://www.linkedin.com/in/edgar-rolando-alvarez-rodriguez-88695839a/",
     github: "https://github.com/roldyoran",
