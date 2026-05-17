@@ -1,0 +1,178 @@
+---
+import ButtonGroup from "@/components/button-group.astro";
+import type { Project } from "@/data/types";
+import type { Lang } from "@/i18n/config";
+import { useTranslations } from "@/i18n/ui";
+
+interface Props {
+  projects: Project[];
+  lang: Lang;
+}
+
+const { projects, lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="projects" class="border-b border-line">
+  <div class="section-header reveal-hidden flex-col md:flex-row md:items-baseline md:justify-between text-center md:text-left">
+    <span class="sec-num">[ 03 ]</span>
+    <h2 class="sec-title text-center md:text-left mt-2 md:mt-0 md:ml-4">{t.projects.title}<br />{t.projects.subtitle}</h2>
+    <p class="sec-desc md:text-right mt-2 md:mt-0" set:html={t.projects.desc} />
+  </div>
+
+  {projects.map((project, index) => (
+    <div class="reveal-hidden proj-item grid grid-cols-1 md:grid-cols-[72px_1fr_auto] gap-4 md:gap-8 items-start md:items-center px-4 md:px-12 py-6 md:py-9 border-t border-line relative overflow-visible">
+      <div class="proj-n-big font-big text-[2.5rem] md:text-[3.2rem] leading-none text-white/[0.06] transition-colors duration-250">
+        {String(index + 1).padStart(2, '0')}
+      </div>
+      <div class="w-full">
+        <div class="proj-name font-big text-[clamp(1.5rem,5vw,2.6rem)] leading-none tracking-wider text-t1 mb-1.5 transition-colors duration-200">
+          {lang === 'es' && project.nameEs ? project.nameEs : project.name}
+        </div>
+        <p class="proj-tagline text-[0.86rem] text-t2 leading-[1.55] mb-2.5 max-w-full md:max-w-[540px]">{lang === 'es' && project.taglineEs ? project.taglineEs : project.tagline}</p>
+        <div class="proj-stack flex gap-1.25 flex-wrap mb-3">
+          {project.tech.map((techItem) => (
+            <span class="chip">{techItem}</span>
+          ))}
+        </div>
+        <div class="proj-image-placeholder mb-4 md:mb-0">
+          <span class="proj-image-text">{t.projects.projectImage}</span>
+        </div>
+      </div>
+      <div class="proj-right flex-row md:flex-col w-full md:w-auto justify-start md:justify-end md:order-last">
+        {project.demo && (
+          <div class="flex items-center gap-2 mb-2 md:mb-0">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <ButtonGroup
+              variant="primary"
+              size="xs"
+              href={project.demo}
+              target="_blank"
+              rel="noopener"
+              iconRight="external"
+              label={t.projects.liveDemo}
+            />
+          </div>
+        )}
+        {project.github && (
+          <ButtonGroup
+            variant="ghost"
+            size="xs"
+            href={project.github}
+            target="_blank"
+            rel="noopener"
+            iconLeft="github"
+            label="GitHub"
+          />
+        )}
+      </div>
+    </div>
+  ))}
+</section>
+
+<style>
+
+  .proj-item {
+    transition: background 0.5s ease;
+  }
+
+  .proj-item::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--color-o);
+    transform: scaleY(0);
+    transition: transform 0.6s ease;
+    transform-origin: bottom;
+  }
+
+  .proj-item:hover::after {
+    transform: scaleY(1);
+  }
+
+  .proj-item:hover {
+    background: var(--color-bg2);
+  }
+
+  .proj-item:hover .proj-n-big {
+    color: rgba(255,92,26,0.18);
+  }
+
+  .proj-item:hover .proj-name {
+    color: var(--color-o2);
+  }
+
+  .proj-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  .proj-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--color-t3);
+    text-decoration: none;
+    border: 1px solid var(--color-line);
+    padding: 8px 14px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .proj-link:hover {
+    color: var(--color-o2);
+    border-color: rgba(255,92,26,0.4);
+  }
+
+  .proj-link-demo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    background: var(--color-o);
+    border: 1px solid var(--color-o);
+    padding: 8px 14px;
+    transition: all 0.2s ease;
+  }
+
+  .proj-link-demo:hover {
+    background: var(--color-o-hover);
+    border-color: var(--color-o-hover);
+    color: #fff;
+  }
+
+  .proj-image-placeholder {
+    margin-top: 14px;
+    width: 100%;
+    height: 120px;
+    background: var(--color-bg3);
+    border: 1px dashed var(--color-line);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+  }
+
+  .proj-image-text {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    color: var(--color-t3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+</style>

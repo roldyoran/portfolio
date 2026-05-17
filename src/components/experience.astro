@@ -1,0 +1,82 @@
+---
+import type { Lang } from '@/i18n/config';
+import { useTranslations } from '@/i18n/ui';
+
+interface Experience {
+  id: number;
+  company: string;
+  location: string;
+  role: string;
+  roleEs?: string;
+  period: { start: string; end: string };
+  description: string;
+  descriptionEs?: string;
+  tech: string[];
+}
+
+interface Props {
+  experience: Experience[];
+  lang: Lang;
+}
+
+const { experience, lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="experience" class="border-b border-line">
+  <div class="section-header reveal-hidden flex-col md:flex-row md:items-baseline md:justify-between text-center md:text-left">
+    <span class="sec-num">[ 02 ]</span>
+    <h2 class="sec-title text-center md:text-left mt-2 md:mt-0 md:ml-4">{t.experience.title}<br />{t.experience.subtitle}</h2>
+    <p class="sec-desc md:text-right mt-2 md:mt-0" set:html={t.experience.desc} />
+  </div>
+
+  {experience.map((exp, index) => (
+    <div class={`reveal-hidden exp-row grid grid-cols-1 md:grid-cols-[52px_1fr_2fr_auto] gap-4 md:gap-8 items-start px-4 md:px-12 py-8 md:py-10 border-t border-line relative overflow-hidden`}>
+      <div class="exp-n font-mono text-[0.72rem] md:text-[0.62rem] text-t3 flex md:pt-1 gap-2 md:block">
+        <span class="text-o">{String(index + 1).padStart(2, '0')}</span>
+      </div>
+      <div>
+        <div class="font-big text-[1.5rem] md:text-[1.85rem] leading-none tracking-wider">{exp.company}</div>
+        <div class="font-mono text-[0.72rem] md:text-[0.62rem] text-o2 mt-1 tracking-wider">{exp.location}</div>
+        <div class="text-[0.92rem] font-semibold text-t1 mb-1 mt-3 md:mt-0">{lang === 'es' && exp.roleEs ? exp.roleEs : exp.role}</div>
+      </div>
+      <div>
+        <p class="text-[0.84rem] text-t2 leading-relaxed">{lang === 'es' && exp.descriptionEs ? exp.descriptionEs : exp.description}</p>
+        <div class="flex gap-1 flex-wrap mt-2.5">
+          {exp.tech.map((techItem) => (
+            <span class="chip">{techItem}</span>
+          ))}
+        </div>
+      </div>
+      <div class="exp-date font-mono text-[0.82rem] md:text-[0.75rem] text-t3 tracking-wider md:text-right pt-1 whitespace-nowrap order-first md:order-last mb-2 md:mb-0">
+        {lang === 'es' && exp.period.startEs ? exp.period.startEs : exp.period.start} — {lang === 'es' && exp.period.endEs ? exp.period.endEs : exp.period.end}
+      </div>
+    </div>
+  ))}
+</section>
+
+<style>
+  .exp-row {
+    transition: background 0.5s ease;
+  }
+
+  .exp-row::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    background: linear-gradient(to right, rgba(255,92,26,0.1), transparent);
+    transition: width 0.7s ease;
+    z-index: 0;
+  }
+
+  .exp-row:hover::before {
+    width: 100%;
+  }
+
+  .exp-row:hover {
+    background: var(--color-bg2);
+  }
+</style>

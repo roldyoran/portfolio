@@ -1,0 +1,115 @@
+---
+import "../styles/global.css";
+import type { Lang } from "../i18n/config";
+
+interface Props {
+  title?: string;
+  lang?: Lang;
+}
+
+const { title = "Alexander Carter — Full Stack & Cloud", lang = "en" } = Astro.props;
+
+const descriptions = {
+  en: "Full Stack & Cloud Engineer - Building high-performance systems from pixel to production",
+  es: "Ingeniero Full Stack & Cloud - Construyendo sistemas de alto rendimiento desde píxel hasta producción",
+};
+
+const origin = Astro.url.origin;
+const pathname = Astro.url.pathname;
+const base = '/portfolio';
+const pathWithoutBase = pathname.replace(base, '') || '/';
+
+let enPath = pathWithoutBase.startsWith("/es") ? pathWithoutBase.slice(3) || "/" : pathWithoutBase;
+if (!enPath.startsWith("/")) {
+  enPath = `/${enPath}`;
+}
+const hrefLangEn = new URL(`${base}${enPath}`, origin).href;
+
+const esPath = pathWithoutBase.startsWith("/es") ? pathWithoutBase : `/es${pathWithoutBase === "/" ? "" : pathWithoutBase}`;
+const hrefLangEs = new URL(`${base}${esPath}`, origin).href;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/portfolio/favicon.svg" />
+    <link rel="icon" href="/portfolio/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={descriptions[lang]} />
+    <title>{title}</title>
+
+    <link rel="canonical" href={hrefLangEn} />
+    <link rel="alternate" hreflang="en" href={hrefLangEn} />
+    <link rel="alternate" hreflang="es" href={hrefLangEs} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={descriptions[lang]} />
+    <meta property="og:url" content={hrefLangEn} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Edgar Alvarez" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={descriptions[lang]} />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Edgar Rolando Alvarez Rodriguez",
+        "url": "https://roldyoran.github.io/portfolio",
+        "jobTitle": "Backend & Cloud Engineer",
+        "sameAs": [
+          "https://github.com/roldyoran",
+          "https://www.linkedin.com/in/edgar-rolando-alvarez-rodriguez-88695839a/"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "San Miguel Petapa",
+          "addressCountry": "GT"
+        }
+      }
+    </script>
+
+    <link rel="preload" href="/portfolio/fonts/BebasNeue-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link
+      rel="preload"
+      href="/portfolio/fonts/SpaceGrotesk-Regular.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link rel="preload" href="/portfolio/fonts/SpaceMono-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+    <script is:inline>
+      document.documentElement.classList.add("motion-ready");
+    </script>
+  </head>
+  <body class="bg-bg text-t1 font-sans min-h-screen relative">
+    <a href="#main-content" class="skip-link sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-999 focus:bg-o focus:text-white focus:px-4 focus:py-2 focus:rounded focus:font-mono focus:text-sm">
+      Skip to main content
+    </a>
+
+    <!-- Grid Overlay -->
+    <div
+      class="fixed inset-0 pointer-events-none z-0 opacity-35"
+      style="background-image: linear-gradient(var(--color-line) 1px, transparent 1px), linear-gradient(90deg, var(--color-line) 1px, transparent 1px); background-size: 80px 80px;"
+    >
+    </div>
+
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  section[id] {
+    scroll-margin-top: 4rem;
+  }
+  @media (max-width: 1024px) {
+    section[id] {
+      scroll-margin-top: 3.5rem;
+    }
+  }
+</style>

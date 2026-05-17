@@ -1,0 +1,26 @@
+---
+import type { Lang } from '@/i18n/config';
+import { useTranslations } from '@/i18n/ui';
+
+interface Props {
+  location?: string;
+  locationEs?: string;
+  available?: boolean;
+  lang: Lang;
+}
+
+const { location = 'San Francisco, CA', locationEs = 'San Francisco, CA', available = true, lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<div id="topbar" class="flex items-center justify-between px-12 h-11 border-b border-line font-mono text-[0.6rem] text-t3 tracking-wider">
+  <div class="flex items-center gap-2">
+    <span class="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_6px_#22c55e] animate-pulse"></span>
+    <span>Guatemala</span>
+  </div>
+  <span id="topbar-time" aria-live="off" aria-atomic="true"></span>
+</div>
+
+<script>
+  import "@/scripts/top-bar";
+</script>

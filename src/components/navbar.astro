@@ -1,0 +1,111 @@
+---
+import type { Lang } from '@/i18n/config';
+import { useTranslations } from '@/i18n/ui';
+import LanguageSwitcher from '@/components/language-switcher.astro';
+import GithubIcon from '@/components/icons/github.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const navItems = [
+  { href: '#home', label: t.nav.home },
+  { href: '#experience', label: t.nav.work },
+  { href: '#projects', label: t.nav.projects },
+  { href: '#about', label: t.nav.about },
+  { href: '#contact', label: t.nav.contact },
+];
+---
+
+<nav id="sidenav" class="fixed top-0 left-0 right-0 h-15 flex items-center justify-between px-8 border-b border-line z-100 bg-bg2/95 backdrop-blur-md hidden lg:flex" aria-label="Main navigation">
+  <div class="flex items-center gap-3">
+    <a href="#home" class="nav-logo">@roldyoran</a>
+    <div id="scroll-pct" class="nav-counter font-mono text-[0.72rem] text-t3 tracking-widest">00%</div>
+  </div>
+
+  <div class="nav-items flex gap-8 items-center">
+    {navItems.map((item) => (
+      <a href={item.href} class="nav-item" aria-current={item.href === '#home' ? 'true' : 'false'}>{item.label}</a>
+    ))}
+    <a href="https://github.com/roldyoran" target="_blank" rel="noopener noreferrer" class="nav-icon">
+      <GithubIcon size={16} />
+    </a>
+  </div>
+
+  <LanguageSwitcher currentLang={lang} />
+  </nav>
+
+<style>
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    letter-spacing: 0.16em;
+    color: var(--color-o);
+    text-decoration: none;
+    font-weight: 700;
+  }
+
+  .nav-item {
+    position: relative;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-t3);
+    text-decoration: none;
+    padding: 4px 0;
+    transition: color 0.2s;
+  }
+
+  .nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--color-o);
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+
+  .nav-item:hover {
+    color: var(--color-o2);
+  }
+
+  .nav-item:hover::after {
+    width: 100%;
+    left: 0;
+  }
+
+  .nav-item.active {
+    color: var(--color-o2);
+  }
+
+  .nav-item.active::after {
+    width: 100%;
+    left: 0;
+  }
+
+  .nav-counter {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-t3);
+    letter-spacing: 0.06em;
+  }
+
+  .nav-icon {
+    color: var(--color-t3);
+    transition: color 0.2s;
+  }
+
+  .nav-icon:hover {
+    color: var(--color-o2);
+  }
+</style>
+
+<script>
+  import "@/scripts/navbar";
+</script>

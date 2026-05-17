@@ -1,0 +1,155 @@
+---
+import { ExternalLink, Mail, ArrowRight, Check, Star, Folder, Download } from "@lucide/astro";
+import GithubIcon from "@/components/icons/github.astro";
+import LinkedinIcon from "@/components/icons/linkedin.astro";
+import TwitterIcon from "@/components/icons/twitter.astro";
+import type { Lang } from "@/i18n/config";
+import { useTranslations } from "@/i18n/ui";
+
+export type ButtonVariant = "primary" | "ghost" | "outline";
+export type ButtonSize = "sm" | "md";
+
+export interface ButtonProps {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  href?: string;
+  target?: "_blank";
+  rel?: "noopener";
+  email?: string;
+  lang?: Lang;
+  label?: string;
+  iconLeft?: string;
+  iconRight?: string;
+  copyEmail?: boolean;
+  class?: string;
+  ariaLabel?: string;
+  download?: boolean;
+}
+
+interface Props extends ButtonProps {}
+
+const {
+  variant = "primary",
+  size = "md",
+  href = "#",
+  target,
+  rel,
+  email,
+  lang = "en",
+  label,
+  iconLeft,
+  iconRight,
+  copyEmail = false,
+  class: className = "",
+  ariaLabel,
+  download = false,
+} = Astro.props;
+
+const t = useTranslations(lang);
+
+const iconComponents: Record<string, any> = {
+  external: ExternalLink,
+  mail: Mail,
+  "arrow-right": ArrowRight,
+  github: GithubIcon,
+  linkedin: LinkedinIcon,
+  twitter: TwitterIcon,
+  folder: Folder,
+  star: Star,
+  briefcase: null,
+  download: Download,
+};
+
+const IconLeft = iconLeft && iconComponents[iconLeft] ? iconComponents[iconLeft] : null;
+const IconRight = iconRight && iconComponents[iconRight] ? iconComponents[iconRight] : null;
+
+const baseStyles =
+  "inline-flex items-center justify-center gap-2 font-mono uppercase text-decoration-none transition-all duration-200 cursor-pointer";
+
+const variantStyles = {
+  primary: "bg-o text-white font-bold tracking-[0.1em] hover:bg-o-hover",
+  ghost: "bg-transparent text-t2 border border-line hover:border-o hover:text-o2",
+  outline: "bg-transparent text-t3 border border-line hover:border-o hover:text-o2",
+};
+
+const sizeStyles = {
+  xs: "text-[0.74rem] py-2 px-[14px]",
+  sm: "text-[0.62rem] py-2 px-3.5",
+  md: "text-[0.8rem] py-3 px-[26px]",
+};
+
+const iconSizes = {
+  xs: 16,
+  sm: 14,
+  md: 18,
+};
+
+const primaryClipPath =
+  variant === "primary"
+    ? "clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)"
+    : "";
+const primaryHoverStyle =
+  variant === "primary"
+    ? "transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 92, 26, 0.35)"
+    : "";
+
+const buttonClasses = [baseStyles, variantStyles[variant], sizeStyles[size], className].join(" ");
+
+const copyText = label || t.hero.copyEmail;
+
+const computedAriaLabel = ariaLabel || label || '';
+---
+
+{
+  copyEmail ? (
+    <button
+      type="button"
+      class:list={[buttonClasses, "copy-email-btn"]}
+      data-copy-email="true"
+      data-email={email}
+      aria-label={ariaLabel || copyText}
+      style={primaryClipPath}
+    >
+      <span class="icon-mail">
+        <Mail size={iconSizes[size]} />
+      </span>
+      <span class="icon-check hidden">
+        <Check size={iconSizes[size]} />
+      </span>
+      <span class="email-label">{copyText}</span>
+    </button>
+  ) : (
+    <a
+      href={email ? `mailto:${email}` : href}
+      target={target}
+      rel={rel}
+      download={download ? "CV_Edgar_Alvarez.pdf" : undefined}
+      class:list={[buttonClasses]}
+      aria-label={computedAriaLabel}
+      style={primaryClipPath}
+    >
+      {IconLeft && <IconLeft size={iconSizes[size]} />}
+      <slot>{label}</slot>
+      {IconRight && <IconRight size={iconSizes[size]} />}
+    </a>
+  )
+}
+
+<!-- Copy email script (commented out - uncomment to restore)
+<script>
+  import "@/scripts/copy-email";
+</script>
+-->
+
+<style>
+  a[style*="clip-path"],
+  button[style*="clip-path"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 92, 26, 0.35);
+  }
+  a[style*="clip-path"]:hover,
+  button[style*="clip-path"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 92, 26, 0.35);
+  }
+</style>

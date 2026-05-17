@@ -1,0 +1,72 @@
+---
+import type { Lang } from '@/i18n/config';
+import { useTranslations } from '@/i18n/ui';
+import LanguageSwitcher from '@/components/language-switcher.astro';
+import GithubIcon from '@/components/icons/github.astro';
+
+interface Props {
+  location?: string;
+  available?: boolean;
+  lang: Lang;
+}
+
+const { location = 'San Francisco, CA', available = true, lang } = Astro.props;
+const t = useTranslations(lang);
+
+const navItems = [
+  { href: '#home', label: t.nav.home },
+  { href: '#experience', label: t.nav.work },
+  { href: '#projects', label: t.nav.projects },
+  { href: '#about', label: t.nav.about },
+  { href: '#contact', label: t.nav.contact },
+];
+---
+
+<nav id="mobnav" class="mobnav-hidden fixed top-0 left-0 right-0 z-200 h-13 items-center justify-between px-6 bg-bg2/95 backdrop-blur-md border-b border-line" aria-label="Main navigation">
+  <a href="#home" class="font-mono text-[0.75rem] text-o tracking-widest font-bold no-underline">@roldyoran</a>
+  <div class="flex items-center gap-3">
+    <LanguageSwitcher currentLang={lang} />
+    <button id="mobnav-btn" class="bg-none border-none cursor-pointer flex flex-col gap-1 p-1" aria-label="Menu" aria-expanded="false" aria-controls="mobmenu">
+      <span class="w-5 h-px bg-t1 block transition-all duration-300"></span>
+      <span class="w-5 h-px bg-t1 block transition-all duration-300"></span>
+      <span class="w-5 h-px bg-t1 block transition-all duration-300"></span>
+    </button>
+  </div>
+</nav>
+
+<div id="mobmenu" class="mobmenu-hidden fixed top-13 left-0 right-0 bottom-0 z-199 flex-col items-center justify-center gap-7 bg-bg2/98 backdrop-blur-lg" role="dialog" aria-label="Mobile navigation">
+  {navItems.map((item) => (
+    <a href={item.href} class="font-big text-[2.8rem] text-t2 no-underline tracking-wider transition-colors duration-200 hover:text-o">
+      {item.label}
+    </a>
+  ))}
+  <a href="https://github.com/roldyoran" target="_blank" rel="noopener noreferrer" class="font-big text-[2rem] text-t2 no-underline tracking-wider transition-colors duration-200 hover:text-o">
+    <GithubIcon size={32} />
+  </a>
+  {available && (
+    <div class="font-mono text-[0.7rem] text-t3 tracking-widest mt-4">
+      {t.topbar.availableForHire}
+    </div>
+  )}
+</div>
+
+<script>
+  import "@/scripts/mobile-nav";
+</script>
+
+<style is:global>
+  .mobnav-hidden {
+    display: none;
+  }
+  .mobmenu-hidden {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    .mobnav-hidden {
+      display: flex;
+    }
+    .mobmenu-hidden.open {
+      display: flex;
+    }
+  }
+</style>

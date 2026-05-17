@@ -1,0 +1,60 @@
+---
+import ButtonGroup from "@/components/button-group.astro";
+import type { Lang } from "@/i18n/config";
+import { useTranslations } from "@/i18n/ui";
+import { Mail, MapPin, ArrowUpRight } from "@lucide/astro";
+
+interface Props {
+  email?: string;
+  social?: {
+    github?: string;
+    linkedin?: string;
+    twitter?: string;
+  };
+  lang: Lang;
+}
+
+const { email = "#", social = {}, lang } = Astro.props;
+const t = useTranslations(lang);
+
+const contactInfo = lang === "es"
+  ? { location: "San Miguel Petapa, Guatemala", availability: "Disponible para proyectos freelance y tiempo completo" }
+  : { location: "San Miguel Petapa, Guatemala", availability: "Available for freelance and full-time roles" };
+---
+
+<section id="contact" class="relative overflow-hidden border-b border-line">
+  <!-- Top border accent -->
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-o/30 to-transparent"></div>
+
+  <!-- Background watermark -->
+  <div
+    class="absolute bottom-0 right-0 text-[clamp(80px,18vw,280px)] leading-none text-transparent pointer-events-none select-none z-0"
+    style="-webkit-text-stroke: 1px rgba(255,255,255,0.025); letter-spacing: 0.04em;"
+    aria-hidden="true"
+  >
+    {lang === "es" ? "HOLA" : "HELLO"}
+  </div>
+
+  <!-- Subtle radial glow behind content -->
+  <div class="absolute inset-0 pointer-events-none z-0" style="background: radial-gradient(ellipse 60% 50% at 70% 60%, rgba(255,92,26,0.04), transparent);" aria-hidden="true"></div>
+
+  <!-- Section header -->
+  <div class="reveal-hidden section-header flex-col md:flex-row md:items-baseline md:justify-between text-center md:text-left">
+    <span class="sec-num">[ 05 ]</span>
+    <h2 class="sec-title text-center md:text-left mt-2 md:mt-0 md:ml-4">{t.contact.title}<br />{t.contact.subtitle}<br /><span class="text-o">{t.contact.highlight}</span></h2>
+    <div class="mt-4 md:mt-0 flex flex-col gap-3 w-full max-w-md ml-auto">
+      <ButtonGroup variant="primary" email={email} iconLeft="mail" iconRight="arrow-right" label={t.contact.sendMessage} class="w-full text-[1.05rem] md:text-[1.125rem] py-3" />
+      <div class="flex gap-2 md:gap-2.5 w-full">
+        {social.github && (
+          <ButtonGroup variant="outline" href={social.github} target="_blank" rel="noopener" iconLeft="github" label="GitHub" class="flex-1" />
+        )}
+        {social.linkedin && (
+          <ButtonGroup variant="outline" href={social.linkedin} target="_blank" rel="noopener" iconLeft="linkedin" label="LinkedIn" class="flex-1" />
+        )}
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom decorative line -->
+  <div class="absolute bottom-0 left-12 right-12 h-px bg-line" aria-hidden="true"></div>
+</section>

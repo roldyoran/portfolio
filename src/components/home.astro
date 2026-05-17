@@ -1,0 +1,70 @@
+---
+import Navbar from "@/components/navbar.astro";
+import TopBar from "@/components/top-bar.astro";
+import Hero from "@/components/hero.astro";
+import Marquee from "@/components/marquee.astro";
+import Experience from "@/components/experience.astro";
+import Projects from "@/components/projects.astro";
+import About from "@/components/about.astro";
+import Contact from "@/components/contact.astro";
+import Footer from "@/components/footer.astro";
+import MobileNav from "@/components/mobile-nav.astro";
+import config, {
+  experience,
+  projects,
+  skillsWithIcons,
+  marqueeTechIcons,
+} from "@/data/content";
+import type { Lang } from "@/i18n/config";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const githubStats = config.githubStats;
+
+const mobileLocation = lang === "es" ? config.locationEs || config.location : config.location;
+const aboutBio = lang === "es" ? config.bioEs : config.bio;
+---
+
+<Navbar lang={lang} />
+
+<MobileNav location={mobileLocation} available={config.available} lang={lang} />
+
+<main id="main-content" class="relative z-10 pt-14 lg:pt-14">
+  <TopBar
+    location={config.location}
+    locationEs={config.locationEs}
+    available={config.available}
+    lang={lang}
+  />
+
+  <Hero
+    hero={config.hero}
+    marquee={config.marquee}
+    linkedin={config.social.linkedin}
+    github={config.social.github}
+    email={config.email}
+    lang={lang}
+    githubStats={githubStats}
+  />
+
+  <Marquee items={config.marquee} icons={marqueeTechIcons} />
+
+  <Experience experience={experience} lang={lang} />
+
+  <Projects projects={projects} lang={lang} />
+
+  <About skillsWithIcons={skillsWithIcons} lang={lang} bio={aboutBio} />
+
+  <Contact email={config.email} social={config.social} lang={lang} />
+
+  <Footer name={config.name} lang={lang} />
+</main>
+
+<script>
+  import "@/scripts/home-motion";
+  import "@/scripts/marquee";
+</script>

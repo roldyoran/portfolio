@@ -1,0 +1,87 @@
+---
+import type { IconMap } from "@/data/types";
+
+interface Props {
+  items: string[];
+  icons: IconMap;
+}
+
+const { items, icons } = Astro.props;
+const doubledItems = [...items, ...items];
+---
+
+<div class="marquee-strip border-y border-line py-3 overflow-hidden bg-bg2 relative z-10">
+  <div class="marquee-inner flex whitespace-nowrap font-mono text-[0.62rem] tracking-[0.15em] uppercase text-t3">
+    <div class="marquee-content flex gap-8 shrink-0">
+      {
+        doubledItems.map((item, index) => {
+          const Icon = icons[item];
+          return (
+            <div class="marquee-item flex items-center gap-3" key={`${item}-${index}`}>
+              <span class="logo-wrap" aria-hidden="true">
+                {Icon ? <Icon size={20} class="block h-5 w-5 text-t3" /> : null}
+              </span>
+              <span class="px-1 opacity-90">{item}</span>
+              <span class="text-o ml-1" aria-hidden="true">
+                ●
+              </span>
+            </div>
+          );
+        })
+      }
+    </div>
+    <div class="marquee-content flex gap-8 shrink-0" aria-hidden="true">
+      {
+        doubledItems.map((item, index) => {
+          const Icon = icons[item];
+          return (
+            <div class="marquee-item flex items-center gap-3" key={`dup-${item}-${index}`}>
+              <span class="logo-wrap" aria-hidden="true">
+                {Icon ? <Icon size={20} class="block h-5 w-5 text-t3" /> : null}
+              </span>
+              <span class="px-1 opacity-90">{item}</span>
+              <span class="text-o ml-1" aria-hidden="true">
+                ●
+              </span>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .marquee-inner {
+    width: max-content;
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .marquee-inner {
+      animation: marquee-scroll 40s linear infinite;
+    }
+
+    .marquee-strip:hover .marquee-inner {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes marquee-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  noscript .marquee-inner {
+    animation: none;
+    width: auto;
+  }
+
+  noscript .marquee-content:last-child {
+    display: none;
+  }
+</style>

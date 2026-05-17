@@ -1,0 +1,216 @@
+---
+import ButtonGroup from "@/components/button-group.astro";
+import type { Hero } from "@/data/types";
+import type { Lang } from "@/i18n/config";
+import { useTranslations } from "@/i18n/ui";
+
+interface Props {
+  hero: Hero;
+  marquee: string[];
+  linkedin?: string;
+  github?: string;
+  email?: string;
+  lang: Lang;
+  githubStats?: {
+    repos: number;
+    followers: number;
+    contributions: number;
+    yearsExp: number;
+  };
+}
+
+const { hero, linkedin = "#", github = "#", email = "#", lang, githubStats } = Astro.props;
+const t = useTranslations(lang);
+const base = import.meta.env.BASE_URL;
+const cvUrl = `${base}cv/CV_EDGAR_ALVAREZ_DEVOPS_DEV.pdf`;
+
+const yearsCount = githubStats?.yearsExp ?? (parseInt(hero.years, 10) || 0);
+const reposCount = githubStats?.repos || 0;
+const contributionsCount = githubStats?.contributions || 0;
+const followersCount = githubStats?.followers || 0;
+
+const tagline =
+  lang === "es" && hero.taglineEs
+    ? hero.taglineEs.replace("{years}", hero.years).replace("{focus}", hero.focus ?? hero.products)
+    : hero.tagline.replace("{years}", hero.years).replace("{focus}", hero.focus ?? hero.products);
+---
+
+<script>
+  import "@/scripts/hero-motion";
+  import "@/scripts/download-cv";
+</script>
+
+<section
+  id="home"
+  class="min-h-[calc(100vh-108px)] grid grid-rows-[1fr_auto] px-6 md:px-12 border-b border-line overflow-hidden relative"
+>
+  <div
+    class="hero-bg-name absolute bottom-0 left-0 text-[clamp(90px,20vw,260px)] leading-none text-transparent pointer-events-none select-none whitespace-nowrap z-0"
+    style="-webkit-text-stroke: 1px rgba(255,255,255,0.08);"
+  >
+    {hero.backdrop}
+  </div>
+
+  <div
+    class="hero-content relative z-10 grid grid-cols-1 lg:grid-cols-2 items-end pb-2 md:pb-6 pt-0 md:pt-0 gap-4 md:gap-10"
+  >
+    <div class="hero-left order-1">
+      <div class="font-mono text-[0.8rem] text-o tracking-widest mb-4 md:mb-6 bg-o/10 px-3 py-1.5 inline-block rounded">
+        [{hero.index}] — {lang === "es" && hero.roleEs ? hero.roleEs : hero.role}
+      </div>
+      <h1
+        class="font-big text-[clamp(48px,10vw,115px)] leading-[0.92] tracking-[-0.02em] text-t1 mb-4 md:mb-8 text-shadow-sm"
+      >
+        <span class="hero-name-primary" data-text={hero.namePrimary}>
+          {hero.namePrimary}
+        </span>
+        <em class="text-o block">
+          <span class="hero-name-accent" data-text={hero.nameAccent}>
+            {hero.nameAccent}
+          </span>.
+        </em>
+      </h1>
+      <p
+        class="font-mono text-[0.82rem] text-t2 leading-7 border-l-2 border-o pl-4 max-w-80"
+        set:html={tagline}
+      />
+    </div>
+
+    <div class="hero-right flex flex-col justify-end gap-6 md:gap-10 order-2 lg:order-2">
+      <p
+        class="hero-description text-[1rem] md:text-[1.05rem] text-t2 leading-relaxed max-w-md"
+        data-text={lang === "es" && hero.descriptionEs ? hero.descriptionEs : hero.description}
+      >
+        {lang === "es" && hero.descriptionEs ? hero.descriptionEs : hero.description}
+      </p>
+      <div class="w-full flex flex-col gap-2 md:gap-2.5 max-w-lg">
+        <!-- Principal button: full width and larger text -->
+        <ButtonGroup
+          variant="primary"
+          href={`mailto:${email}`}
+          iconLeft="mail"
+          iconRight="arrow-right"
+          label={t.hero.contactMe}
+          class="w-full text-[1.05rem] md:text-[1.125rem] py-3"
+        />
+
+        <!-- Other buttons: 3 buttons below the primary button -->
+        <div class="flex gap-2 md:gap-2.5 w-full items-center">
+          <ButtonGroup
+            variant="ghost"
+            href={linkedin}
+            target="_blank"
+            rel="noopener"
+            iconLeft="linkedin"
+            label={t.hero.linkedin}
+            class="flex-1"
+          />
+          <ButtonGroup
+            variant="ghost"
+            href={github}
+            target="_blank"
+            rel="noopener"
+            iconLeft="github"
+            label={t.hero.github}
+            class="flex-1"
+          />
+          <a
+            href={cvUrl}
+            data-download-cv
+            class="inline-flex items-center justify-center gap-2 font-mono uppercase text-decoration-none transition-all duration-200 cursor-pointer bg-transparent text-t2 border border-line hover:border-o hover:text-o2 text-[0.8rem] py-3 px-[26px] flex-1 w-full justify-center"
+          >
+            <span class="icon-download">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            </span>
+            {t.hero.downloadCV}
+          </a>
+          <!-- Copy email button (commented out - uncomment to restore)
+          <ButtonGroup variant="ghost" copyEmail email={email} label={t.hero.copyEmail} class="flex-1" />
+          -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-meta grid grid-cols-2 lg:flex items-stretch border-t border-line relative z-10">
+    <div class="stat-card p-4 md:p-5 md:pl-6 border-b lg:border-b-0 lg:border-r border-line transition-colors duration-300 hover:bg-bg2">
+      <dl>
+        <dt class="sr-only">{t.hero.yearsExp}</dt>
+        <dd class="font-big text-[1.6rem] md:text-[2.1rem] text-o2 leading-none mb-1">
+          <span class="stat-number" data-count={yearsCount} data-suffix="+">0</span>
+        </dd>
+      </dl>
+      <div class="font-mono text-[0.66rem] text-t3 tracking-widest uppercase">
+        {t.hero.yearsExp}
+      </div>
+    </div>
+    <div class="stat-card p-4 md:p-5 md:pl-6 border-b lg:border-b-0 lg:border-r border-line transition-colors duration-300 hover:bg-bg2">
+      <dl>
+        <dt class="sr-only">{t.hero.productsShipped}</dt>
+        <dd class="font-big text-[1.6rem] md:text-[2.1rem] text-o2 leading-none mb-1">
+          <span class="stat-number" data-count={reposCount}>0</span>
+        </dd>
+      </dl>
+      <div class="font-mono text-[0.66rem] text-t3 tracking-widest uppercase">
+        {t.hero.productsShipped}
+      </div>
+    </div>
+    <div class="stat-card p-4 md:p-5 md:pl-6 border-b lg:border-b-0 lg:border-r border-line transition-colors duration-300 hover:bg-bg2">
+      <dl>
+        <dt class="sr-only">{t.hero.contributions}</dt>
+        <dd class="font-big text-[1.6rem] md:text-[2.1rem] text-o2 leading-none mb-1">
+          <span class="stat-number" data-count={contributionsCount} data-suffix="+">0</span>
+        </dd>
+      </dl>
+      <div class="font-mono text-[0.66rem] text-t3 tracking-widest uppercase">
+        {t.hero.contributions}
+      </div>
+    </div>
+    <div class="stat-card p-4 md:p-5 md:pl-6 transition-colors duration-300 hover:bg-bg2">
+      <dl>
+        <dt class="sr-only">{t.hero.followers}</dt>
+        <dd class="font-big text-[1.6rem] md:text-[2.1rem] text-o2 leading-none mb-1">
+          <span class="stat-number" data-count={followersCount}>0</span>
+        </dd>
+      </dl>
+      <div class="font-mono text-[0.66rem] text-t3 tracking-widest uppercase">
+        {t.hero.followers}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .motion-ready .hero-left,
+  .motion-ready .hero-right,
+  .motion-ready .hero-meta > div {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  .motion-ready .hero-left,
+  .motion-ready .hero-right,
+  .motion-ready .hero-meta > div {
+    animation-fill-mode: forwards;
+  }
+
+  noscript .hero-left,
+  noscript .hero-right,
+  noscript .hero-meta > div,
+  noscript .hero-name-primary,
+  noscript .hero-name-accent,
+  noscript .hero-description,
+  noscript .stat-number {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .motion-ready .hero-left,
+    .motion-ready .hero-right,
+    .motion-ready .hero-meta > div {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style>

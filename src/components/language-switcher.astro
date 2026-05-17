@@ -1,0 +1,46 @@
+---
+import { languages, type Lang } from '@/i18n/config';
+
+interface Props {
+  currentLang: Lang;
+}
+
+const { currentLang } = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const base = '/portfolio';
+const pathWithoutBase = currentPath.replace(base, '') || '/';
+
+const enPath = pathWithoutBase.replace(/^\/es(\/.*)?$/, '$1') || '/';
+const esPath = pathWithoutBase.startsWith('/es') ? pathWithoutBase : `/es${pathWithoutBase === '/' ? '' : pathWithoutBase}`;
+---
+
+<div class="lang-switcher flex items-center gap-1.5 font-mono text-[0.65rem] tracking-wider" role="navigation" aria-label="Language selector">
+  <a
+    href={`${base}${enPath}`}
+    class:list={[
+      'lang-btn px-1.5 py-0.5 transition-colors duration-200 no-underline',
+      currentLang === 'en' ? 'text-o font-bold' : 'text-t3 hover:text-t2'
+    ]}
+    aria-current={currentLang === 'en' ? 'true' : 'false'}
+  >
+    EN
+  </a>
+  <span class="text-t3">/</span>
+  <a
+    href={`${base}${esPath}`}
+    class:list={[
+      'lang-btn px-1.5 py-0.5 transition-colors duration-200 no-underline',
+      currentLang === 'es' ? 'text-o font-bold' : 'text-t3 hover:text-t2'
+    ]}
+    aria-current={currentLang === 'es' ? 'true' : 'false'}
+  >
+    ES
+  </a>
+</div>
+
+<style>
+  .lang-btn:hover {
+    color: var(--color-o2);
+  }
+</style>
