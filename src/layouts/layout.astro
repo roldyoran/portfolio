@@ -7,17 +7,17 @@ interface Props {
   lang?: Lang;
 }
 
-const { title = "Alexander Carter — Full Stack & Cloud", lang = "en" } = Astro.props;
+const { title = "", lang = "en" } = Astro.props;
 
 const descriptions = {
-  en: "Full Stack & Cloud Engineer - Building high-performance systems from pixel to production",
-  es: "Ingeniero Full Stack & Cloud - Construyendo sistemas de alto rendimiento desde píxel hasta producción",
+  en: "Full Stack & DevOps Engineer - Building high-performance systems from pixel to production",
+  es: "Ingeniero Full Stack & DevOps - Construyendo sistemas de alto rendimiento desde píxel hasta producción",
 };
 
 const origin = Astro.url.origin;
 const pathname = Astro.url.pathname;
-const base = '/portfolio';
-const pathWithoutBase = pathname.replace(base, '') || '/';
+const base = "/portfolio";
+const pathWithoutBase = pathname.replace(base, "") || "/";
 
 let enPath = pathWithoutBase.startsWith("/es") ? pathWithoutBase.slice(3) || "/" : pathWithoutBase;
 if (!enPath.startsWith("/")) {
@@ -25,7 +25,9 @@ if (!enPath.startsWith("/")) {
 }
 const hrefLangEn = new URL(`${base}${enPath}`, origin).href;
 
-const esPath = pathWithoutBase.startsWith("/es") ? pathWithoutBase : `/es${pathWithoutBase === "/" ? "" : pathWithoutBase}`;
+const esPath = pathWithoutBase.startsWith("/es")
+  ? pathWithoutBase
+  : `/es${pathWithoutBase === "/" ? "" : pathWithoutBase}`;
 const hrefLangEs = new URL(`${base}${esPath}`, origin).href;
 ---
 
@@ -73,7 +75,13 @@ const hrefLangEs = new URL(`${base}${esPath}`, origin).href;
       }
     </script>
 
-    <link rel="preload" href="/portfolio/fonts/BebasNeue-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link
+      rel="preload"
+      href="/portfolio/fonts/BebasNeue-Regular.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
     <link
       rel="preload"
       href="/portfolio/fonts/SpaceGrotesk-Regular.ttf"
@@ -81,14 +89,23 @@ const hrefLangEs = new URL(`${base}${esPath}`, origin).href;
       type="font/ttf"
       crossorigin
     />
-    <link rel="preload" href="/portfolio/fonts/SpaceMono-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link
+      rel="preload"
+      href="/portfolio/fonts/SpaceMono-Regular.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
 
     <script is:inline>
       document.documentElement.classList.add("motion-ready");
     </script>
   </head>
   <body class="bg-bg text-t1 font-sans min-h-screen relative">
-    <a href="#main-content" class="skip-link sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-999 focus:bg-o focus:text-white focus:px-4 focus:py-2 focus:rounded focus:font-mono focus:text-sm">
+    <a
+      href="#main-content"
+      class="skip-link sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-999 focus:bg-o focus:text-white focus:px-4 focus:py-2 focus:rounded focus:font-mono focus:text-sm"
+    >
       Skip to main content
     </a>
 
