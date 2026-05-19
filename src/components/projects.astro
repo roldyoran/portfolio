@@ -15,79 +15,86 @@ const t = useTranslations(lang);
 ---
 
 <section id="projects" class="border-b border-line">
-  <div class="section-header reveal-hidden flex-col md:flex-row md:items-baseline md:justify-between text-center md:text-left">
+  <div
+    class="section-header reveal-hidden flex-col md:flex-row md:items-baseline md:justify-between text-center md:text-left"
+  >
     <span class="sec-num">[ 03 ]</span>
-    <h2 class="sec-title text-center md:text-left mt-2 md:mt-0 md:ml-4">{t.projects.title}<br />{t.projects.subtitle}</h2>
+    <h2 class="sec-title text-center md:text-left mt-2 md:mt-0 md:ml-4">
+      {t.projects.title}<br />{t.projects.subtitle}
+    </h2>
     <p class="sec-desc md:text-right mt-2 md:mt-0" set:html={t.projects.desc} />
   </div>
 
-  {projects.map((project, index) => (
-    <div class="reveal-hidden proj-item grid grid-cols-1 md:grid-cols-[72px_1fr_auto] gap-4 md:gap-8 items-start md:items-center px-4 md:px-12 py-6 md:py-9 border-t border-line relative overflow-visible">
-      <div class="proj-n-big font-big text-[2.5rem] md:text-[3.2rem] leading-none text-white/[0.06] transition-colors duration-250">
-        {String(index + 1).padStart(2, '0')}
-      </div>
-      <div class="w-full">
-        <div class="proj-name font-big text-[clamp(1.5rem,5vw,2.6rem)] leading-none tracking-wider text-t1 mb-1.5 transition-colors duration-200">
-          {lang === 'es' && project.nameEs ? project.nameEs : project.name}
+  {
+    projects.map((project, index) => (
+      <div class="reveal-hidden proj-item grid grid-cols-1 md:grid-cols-[72px_1fr_auto] gap-4 md:gap-8 items-start md:items-center px-4 md:px-12 py-6 md:py-9 border-t border-line relative overflow-visible">
+        <div class="proj-n-big font-big text-[2.5rem] md:text-[3.2rem] leading-none text-white/[0.06] transition-colors duration-250">
+          {String(index + 1).padStart(2, "0")}
         </div>
-        <p class="proj-tagline text-[0.86rem] text-t2 leading-[1.55] mb-2.5 max-w-full md:max-w-[540px]">{lang === 'es' && project.taglineEs ? project.taglineEs : project.tagline}</p>
-        <div class="proj-stack flex gap-1.25 flex-wrap mb-3">
-          {project.tech.map((techItem) => {
-            const Icon = techIcons[techItem];
-            return (
-              <span class="chip inline-flex items-center gap-1.5">
-                {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-40" /> : null}
-                {techItem}
+        <div class="w-full">
+          <div class="proj-name font-big text-[clamp(1.5rem,5vw,2.6rem)] leading-none tracking-wider text-t1 mb-1.5 transition-colors duration-200">
+            {lang === "es" && project.nameEs ? project.nameEs : project.name}
+          </div>
+          <p class="proj-tagline text-[0.86rem] text-t2 leading-[1.55] mb-2.5 max-w-full md:max-w-[540px]">
+            {lang === "es" && project.taglineEs ? project.taglineEs : project.tagline}
+          </p>
+          <div class="proj-stack flex gap-1.25 flex-wrap mb-3">
+            {project.tech.map((techItem) => {
+              const Icon = techIcons[techItem];
+              return (
+                <span class="chip inline-flex items-center gap-1.5">
+                  {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-40" /> : null}
+                  {techItem}
+                </span>
+              );
+            })}
+          </div>
+          <div class="proj-image-placeholder mb-4 md:mb-0">
+            <span class="proj-image-text">{t.projects.projectImage}</span>
+          </div>
+        </div>
+        <div class="proj-right flex-row md:flex-col w-full md:w-auto justify-start md:justify-end md:order-last">
+          {project.demo && (
+            <div class="relative inline-flex items-center mb-2 md:mb-0">
+              <span class="absolute -top-1 -left-0.5 z-10 flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
               </span>
-            );
-          })}
-        </div>
-        <div class="proj-image-placeholder mb-4 md:mb-0">
-          <span class="proj-image-text">{t.projects.projectImage}</span>
-        </div>
-      </div>
-      <div class="proj-right flex-row md:flex-col w-full md:w-auto justify-start md:justify-end md:order-last">
-        {project.demo && (
-          <div class="flex items-center gap-2 mb-2 md:mb-0">
-            <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-            </span>
+              <ButtonGroup
+                variant="primary"
+                size="xs"
+                href={project.demo}
+                target="_blank"
+                rel="noopener"
+                iconRight="external"
+                label={t.projects.liveDemo}
+              />
+            </div>
+          )}
+          {project.github && (
             <ButtonGroup
-              variant="primary"
+              variant="ghost"
               size="xs"
-              href={project.demo}
+              href={project.github}
               target="_blank"
               rel="noopener"
-              iconRight="external"
-              label={t.projects.liveDemo}
+              iconLeft="github"
+              label="GitHub"
             />
-          </div>
-        )}
-        {project.github && (
-          <ButtonGroup
-            variant="ghost"
-            size="xs"
-            href={project.github}
-            target="_blank"
-            rel="noopener"
-            iconLeft="github"
-            label="GitHub"
-          />
-        )}
+          )}
+        </div>
       </div>
-    </div>
-  ))}
+    ))
+  }
 </section>
 
 <style>
-
   .proj-item {
     transition: background 0.5s ease;
   }
 
   .proj-item::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0;
@@ -108,7 +115,7 @@ const t = useTranslations(lang);
   }
 
   .proj-item:hover .proj-n-big {
-    color: rgba(255,92,26,0.18);
+    color: rgba(255, 92, 26, 0.18);
   }
 
   .proj-item:hover .proj-name {
@@ -133,12 +140,14 @@ const t = useTranslations(lang);
     text-decoration: none;
     border: 1px solid var(--color-line);
     padding: 8px 14px;
-    transition: color 0.2s, border-color 0.2s;
+    transition:
+      color 0.2s,
+      border-color 0.2s;
   }
 
   .proj-link:hover {
     color: var(--color-o2);
-    border-color: rgba(255,92,26,0.4);
+    border-color: rgba(255, 92, 26, 0.4);
   }
 
   .proj-link-demo {
