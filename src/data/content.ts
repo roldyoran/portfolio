@@ -91,7 +91,7 @@ export const experience: Experience[] = [
     descriptionEs:
       "Enseñé a estudiantes el uso de Linux, desarrollo de módulos del kernel y administración de máquinas virtuales en el laboratorio de Sistemas Operativos I. Diseñé e impartí material complementario sobre Kubernetes y despliegue de microservicios. Apoyé en la resolución de problemas técnicos y evaluación de ejercicios prácticos del laboratorio.",
     tech: ["Linux", "Kubernetes", "Microservicios", "Kernel", "Virtualización"],
-    link: "https://dtt-ecys.org/file_validation/document/dCDe32OkcphVknoQB4RGNGB6oi2RVKmK4lGzW92hk2j45CeS4tgY8in4ISNbXXVY7IGWqTSQl8yZXryG",
+    link: "https://shorturl.roldyoran.workers.dev/dttaux",
   },
 ];
 
