@@ -2,6 +2,7 @@
 import type { Lang } from '@/i18n/config';
 import { useTranslations } from '@/i18n/ui';
 import { techIcons } from '@/data/content';
+import ButtonGroup from '@/components/button-group.astro';
 
 interface Experience {
   id: number;
@@ -9,10 +10,11 @@ interface Experience {
   location: string;
   role: string;
   roleEs?: string;
-  period: { start: string; end: string };
+  period: { start: string; startEs?: string; end: string; endEs?: string };
   description: string;
   descriptionEs?: string;
   tech: string[];
+  link?: string;
 }
 
 interface Props {
@@ -54,6 +56,20 @@ const t = useTranslations(lang);
             );
           })}
         </div>
+        {exp.link ? (
+          <div class="mt-4">
+            <ButtonGroup
+              variant="ghost"
+              size="sm"
+              href={exp.link}
+              target="_blank"
+              rel="noopener"
+              iconRight="external"
+              label={t.experience.docs}
+              lang={lang}
+            />
+          </div>
+        ) : null}
       </div>
       <div class="exp-date font-mono text-[0.9rem] md:text-[0.85rem] text-t3 tracking-wider md:text-right pt-1 whitespace-nowrap order-first md:order-last mb-2 md:mb-0">
         {lang === 'es' && exp.period.startEs ? exp.period.startEs : exp.period.start} — {lang === 'es' && exp.period.endEs ? exp.period.endEs : exp.period.end}

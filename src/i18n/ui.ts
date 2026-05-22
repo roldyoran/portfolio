@@ -29,6 +29,7 @@ export const ui = {
       title: "Experience",
       subtitle: "Work",
       desc: "",
+      docs: "Official Documents",
     },
     projects: {
       title: "Selected",
@@ -95,6 +96,7 @@ export const ui = {
       title: "Experiencia",
       subtitle: "Laboral",
       desc: "",
+      docs: "Documentos oficiales",
     },
     projects: {
       title: "Proyectos",
