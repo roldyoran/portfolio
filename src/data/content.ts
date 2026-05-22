@@ -87,9 +87,9 @@ export const experience: Experience[] = [
       endEs: "Mayo 2026",
     },
     description:
-      "Guided students through Linux practices, kernel module development, and virtual machine administration in the Operating Systems I laboratory. Designed and delivered supplementary material on Kubernetes and microservices deployment. Assisted with technical problem-solving and evaluation of practical laboratory exercises.",
+      "I taught students the use of Linux, kernel module development, and virtual machine administration in the Operating Systems I lab. I designed and delivered supplementary material on Kubernetes and microservices deployment. I supported students in troubleshooting technical issues and evaluating hands-on lab exercises.",
     descriptionEs:
-      "Guié a estudiantes en prácticas de Linux, desarrollo de módulos del kernel y administración de máquinas virtuales en el laboratorio de Sistemas Operativos I. Diseñé e impartí material complementario sobre Kubernetes y despliegue de microservicios. Apoyé en la resolución de problemas técnicos y evaluación de ejercicios prácticos del laboratorio.",
+      "Enseñé a estudiantes el uso de Linux, desarrollo de módulos del kernel y administración de máquinas virtuales en el laboratorio de Sistemas Operativos I. Diseñé e impartí material complementario sobre Kubernetes y despliegue de microservicios. Apoyé en la resolución de problemas técnicos y evaluación de ejercicios prácticos del laboratorio.",
     tech: ["Linux", "Kubernetes", "Microservicios", "Kernel", "Virtualización"],
     link: "https://dtt-ecys.org/file_validation/document/dCDe32OkcphVknoQB4RGNGB6oi2RVKmK4lGzW92hk2j45CeS4tgY8in4ISNbXXVY7IGWqTSQl8yZXryG",
   },
@@ -104,16 +104,11 @@ export const projects: Project[] = [
       "Full-stack URL shortener with custom codes, real-time visit counter, and REST API with API Key authentication deployed on Cloudflare Workers for sub-60ms global latency.",
     taglineEs:
       "Acortador de URLs full-stack con códigos personalizados, contador de visitas en tiempo real y API REST con autenticación por API Key desplegado en Cloudflare Workers para latencia global menor a 60ms.",
-    tech: [
-      "TypeScript",
-      "Hono",
-      "Drizzle ORM",
-      "Cloudflare Workers",
-      "Cloudflare D1",
-      "Vue.js",
-    ],
+    tech: ["TypeScript", "Hono", "Drizzle ORM", "Cloudflare Workers", "Cloudflare D1", "Vue.js"],
     demo: "https://shorturl-roldyoran.vercel.app/",
     github: "https://github.com/roldyoran/shorturl",
+    // Image shown in the Projects section. Expected public path includes the 'porfolio' prefix per deployment.
+    image: "/portfolio/imgs/url-shortener-roldyoran.png",
   },
   {
     id: 2,
@@ -183,8 +178,8 @@ export const excludedSkills = ["Rust", "Terraform", "JavaScript"];
 
 const config: Config = {
   name: "Edgar Rolando Alvarez Rodriguez",
-  title: "Backend & Cloud Engineer",
-  titleEs: "Ingeniero Backend y Cloud",
+  title: "DevOps & Systems Engineer",
+  titleEs: "Ingeniero de Sistemas y DevOps",
   githubUsername: "roldyoran",
   location: "Prados de Villa Hermosa, San Miguel Petapa, Guatemala",
   locationEs: "Prados de Villa Hermosa, San Miguel Petapa, Guatemala",
@@ -197,8 +192,8 @@ const config: Config = {
   },
   hero: {
     index: "01",
-    role: "Backend & Cloud Engineer",
-    roleEs: "Ingeniero Backend y Cloud",
+    role: "DevOps & Systems Engineer",
+    roleEs: "Ingeniero de Sistemas y DevOps",
     namePrimary: "Edgar",
     nameAccent: "Alvarez",
     backdrop: "EDGAR",
@@ -209,21 +204,31 @@ const config: Config = {
     tagline: "Building robust APIs<br />and distributed systems.",
     taglineEs: "Construyendo APIs robustas<br />y sistemas distribuidos.",
     years: "5+",
-    focus: "Backend & Cloud",
+    focus: "DevOps & Systems Engineering",
     reqDay: "60ms",
     uptime: "99.9%",
   },
   bio: [
     {
-      text: "I studied Systems Engineering at USAC and previously served as a teaching assistant for Operating Systems I for 2 semesters, where I taught students during lab sessions covering Linux, Docker, Kubernetes, kernel modules, and virtual machines. My technical focus is on distributed systems, cloud architecture, and building scalable APIs using Go, Python, and Kubernetes.",
+      text: "I studied Computer Science and Systems Engineering at USAC. Additionally, I served as a lab teaching assistant for the Operating Systems 1 course for 2 semesters, where I taught students about Linux, Docker, Kubernetes, kernel modules, and virtual machines. My technical focus is on distributed systems, cloud architecture, and building scalable APIs using Go, Python, TypeScript, and Kubernetes.",
     },
   ],
   bioEs: [
     {
-      text: "Estudié Ingeniería en Ciencias y Sistemas en la USAC y anteriormente fui auxiliar del curso Sistemas Operativos 1 durante 2 semestres, donde enseñé a los estudiantes durante el laboratorio del curso sobre Linux, Docker, Kubernetes, módulos del kernel y máquinas virtuales. Mi enfoque técnico está en sistemas distribuidos, arquitectura cloud y construcción de APIs escalables usando Go, Python y Kubernetes.",
+      text: "Estudié Ingeniería en Ciencias y Sistemas en la USAC ademas de ello fui auxiliar del laboratorio del curso Sistemas Operativos 1 durante 2 semestres, donde enseñé a los estudiantes sobre Linux, Docker, Kubernetes, módulos del kernel y máquinas virtuales. Mi enfoque técnico está en sistemas distribuidos, arquitectura cloud y construcción de APIs escalables usando Go, Python, TypeScript y Kubernetes.",
     },
   ],
-  marquee: ["Python", "Go", "TypeScript", "PostgreSQL", "Docker", "Kubernetes", "Linux", "GCP", "CI/CD"],
+  marquee: [
+    "Python",
+    "Go",
+    "TypeScript",
+    "PostgreSQL",
+    "Docker",
+    "Kubernetes",
+    "Linux",
+    "GCP",
+    "CI/CD",
+  ],
   githubStats: {
     yearsExp: 5,
     repos: 36,
