@@ -70,6 +70,7 @@ const t = useTranslations(lang);
               iconRight="external"
               label={t.experience.docs}
               lang={lang}
+              class="exp-docs-btn"
             />
           </div>
         ) : null}
@@ -101,5 +102,16 @@ const t = useTranslations(lang);
 
   .exp-row:hover {
     background: var(--color-bg2);
+  }
+
+  /* Ensure the hover gradient doesn't block pointer events */
+  .exp-row::before {
+    pointer-events: none;
+  }
+
+  /* Make the documents button clickable above pseudo elements */
+  .exp-docs-btn {
+    position: relative;
+    z-index: 20;
   }
 </style>
