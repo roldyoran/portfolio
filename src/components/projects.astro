@@ -87,15 +87,14 @@ function buildImageSrc(imgPath: string) {
                 {lang === "es" && project.taglineEs ? project.taglineEs : project.tagline}
               </p>
 
-              <!-- Tech stack as inline list -->
-              <div class="relative flex flex-wrap gap-x-3 gap-y-1 mb-6">
-                {project.tech.map((techItem, i) => {
+              <!-- Tech stack as chips -->
+              <div class="relative flex gap-1.5 flex-wrap mb-6">
+                {project.tech.map((techItem) => {
                   const Icon = techIcons[techItem];
                   return (
-                    <span class="inline-flex items-center gap-1.5 text-[0.7rem] font-mono tracking-[0.04em] text-t3/70">
-                      {Icon ? <Icon size={10} class="block h-2.5 w-2.5 shrink-0 opacity-40" /> : null}
+                    <span class="chip inline-flex items-center gap-1.5">
+                      {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-40" /> : null}
                       {techItem}
-                      {i < project.tech.length - 1 ? <span class="w-px h-3 bg-white/10 ml-1" /> : null}
                     </span>
                   );
                 })}
