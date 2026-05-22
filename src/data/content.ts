@@ -108,7 +108,7 @@ export const projects: Project[] = [
     demo: "https://shorturl-roldyoran.vercel.app/",
     github: "https://github.com/roldyoran/shorturl",
     // Image shown in the Projects section. Expected public path includes the 'porfolio' prefix per deployment.
-    image: "/portfolio/imgs/url-shortener-roldyoran.png",
+    image: "/portfolio/imgs/url-shortener-roldyoran.webp",
   },
   {
     id: 2,
@@ -131,6 +131,8 @@ export const projects: Project[] = [
     ],
     demo: null,
     github: "https://github.com/rodlyoran/gke-k8s-olympic-microservices",
+    // Image shown in the Projects section. Expected public path includes the 'porfolio' prefix per deployment.
+    image: "/portfolio/imgs/gke-olimpic-platform-roldyoran.webp",
   },
   {
     id: 3,
@@ -143,6 +145,8 @@ export const projects: Project[] = [
     tech: ["Astro", "React", "Tailwind CSS", "TypeScript", "Turso"],
     demo: "https://votaciones-antagonista.vercel.app/",
     github: "https://github.com/roldyoran/antagonista-site",
+    // Image shown in the Projects section. Expected public path includes the 'porfolio' prefix per deployment.
+    image: "/portfolio/imgs/antagonita-site-votations-roldyoran.webp",
   },
 ];
 
