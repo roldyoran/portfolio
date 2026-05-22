@@ -95,7 +95,7 @@ const tagline =
         />
 
         <!-- Other buttons: 3 buttons below the primary button -->
-        <div class="flex gap-2 md:gap-2.5 w-full items-center">
+        <div class="flex flex-wrap gap-2 md:gap-2.5 w-full items-center">
           <ButtonGroup
             variant="ghost"
             href={linkedin}
@@ -103,7 +103,7 @@ const tagline =
             rel="noopener"
             iconLeft="linkedin"
             label={t.hero.linkedin}
-            class="flex-1 text-[0.7rem] md:text-[0.8rem]"
+            class="w-full md:flex-1 min-w-0 text-[0.7rem] md:text-[0.8rem]"
           />
           <ButtonGroup
             variant="ghost"
@@ -112,7 +112,7 @@ const tagline =
             rel="noopener"
             iconLeft="github"
             label={t.hero.github}
-            class="flex-1 text-[0.7rem] md:text-[0.8rem]"
+            class="w-full md:flex-1 min-w-0 text-[0.7rem] md:text-[0.8rem]"
           />
           <a
             href={cvUrl}
