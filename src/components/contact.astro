@@ -24,6 +24,10 @@ const contactInfo = lang === "es"
   : { location: "San Miguel Petapa, Guatemala", availability: "Available for freelance and full-time roles" };
 ---
 
+<script>
+  import "@/scripts/download-cv";
+</script>
+
 <section id="contact" class="relative overflow-hidden border-b border-line">
   <!-- Top border accent -->
   <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-o/30 to-transparent"></div>
@@ -61,6 +65,7 @@ const contactInfo = lang === "es"
         <a
           href={cvUrl}
           download="CV_Edgar_Alvarez.pdf"
+          data-download-cv
           class="inline-flex items-center justify-center gap-2 font-mono uppercase text-decoration-none transition-all duration-200 cursor-pointer bg-transparent text-t3 border border-line hover:border-o hover:text-o2 text-[0.8rem] py-2 px-3.5 w-full md:flex-1 min-w-0"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
