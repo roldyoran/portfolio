@@ -82,6 +82,8 @@ export interface Project {
   tech: string[];
   demo: string | null;
   github: string;
+  /** Optional public path to a project image shown in the Projects section */
+  image?: string;
 }
 
 export type SkillCategory =
