@@ -72,11 +72,6 @@ function buildImageSrc(imgPath: string) {
                 {String(index + 1).padStart(2, "0")}
               </div>
 
-              <!-- Number badge -->
-              <span class="relative mb-3 font-mono text-[0.6rem] tracking-[0.2em] text-o font-bold">
-                {String(index + 1).padStart(2, "0")} — {t.projects.projectImage || "PROJECT"}
-              </span>
-
               <!-- Title -->
               <h3 class="proj-name relative mb-4 font-big text-[clamp(1.6rem,5vw,2.8rem)] leading-none tracking-wider text-t1 transition-colors duration-300">
                 {lang === "es" && project.nameEs ? project.nameEs : project.name}
