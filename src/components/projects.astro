@@ -46,18 +46,18 @@ function buildImageSrc(imgPath: string) {
             class="proj-row reveal-hidden group relative grid grid-cols-1 md:grid-cols-2 border-t border-line overflow-hidden"
           >
             <!-- Image side -->
-            <div class={`relative h-52 md:h-auto min-h-[260px] overflow-hidden ${isEven ? "md:order-1" : "md:order-2"}`}>
+            <div class={`relative h-52 md:h-auto min-h-65 overflow-hidden ${isEven ? "md:order-1" : "md:order-2"}`}>
               {project.image ? (
                 <>
                   <img
                     src={buildImageSrc(project.image)}
                     alt={`${project.name} screenshot`}
-                    class="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
+                    class="absolute inset-0 w-full h-full object-cover object-top transition-all duration-700 ease-out group-hover:scale-105"
                   />
-                  <div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-bg/40 via-bg/20 to-transparent" />
+                  <div class="absolute inset-0 bg-linear-to-t md:bg-linear-to-r from-bg/40 via-bg/20 to-transparent" />
                 </>
               ) : (
-                <div class="absolute inset-0 bg-gradient-to-br from-bg3 via-bg2 to-o/5" />
+                <div class="absolute inset-0 bg-linear-to-br from-bg3 via-bg2 to-o/5" />
               )}
             </div>
 
@@ -65,7 +65,7 @@ function buildImageSrc(imgPath: string) {
             <div class={`relative flex flex-col justify-center p-6 md:p-10 lg:p-14 ${isEven ? "md:order-2" : "md:order-1"}`}>
               <!-- Big number background -->
               <div
-                class="absolute -bottom-4 md:bottom-auto md:top-1/2 md:-translate-y-1/2 font-big text-[8rem] md:text-[12rem] leading-none text-white/[0.02] select-none pointer-events-none"
+                class="absolute -bottom-4 md:bottom-auto md:top-1/2 md:-translate-y-1/2 font-big text-[8rem] md:text-[12rem] leading-none text-white/2 select-none pointer-events-none"
                 class:list={[isEven ? "right-2" : "left-2"]}
                 aria-hidden="true"
               >
