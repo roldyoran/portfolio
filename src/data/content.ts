@@ -130,7 +130,7 @@ export const projects: Project[] = [
       "Docker",
     ],
     demo: null,
-    github: "https://github.com/rodlyoran/gke-k8s-olympic-microservices",
+    github: "https://github.com/roldyoran/gke-k8s-olympic-microservices",
     // Image shown in the Projects section. Expected public path includes the 'porfolio' prefix per deployment.
     image: "/portfolio/imgs/gke-olimpic-platform-roldyoran.webp",
   },
