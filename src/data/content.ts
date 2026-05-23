@@ -139,9 +139,9 @@ export const projects: Project[] = [
     name: "Votaciones Antagonista",
     nameEs: "Votaciones Antagonista",
     tagline:
-      "Public voting site for the 50th chapter of the manga Antagonista by Saikomic. Users vote for their top 3 favorite characters. Built with Astro, React, and Turso (libSQL) database.",
+      "Public voting platform for the 50th chapter of Saikomic’s Antagonista with Google OAuth authentication, ranked-vote registration, per-user vote autosave, secure database connectivity, and a polished, user-friendly UI/UX.",
     taglineEs:
-      "Sitio público de votación para el capítulo 50 del manga Antagonista de Saikomic. Los usuarios votan por sus 3 personajes favoritos. Construido con Astro, React y base de datos Turso (libSQL).",
+      "Plataforma pública de votación para el capítulo 50 de Antagonista de Saikomic con autenticación Google OAuth, registro de votos por ranking, autoguardado por usuario, conexión segura a base de datos y una UI/UX profesional y agradable.",
     tech: ["Astro", "React", "Tailwind CSS", "TypeScript", "Turso"],
     demo: "https://votaciones-antagonista.vercel.app/",
     github: "https://github.com/roldyoran/antagonista-site",
