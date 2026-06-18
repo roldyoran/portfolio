@@ -46,6 +46,9 @@ const hrefLangEs = new URL(`${base}${esPath}`, origin).href;
     <link rel="alternate" hreflang="en" href={hrefLangEn} />
     <link rel="alternate" hreflang="es" href={hrefLangEs} />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <meta property="og:title" content={title} />
     <meta property="og:description" content={descriptions[lang]} />
     <meta property="og:url" content={hrefLangEn} />
