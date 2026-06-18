@@ -58,10 +58,10 @@ const contactInfo = lang === "es"
       <ButtonGroup variant="primary" email={email} iconLeft="mail" iconRight="arrow-right" label={t.contact.sendMessage} class="w-full text-[1.05rem] md:text-[1.125rem] py-3" />
       <div class="flex flex-wrap gap-2 md:gap-2.5 w-full">
         {social.github && (
-          <ButtonGroup variant="outline" href={social.github} target="_blank" rel="noopener" iconLeft="github" label="GitHub" class="w-full md:flex-1 min-w-0" />
+          <ButtonGroup variant="outline" href={social.github} target="_blank" rel="noopener" iconLeft="github" label="GitHub" ariaLabel={lang === "es" ? "Ver repositorios en GitHub" : "View GitHub repositories"} class="w-full md:flex-1 min-w-0" />
         )}
         {social.linkedin && (
-          <ButtonGroup variant="outline" href={social.linkedin} target="_blank" rel="noopener" iconLeft="linkedin" label="LinkedIn" class="w-full md:flex-1 min-w-0" />
+          <ButtonGroup variant="outline" href={social.linkedin} target="_blank" rel="noopener" iconLeft="linkedin" label="LinkedIn" ariaLabel={lang === "es" ? "Conectar en LinkedIn" : "Connect on LinkedIn"} class="w-full md:flex-1 min-w-0" />
         )}
         <a
           href={cvUrl}

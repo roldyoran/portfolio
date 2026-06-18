@@ -4,8 +4,14 @@ function initHeroAnimations() {
   const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (!isReducedMotion) {
+    const elements = document.querySelectorAll(".hero-left, .hero-right, .hero-meta > div");
+
+    elements.forEach((el) => {
+      (el as HTMLElement).style.willChange = "transform, opacity";
+    });
+
     animate(
-      ".hero-left, .hero-right, .hero-meta > div",
+      elements,
       { opacity: [0, 1], y: [40, 0] },
       { delay: stagger(0.15), duration: 0.8, easing: [0.25, 0.1, 0.25, 1], fill: "forwards" }
     );
@@ -27,6 +33,7 @@ function initHeroAnimations() {
         },
         onComplete: () => {
           el.textContent = full;
+          (el as HTMLElement).style.willChange = "auto";
         },
       });
     };
@@ -68,6 +75,11 @@ function initHeroAnimations() {
           const progress = Number(latest);
           statData.forEach(({ el, target, suffix }) => {
             el.textContent = `${Math.round(target * progress)}${suffix}`;
+          });
+        },
+        onComplete: () => {
+          statData.forEach(({ el }) => {
+            el.style.willChange = "auto";
           });
         },
       });
