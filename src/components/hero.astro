@@ -43,7 +43,7 @@ const tagline =
 
 <section
   id="home"
-  class="min-h-md grid grid-rows-[1fr_auto] px-6 md:px-12 border-b border-line overflow-hidden relative"
+  class="min-h-[60vh] lg:min-h-[70vh] grid grid-rows-[1fr_auto] px-6 md:px-12 border-b border-line overflow-hidden relative"
 >
   <div
     class="hero-bg-name absolute bottom-0 left-0 text-[clamp(90px,20vw,260px)] leading-none text-transparent pointer-events-none select-none whitespace-nowrap z-0"
@@ -53,14 +53,14 @@ const tagline =
   </div>
 
   <div
-    class="hero-content relative z-10 grid grid-cols-1 lg:grid-cols-2 items-end pb-2 md:pb-6 pt-0 md:pt-0 gap-4 md:gap-10"
+    class="hero-content relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] items-start lg:items-end pb-2 md:pb-6 pt-0 md:pt-0 gap-4 md:gap-6 lg:gap-8"
   >
     <div class="hero-left order-1">
-      <div class="font-mono text-[0.8rem] text-o tracking-widest mb-4 md:mb-6 px-3 py-1.5 inline-block rounded">
+      <div class="font-mono text-[0.8rem] text-o tracking-widest mb-3 md:mb-4 px-3 py-1.5 inline-block rounded">
         [{hero.index}] — {lang === "es" && hero.roleEs ? hero.roleEs : hero.role}
       </div>
       <h1
-        class="font-big text-[clamp(48px,10vw,115px)] leading-[0.92] tracking-[-0.02em] text-t1 mb-4 md:mb-8 text-shadow-sm"
+        class="font-big text-[clamp(48px,10vw,115px)] leading-[0.92] tracking-[-0.02em] text-t1 mb-3 md:mb-5 text-shadow-sm"
       >
         <span class="hero-name-primary" data-text={hero.namePrimary}>
           {hero.namePrimary}
@@ -77,14 +77,14 @@ const tagline =
       />
     </div>
 
-    <div class="hero-right flex flex-col justify-end gap-6 md:gap-10 order-2 lg:order-2">
+    <div class="hero-right flex flex-col justify-end gap-4 md:gap-6 order-2 lg:order-2">
       <p
         class="hero-description text-[1rem] md:text-[1.05rem] text-t2 leading-relaxed max-w-lg"
         data-text={lang === "es" && hero.descriptionEs ? hero.descriptionEs : hero.description}
       >
         {lang === "es" && hero.descriptionEs ? hero.descriptionEs : hero.description}
       </p>
-      <div class="w-full flex flex-col gap-2 md:gap-2.5 max-w-xl">
+      <div class="w-full flex flex-col gap-2 max-w-xl">
         <!-- Principal button: full width and larger text -->
         <ButtonGroup
           variant="primary"
