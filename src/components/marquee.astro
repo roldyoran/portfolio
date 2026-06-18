@@ -54,11 +54,13 @@ const doubledItems = [...items, ...items];
 <style>
   .marquee-inner {
     width: max-content;
+    will-change: transform;
   }
 
   noscript .marquee-inner {
     animation: none;
     width: auto;
+    will-change: auto;
   }
 
   noscript .marquee-content:last-child {

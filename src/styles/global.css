@@ -73,11 +73,11 @@
 }
 
 @theme {
-  --color-o: #FF5C1A;
+  --color-o: #C04509;
   --color-o2: #FF8C55;
-  --color-o3: rgba(255,92,26,0.12);
-  --color-o4: rgba(255,92,26,0.06);
-  --color-o-hover: #994010;
+  --color-o3: rgba(192,69,9,0.12);
+  --color-o4: rgba(192,69,9,0.06);
+  --color-o-hover: #8A3207;
   --color-bg: #0a0a0a;
   --color-bg2: #0f0f0f;
   --color-bg3: #181818;
@@ -129,17 +129,20 @@
   .motion-ready .reveal-hidden {
     opacity: 0;
     transform: translateY(40px);
+    will-change: transform, opacity;
   }
 
   noscript .reveal-hidden {
     opacity: 1 !important;
     transform: none !important;
+    will-change: auto;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .motion-ready .reveal-hidden {
       opacity: 1 !important;
       transform: none !important;
+      will-change: auto;
     }
   }
 }

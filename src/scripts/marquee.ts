@@ -29,35 +29,43 @@ export function initMarquee(options: MarqueeOptions = {}) {
     return;
   }
 
-  const contentWidth = contents[0].offsetWidth;
-  const distance = contentWidth;
-
+  let distance = 0;
   const startX = config.direction === "right" ? -distance : 0;
   const endX = config.direction === "right" ? 0 : -distance;
 
-  const marqueeAnimation = animate(
-    marquee,
-    { x: [startX, endX] },
-    {
-      duration: config.speed,
-      easing: "linear",
-      repeat: Infinity,
-    }
-  );
+  let marqueeAnimation: ReturnType<typeof animate> | null = null;
 
-  if (config.pauseOnHover) {
-    marquee.addEventListener("mouseenter", () => {
-      marqueeAnimation.pause();
+  const startAnimation = () => {
+    distance = contents[0].offsetWidth;
+    const sx = config.direction === "right" ? -distance : 0;
+    const ex = config.direction === "right" ? 0 : -distance;
+
+    marqueeAnimation = animate(
+      marquee,
+      { x: [sx, ex] },
+      {
+        duration: config.speed,
+        easing: "linear",
+        repeat: Infinity,
+      }
+    );
+
+    if (config.pauseOnHover) {
+      marquee.addEventListener("mouseenter", () => marqueeAnimation?.pause());
+      marquee.addEventListener("mouseleave", () => marqueeAnimation?.play());
+    }
+  };
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      startAnimation();
     });
-    marquee.addEventListener("mouseleave", () => {
-      marqueeAnimation.play();
-    });
-  }
+  });
 
   return {
-    pause: () => marqueeAnimation.pause(),
-    play: () => marqueeAnimation.play(),
-    cancel: () => marqueeAnimation.cancel(),
+    pause: () => marqueeAnimation?.pause(),
+    play: () => marqueeAnimation?.play(),
+    cancel: () => marqueeAnimation?.cancel(),
   };
 }
 

@@ -9,10 +9,18 @@ if (!isReducedMotion) {
       (entries: IntersectionObserverEntry[]) => {
         entries.forEach((entry: IntersectionObserverEntry) => {
           if (entry.isIntersecting) {
+            entry.target.style.willChange = "transform, opacity";
             animate(
               entry.target,
               { opacity: [0, 1], y: [40, 0] },
-              { duration: 0.7, easing: [0.25, 0.1, 0.25, 1], fill: "forwards" }
+              {
+                duration: 0.7,
+                easing: [0.25, 0.1, 0.25, 1],
+                fill: "forwards",
+                onComplete: () => {
+                  entry.target.style.willChange = "auto";
+                },
+              }
             );
             observer.unobserve(entry.target);
           }
