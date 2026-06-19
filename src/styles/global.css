@@ -222,9 +222,9 @@
     font-size: 0.65rem;
     letter-spacing: 0.08em;
     padding: 2px 8px;
-    border: 1px solid rgba(249,115,22,0.22);
+    border: 1px solid rgba(249,115,22,0.15);
     color: var(--color-o2);
-    background: var(--color-o4);
+    background: rgba(249,115,22,0.03);
   }
 
   .cta-primary {
