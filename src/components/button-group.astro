@@ -67,9 +67,9 @@ const baseStyles =
   "inline-flex items-center justify-center gap-2 font-mono uppercase text-decoration-none transition-all duration-200 cursor-pointer";
 
 const variantStyles = {
-  primary: "bg-o text-white font-bold tracking-[0.1em] hover:bg-o-hover",
-  ghost: "bg-transparent text-t2 border border-line hover:border-o hover:text-o2",
-  outline: "bg-transparent text-t3 border border-line hover:border-o hover:text-o2",
+  primary: "bg-o text-black font-extrabold tracking-[0.1em] hover:bg-o-hover",
+  ghost: "bg-transparent text-t2 border border-line font-bold hover:border-o hover:text-o2",
+  outline: "bg-transparent text-t3 border border-line font-bold hover:border-o hover:text-o2",
 };
 
 const sizeStyles = {
@@ -90,7 +90,7 @@ const primaryClipPath =
     : "";
 const primaryHoverStyle =
   variant === "primary"
-    ? "transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 92, 26, 0.35)"
+    ? "transform: translateY(-2px); box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35)"
     : "";
 
 const buttonClasses = [baseStyles, variantStyles[variant], sizeStyles[size], className].join(" ");
@@ -143,13 +143,13 @@ const computedAriaLabel = ariaLabel || label || '';
 
 <style>
   a[style*="clip-path"],
-  button[style*="clip-path"]:hover {
+button[style*="clip-path"]:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 92, 26, 0.35);
+    box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35);
   }
   a[style*="clip-path"]:hover,
-  button[style*="clip-path"]:hover {
+button[style*="clip-path"]:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 92, 26, 0.35);
+    box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35);
   }
 </style>

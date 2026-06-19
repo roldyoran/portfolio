@@ -54,7 +54,16 @@ function initHeroAnimations() {
     const heroDescription = document.querySelector(".hero-description");
     if (heroDescription) {
       heroDescription.textContent = "";
-      setTimeout(() => typeName(heroDescription, 0.9), 320);
+      (heroDescription as HTMLElement).style.opacity = "0";
+      (heroDescription as HTMLElement).style.transform = "translateY(8px)";
+      setTimeout(() => {
+        animate(
+          heroDescription,
+          { opacity: [0, 1], y: [8, 0] },
+          { duration: 1.0, easing: [0.25, 0.1, 0.25, 1], fill: "forwards" }
+        );
+        typeName(heroDescription, 0.9);
+      }, 500);
     }
 
     const stats = document.querySelectorAll<HTMLElement>(".stat-number");
