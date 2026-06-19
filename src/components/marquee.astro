@@ -7,43 +7,34 @@ interface Props {
 }
 
 const { items, icons } = Astro.props;
-const doubledItems = [...items, ...items];
 ---
 
 <div class="marquee-strip border-y border-line py-3 overflow-hidden bg-bg2 relative z-10">
-  <div class="marquee-inner flex whitespace-nowrap font-mono text-[0.62rem] tracking-[0.15em] uppercase text-t3">
-    <div class="marquee-content flex gap-6 shrink-0">
+  <div class="marquee-inner whitespace-nowrap font-mono text-[0.62rem] tracking-[0.15em] uppercase text-t3">
+    <div class="marquee-content" aria-hidden="false">
       {
-        doubledItems.map((item, index) => {
+        items.map((item, index) => {
           const Icon = icons[item];
           return (
-            <div class="marquee-item flex items-center gap-3" key={`${item}-${index}`}>
-              <span class="logo-wrap" aria-hidden="true">
-                {Icon ? <Icon size={20} class="block h-5 w-5 text-t3" /> : null}
-              </span>
+            <span class="marquee-item" key={`${item}-${index}`}>
+              {Icon ? <Icon size={20} class="inline-block h-5 w-5 text-t3 align-middle" /> : null}
               <span class="px-1 opacity-90">{item}</span>
-              <span class="text-o ml-1" aria-hidden="true">
-                ●
-              </span>
-            </div>
+              <span class="text-o mx-2" aria-hidden="true">●</span>
+            </span>
           );
         })
       }
     </div>
-    <div class="marquee-content flex gap-6 shrink-0" aria-hidden="true">
+    <div class="marquee-content" aria-hidden="true">
       {
-        doubledItems.map((item, index) => {
+        items.map((item, index) => {
           const Icon = icons[item];
           return (
-            <div class="marquee-item flex items-center gap-3" key={`dup-${item}-${index}`}>
-              <span class="logo-wrap" aria-hidden="true">
-                {Icon ? <Icon size={20} class="block h-5 w-5 text-t3" /> : null}
-              </span>
+            <span class="marquee-item" key={`dup-${item}-${index}`}>
+              {Icon ? <Icon size={20} class="inline-block h-5 w-5 text-t3 align-middle" /> : null}
               <span class="px-1 opacity-90">{item}</span>
-              <span class="text-o ml-1" aria-hidden="true">
-                ●
-              </span>
-            </div>
+              <span class="text-o mx-2" aria-hidden="true">●</span>
+            </span>
           );
         })
       }
@@ -53,17 +44,52 @@ const doubledItems = [...items, ...items];
 
 <style>
   .marquee-inner {
+    display: inline-flex;
     width: max-content;
-    will-change: transform;
+    animation: marquee-scroll 34s linear infinite;
+  }
+
+  .marquee-content {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 14px;
+  }
+
+  .marquee-inner:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   noscript .marquee-inner {
     animation: none;
     width: auto;
-    will-change: auto;
   }
 
   noscript .marquee-content:last-child {
     display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-inner {
+      animation: none;
+      width: auto;
+    }
+    .marquee-content:last-child {
+      display: none;
+    }
   }
 </style>

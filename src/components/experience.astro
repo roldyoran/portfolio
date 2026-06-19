@@ -39,9 +39,9 @@ const t = useTranslations(lang);
         <span class="text-o">{String(index + 1).padStart(2, '0')}</span>
       </div>
       <div>
-        <div class="font-big text-[1.8rem] md:text-[2.4rem] leading-none tracking-wider">{exp.company}</div>
-        <div class="font-mono text-[0.85rem] md:text-[0.9rem] text-o2 mt-1.5 tracking-wider">{exp.location}</div>
-        <div class="text-[1.1rem] font-semibold text-t1 mb-1.5 mt-4 md:mt-0">{lang === 'es' && exp.roleEs ? exp.roleEs : exp.role}</div>
+        <div class="font-big text-[1.8rem] md:text-[2.4rem] leading-none tracking-wider">{lang === 'es' && exp.roleEs ? exp.roleEs : exp.role}</div>
+        <div class="text-[1.1rem] font-semibold text-t1 mb-1.5 mt-1.5">{exp.company}</div>
+        <div class="font-mono text-[0.85rem] md:text-[0.9rem] text-o2 tracking-wider">{exp.location}</div>
       </div>
       <div>
         <p class="text-[1rem] md:text-[1.05rem] text-t2 leading-relaxed">{lang === 'es' && exp.descriptionEs ? exp.descriptionEs : exp.description}</p>
