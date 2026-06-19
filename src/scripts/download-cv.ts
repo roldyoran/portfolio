@@ -1,6 +1,6 @@
 const base = import.meta.env.BASE_URL || '/';
 const baseUrl = base.endsWith('/') ? base : `${base}/`;
-const cvPath = `${baseUrl}cv/CV_EDGAR_ALVAREZ_DEVOPS_DEV.pdf`;
+const cvPath = `${baseUrl}cv/CV_Edgar_Alvarez.pdf`;
 
 export function initDownloadCV() {
   document.querySelectorAll("[data-download-cv]").forEach((btn) => {

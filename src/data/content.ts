@@ -91,7 +91,7 @@ export const experience: Experience[] = [
     descriptionEs:
       "Enseñé a estudiantes el uso de Linux, desarrollo de módulos del kernel y administración de máquinas virtuales en el laboratorio de Sistemas Operativos I. Diseñé e impartí material complementario sobre Kubernetes y despliegue de microservicios. Apoyé en la resolución de problemas técnicos y evaluación de ejercicios prácticos del laboratorio.",
     tech: ["Linux", "Kubernetes", "Microservicios", "Kernel", "Virtualización"],
-    link: "https://shorturl.roldyoran.workers.dev/dttaux",
+    link: "https://roly.top/tutordtt",
   },
 ];
 
@@ -105,7 +105,7 @@ export const projects: Project[] = [
     taglineEs:
       "Acortador de URLs full-stack con códigos personalizados, contador de visitas en tiempo real y API REST con autenticación por API Key desplegado en Cloudflare Workers para latencia global menor a 60ms.",
     tech: ["TypeScript", "Hono", "Drizzle ORM", "Cloudflare Workers", "Cloudflare D1", "Vue.js"],
-    demo: "https://shorturl-roldyoran.vercel.app/",
+    demo: "https://roly.top",
     github: "https://github.com/roldyoran/shorturl",
     // Image shown in the Projects section. Expected public path includes the 'porfolio' prefix per deployment.
     image: "/portfolio/imgs/url-shortener-roldyoran.webp",
