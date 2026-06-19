@@ -73,11 +73,11 @@
 }
 
 @theme {
-  --color-o: #C04509;
-  --color-o2: #FF8C55;
-  --color-o3: rgba(192,69,9,0.12);
-  --color-o4: rgba(192,69,9,0.06);
-  --color-o-hover: #8A3207;
+  --color-o: #f97316;
+  --color-o2: #fb923c;
+  --color-o3: rgba(249,115,22,0.12);
+  --color-o4: rgba(249,115,22,0.06);
+  --color-o-hover: #ea580c;
   --color-bg: #0a0a0a;
   --color-bg2: #0f0f0f;
   --color-bg3: #181818;
@@ -222,7 +222,7 @@
     font-size: 0.65rem;
     letter-spacing: 0.08em;
     padding: 2px 8px;
-    border: 1px solid rgba(255,92,26,0.22);
+    border: 1px solid rgba(249,115,22,0.22);
     color: var(--color-o2);
     background: var(--color-o4);
   }
@@ -236,7 +236,7 @@
     color: #fff;
     font-family: var(--font-mono);
     font-size: 0.8rem;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     border: none;
@@ -248,7 +248,7 @@
   .cta-primary:hover {
     background: var(--color-o-hover);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 92, 26, 0.35);
+    box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35);
   }
 
   .cta-ghost {
