@@ -68,9 +68,9 @@ src/
 - Import alias: use `@/` for imports (e.g. `import Layout from "@/layouts/layout.astro"`).
 - Stack: Astro v6, Tailwind CSS v4 (theme tokens live in `src/styles/global.css`), Motion (client script under `src/scripts/home-motion.ts` and used from `home.astro`).
 - Dev / Build / Preview (use Bun to run scripts):
-  - `bun dev` (http://localhost:4321)
-  - `bun build`
-  - `bun preview`
+  - `bun run dev` (http://localhost:4321)
+  - `bun run build`
+  - `bun run preview`
   Note: package.json scripts are standard Astro scripts ("dev": "astro dev", "build": "astro build", "preview": "astro preview"). Bun can run these npm scripts. The repository's `packageManager` field may still mention pnpm — that's informational and can be updated if you want to standardize on Bun.
 - Node: project requires Node >= 22.12.0 (see `package.json` engines).
 - Tailwind and styling:
