@@ -36,8 +36,8 @@ const hrefLangEs = new URL(`${base}${esPath}`, origin).href;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/portfolio/favicon.svg" />
-    <link rel="icon" href="/portfolio/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <link rel="icon" href={`${base}/favicon.ico`} />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={descriptions[lang]} />
     <title>{title}</title>
@@ -80,21 +80,21 @@ const hrefLangEs = new URL(`${base}${esPath}`, origin).href;
 
     <link
       rel="preload"
-      href="/portfolio/fonts/BebasNeue-Regular.ttf"
+      href={`${base}/fonts/BebasNeue-Regular.ttf`}
       as="font"
       type="font/ttf"
       crossorigin
     />
     <link
       rel="preload"
-      href="/portfolio/fonts/SpaceGrotesk-Regular.ttf"
+      href={`${base}/fonts/SpaceGrotesk-Regular.ttf`}
       as="font"
       type="font/ttf"
       crossorigin
     />
     <link
       rel="preload"
-      href="/portfolio/fonts/SpaceMono-Regular.ttf"
+      href={`${base}/fonts/SpaceMono-Regular.ttf`}
       as="font"
       type="font/ttf"
       crossorigin
