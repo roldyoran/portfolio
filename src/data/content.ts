@@ -78,8 +78,8 @@ export const experience: Experience[] = [
     id: 1,
     company: "Universidad de San Carlos de Guatemala (USAC)",
     location: "Guatemala",
-    role: "Academic Tutor - Operating Systems I",
-    roleEs: "Tutor Académico - Sistemas Operativos I",
+    role: "Academic Tutor — Operating Systems I Lab",
+    roleEs: "Tutor Académico — Laboratorio de Sistemas Operativos 1",
     period: {
       start: "July 2025",
       startEs: "Julio 2025",
