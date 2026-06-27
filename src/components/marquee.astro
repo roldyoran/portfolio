@@ -4,59 +4,177 @@ import type { IconMap } from "@/data/types";
 interface Props {
   items: string[];
   icons: IconMap;
+  label?: string;
+  /** Segundos que tarda un ciclo completo. Más alto = más lento. */
+  duration?: number;
+  direction?: "left" | "right";
 }
 
-const { items, icons } = Astro.props;
+const { items, icons, label = "Technologies", duration = 28, direction = "left" } = Astro.props;
 ---
 
-<div class="marquee-strip border-y border-line py-3 overflow-hidden bg-bg2 relative z-10">
-  <div class="marquee-inner whitespace-nowrap font-mono text-[0.62rem] tracking-[0.15em] uppercase text-t3">
-    <div class="marquee-content" aria-hidden="false">
+<div
+  class="marquee"
+  style={`--marquee-duration:${duration}s; --marquee-direction:${direction === "right" ? "reverse" : "normal"};`}
+>
+  <ul class="marquee__track" aria-label={label}>
+    <li class="marquee__group" aria-hidden="false">
       {
-        items.map((item, index) => {
+        items.map((item) => {
           const Icon = icons[item];
           return (
-            <span class="marquee-item" key={`${item}-${index}`}>
-              {Icon ? <Icon size={20} class="inline-block h-5 w-5 text-t3 align-middle" /> : null}
-              <span class="px-1 opacity-90">{item}</span>
-              <span class="text-o mx-2" aria-hidden="true">●</span>
+            <span class="marquee__item">
+              {Icon ? <Icon size={20} class="marquee__icon" aria-hidden="true" /> : null}
+              <span class="marquee__label">{item}</span>
+              <span class="marquee__dot" aria-hidden="true">
+                ●
+              </span>
             </span>
           );
         })
       }
-    </div>
-  </div>
+    </li>
+    <li class="marquee__group" aria-hidden="true">
+      {
+        items.map((item) => {
+          const Icon = icons[item];
+          return (
+            <span class="marquee__item">
+              {Icon ? <Icon size={20} class="marquee__icon" aria-hidden="true" /> : null}
+              <span class="marquee__label">{item}</span>
+              <span class="marquee__dot" aria-hidden="true">
+                ●
+              </span>
+            </span>
+          );
+        })
+      }
+    </li>
+  </ul>
 </div>
 
 <style>
-  .marquee-inner {
-    display: inline-flex;
+  /* ============================================================
+     Marquee — bucle infinito 100% CSS.
+     La clave: cada .marquee__group ocupa exactamente 50% del ancho
+     del track (que tiene el doble de contenido). Animamos de 0% a
+     -50%, así el segundo grupo queda pixel-perfect donde empezó el
+     primero. No depende de medir nada en JS, no se desincroniza con
+     resize, no hay layout shift ni reflow.
+     ============================================================ */
+
+  .marquee {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-block: 0.75rem;
+    background-color: var(--color-bg2, #0b0b0c);
+    border-top: 1px solid var(--color-line, #232323);
+    border-bottom: 1px solid var(--color-line, #232323);
+    isolation: isolate;
+  }
+
+  /* Degradado en los bordes para que el loop entre/salga sin corte seco */
+  .marquee::before,
+  .marquee::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(24px, 8vw, 96px);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .marquee::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-bg2, #0b0b0c), transparent);
+  }
+
+  .marquee::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-bg2, #0b0b0c), transparent);
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    will-change: transform;
+    animation: marquee-scroll var(--marquee-duration, 28s) linear infinite;
+    animation-direction: var(--marquee-direction, normal);
+  }
+
+  /* Cada grupo es EXACTAMENTE la mitad del contenido del track
+     (porque hay dos grupos idénticos), por eso el keyframe usa -50%. */
+  .marquee__group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
     width: max-content;
   }
 
-  .marquee-content {
+  .marquee__item {
     display: inline-flex;
     align-items: center;
     white-space: nowrap;
+    margin-inline: 14px;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-t3, #8a8a8a);
   }
 
-  .marquee-item {
-    display: inline-flex;
-    align-items: center;
-    margin: 0 14px;
+  .marquee__icon {
+    display: inline-block;
+    height: 1.25rem;
+    width: 1.25rem;
+    vertical-align: middle;
+    color: var(--color-t3, #8a8a8a);
   }
 
-  noscript .marquee-inner {
-    width: auto;
+  .marquee__label {
+    padding-inline: 0.25rem;
+    opacity: 0.9;
+  }
+
+  .marquee__dot {
+    color: var(--color-o, #ff6b00);
+    margin-inline: 0.5rem;
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  /* Pausa al pasar el mouse o tener foco dentro (accesibilidad + UX) */
+  .marquee:hover .marquee__track,
+  .marquee:focus-within .marquee__track {
+    animation-play-state: paused;
+  }
+
+  /* Pausa manual vía JS opcional (ver marquee.ts) */
+  .marquee[data-paused="true"] .marquee__track {
+    animation-play-state: paused;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .marquee-inner {
-      width: auto;
+    .marquee__track {
+      animation: none;
     }
   }
 </style>
 
 <script>
-  import "@/scripts/marquee";
+  import { initMarqueePauseControls } from "@/scripts/marquee";
+  initMarqueePauseControls();
+  document.addEventListener("astro:page-load", initMarqueePauseControls);
 </script>

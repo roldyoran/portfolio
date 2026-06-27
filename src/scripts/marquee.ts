@@ -1,97 +1,27 @@
-import { animate } from "motion";
+/**
+ * El marquee se anima 100% por CSS (@keyframes) — ver Marquee.astro.
+ * Esto es deliberado: una animación CSS de transform corre en el
+ * compositor del navegador, no se desincroniza con resize, no requiere
+ * medir anchos en JS, y no se rompe si este script falla en cargar.
+ *
+ * Este archivo es opcional y solo añade una mejora de UX: pausar el
+ * marquee al hacer click/tap (útil en touch, donde no existe :hover).
+ * Si no lo necesitas, puedes borrar este archivo y el <script> del
+ * componente .astro sin que el marquee deje de funcionar.
+ */
 
-export interface MarqueeOptions {
-  selector?: string;
-  speed?: number;
-  pauseOnHover?: boolean;
-  direction?: "left" | "right";
-}
+export function initMarqueePauseControls(): void {
+  const marquees = document.querySelectorAll<HTMLElement>(".marquee");
 
-const defaultOptions: Required<MarqueeOptions> = {
-  selector: ".marquee-inner",
-  speed: 80,
-  pauseOnHover: true,
-  direction: "left",
-};
+  marquees.forEach((marquee) => {
+    // Evita doble registro si esta función se vuelve a llamar
+    // (por ejemplo en astro:page-load tras una View Transition).
+    if (marquee.dataset.pauseBound === "true") return;
+    marquee.dataset.pauseBound = "true";
 
-export function initMarquee(options: MarqueeOptions = {}) {
-  const config = { ...defaultOptions, ...options };
-  const marquee = document.querySelector(config.selector) as HTMLElement | null;
-
-  if (!marquee) {
-    console.warn(`[marquee] Element not found: ${config.selector}`);
-    return;
-  }
-
-  const contents = marquee.querySelectorAll<HTMLElement>(".marquee-content");
-  if (contents.length < 1) {
-    console.warn("[marquee] Need at least 1 .marquee-content element");
-    return;
-  }
-
-  let marqueeAnimation: ReturnType<typeof animate> | null = null;
-
-  function startAnimation() {
-    const parent = marquee.parentElement;
-    if (!parent) return;
-
-    const contentWidth = contents[0].offsetWidth;
-    if (contentWidth === 0) return;
-
-    const parentWidth = parent.offsetWidth;
-    const copiesNeeded = Math.ceil(parentWidth / contentWidth) + 1;
-
-    const existing = marquee.querySelectorAll<HTMLElement>(".marquee-content");
-    for (let i = 1; i < existing.length; i++) {
-      existing[i].remove();
-    }
-
-    for (let i = 1; i < copiesNeeded; i++) {
-      const clone = contents[0].cloneNode(true) as HTMLElement;
-      clone.setAttribute("aria-hidden", "true");
-      marquee.appendChild(clone);
-    }
-
-    const sx = config.direction === "right" ? -contentWidth : 0;
-    const ex = config.direction === "right" ? 0 : -contentWidth;
-
-    marqueeAnimation = animate(
-      marquee,
-      { x: [sx, ex] },
-      {
-        duration: config.speed,
-        easing: "linear",
-        repeat: Infinity,
-      },
-    );
-
-    if (config.pauseOnHover) {
-      const pause = () => marqueeAnimation?.pause();
-      const play = () => marqueeAnimation?.play();
-      marquee.addEventListener("mouseenter", pause);
-      marquee.addEventListener("mouseleave", play);
-      marquee.addEventListener("focusin", pause);
-      marquee.addEventListener("focusout", play);
-    }
-  }
-
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      startAnimation();
+    marquee.addEventListener("click", () => {
+      const isPaused = marquee.dataset.paused === "true";
+      marquee.dataset.paused = isPaused ? "false" : "true";
     });
   });
-
-  return {
-    pause: () => marqueeAnimation?.pause(),
-    play: () => marqueeAnimation?.play(),
-    cancel: () => marqueeAnimation?.cancel(),
-  };
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReducedMotion) {
-    return;
-  }
-  initMarquee();
-});
