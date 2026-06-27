@@ -234,7 +234,7 @@ const config: Config = {
     "CI/CD",
   ],
   githubStats: {
-    yearsExp: 5,
+    yearsExp: 1,
     repos: 36,
     contributions: 1270,
     followers: 2,

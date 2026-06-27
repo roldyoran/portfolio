@@ -19,16 +19,16 @@ const pathname = Astro.url.pathname;
 const base = "/portfolio";
 const pathWithoutBase = pathname.replace(base, "") || "/";
 
-let enPath = pathWithoutBase.startsWith("/es") ? pathWithoutBase.slice(3) || "/" : pathWithoutBase;
-if (!enPath.startsWith("/")) {
-  enPath = `/${enPath}`;
+let esPath = pathWithoutBase.startsWith("/en") ? pathWithoutBase.slice(3) || "/" : pathWithoutBase;
+if (!esPath.startsWith("/")) {
+  esPath = `/${esPath}`;
 }
-const hrefLangEn = new URL(`${base}${enPath}`, origin).href;
-
-const esPath = pathWithoutBase.startsWith("/es")
-  ? pathWithoutBase
-  : `/es${pathWithoutBase === "/" ? "" : pathWithoutBase}`;
 const hrefLangEs = new URL(`${base}${esPath}`, origin).href;
+
+const enPath = pathWithoutBase.startsWith("/en")
+  ? pathWithoutBase
+  : `/en${pathWithoutBase === "/" ? "" : pathWithoutBase}`;
+const hrefLangEn = new URL(`${base}${enPath}`, origin).href;
 ---
 
 <!doctype html>
