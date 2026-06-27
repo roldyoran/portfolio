@@ -1,6 +1,6 @@
 const base = import.meta.env.BASE_URL || '/';
 const baseUrl = base.endsWith('/') ? base : `${base}/`;
-const cvPath = `${baseUrl}cv/CV_Edgar_Alvarez.pdf`;
+const cvPath = `${baseUrl}cv/CV_Edgar_Alvarez_ingeniero_en_Sistemas.pdf`;
 
 export function initDownloadCV() {
   document.querySelectorAll("[data-download-cv]").forEach((btn) => {
@@ -13,7 +13,7 @@ export function initDownloadCV() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "CV_Edgar_Alvarez.pdf";
+        a.download = "CV_Edgar_Alvarez_ingeniero_en_Sistemas.pdf";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
