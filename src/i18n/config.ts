@@ -14,7 +14,7 @@ export function getLangFromUrl(url: URL): Lang {
 }
 
 export function getPathForLang(path: string, lang: Lang): string {
-  const cleanPath = path.replace(/^\//, '').replace(/^es\//, '');
+  const cleanPath = path.replace(/^\//, '').replace(/^en\//, '');
   if (lang === defaultLang) return cleanPath ? `/${cleanPath}` : '/';
-  return `/es/${cleanPath}`;
+  return `/en/${cleanPath}`;
 }
