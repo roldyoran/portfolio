@@ -10,7 +10,7 @@ interface Props {
   direction?: "left" | "right";
 }
 
-const { items, icons, label = "Technologies", duration = 28, direction = "left" } = Astro.props;
+const { items, icons, label = "Technologies", duration = 20, direction = "left" } = Astro.props;
 ---
 
 <div
@@ -50,16 +50,50 @@ const { items, icons, label = "Technologies", duration = 28, direction = "left" 
         })
       }
     </li>
+    <li class="marquee__group" aria-hidden="true">
+      {
+        items.map((item) => {
+          const Icon = icons[item];
+          return (
+            <span class="marquee__item">
+              {Icon ? <Icon size={20} class="marquee__icon" aria-hidden="true" /> : null}
+              <span class="marquee__label">{item}</span>
+              <span class="marquee__dot" aria-hidden="true">
+                ●
+              </span>
+            </span>
+          );
+        })
+      }
+    </li>
+    <li class="marquee__group" aria-hidden="true">
+      {
+        items.map((item) => {
+          const Icon = icons[item];
+          return (
+            <span class="marquee__item">
+              {Icon ? <Icon size={20} class="marquee__icon" aria-hidden="true" /> : null}
+              <span class="marquee__label">{item}</span>
+              <span class="marquee__dot" aria-hidden="true">
+                ●
+              </span>
+            </span>
+          );
+        })
+      }
+    </li>
   </ul>
 </div>
 
 <style>
   /* ============================================================
      Marquee — bucle infinito 100% CSS.
-     La clave: cada .marquee__group ocupa exactamente 50% del ancho
-     del track (que tiene el doble de contenido). Animamos de 0% a
-     -50%, así el segundo grupo queda pixel-perfect donde empezó el
-     primero. No depende de medir nada en JS, no se desincroniza con
+     La clave: cada .marquee__group ocupa exactamente 25% del ancho
+     del track (que tiene el cuádruple de contenido). Animamos de 0% a
+     -25%, así el segundo grupo queda pixel-perfect donde empezó el
+     primero. Cuatro grupos aseguran que siempre haya suficiente
+     contenido visible para llenar el viewport sin parpadeos.
+     No depende de medir nada en JS, no se desincroniza con
      resize, no hay layout shift ni reflow.
      ============================================================ */
 
@@ -103,12 +137,12 @@ const { items, icons, label = "Technologies", duration = 28, direction = "left" 
     padding: 0;
     list-style: none;
     will-change: transform;
-    animation: marquee-scroll var(--marquee-duration, 28s) linear infinite;
+    animation: marquee-scroll var(--marquee-duration, 20s) linear infinite;
     animation-direction: var(--marquee-direction, normal);
   }
 
-  /* Cada grupo es EXACTAMENTE la mitad del contenido del track
-     (porque hay dos grupos idénticos), por eso el keyframe usa -50%. */
+  /* Cada grupo es EXACTAMENTE la cuarta parte del contenido del track
+     (porque hay cuatro grupos idénticos), por eso el keyframe usa -25%. */
   .marquee__group {
     display: flex;
     align-items: center;
@@ -151,7 +185,7 @@ const { items, icons, label = "Technologies", duration = 28, direction = "left" 
       transform: translate3d(0, 0, 0);
     }
     to {
-      transform: translate3d(-50%, 0, 0);
+      transform: translate3d(-25%, 0, 0);
     }
   }
 
