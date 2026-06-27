@@ -25,20 +25,6 @@ const { items, icons } = Astro.props;
         })
       }
     </div>
-    <div class="marquee-content" aria-hidden="true">
-      {
-        items.map((item, index) => {
-          const Icon = icons[item];
-          return (
-            <span class="marquee-item" key={`dup-${item}-${index}`}>
-              {Icon ? <Icon size={20} class="inline-block h-5 w-5 text-t3 align-middle" /> : null}
-              <span class="px-1 opacity-90">{item}</span>
-              <span class="text-o mx-2" aria-hidden="true">●</span>
-            </span>
-          );
-        })
-      }
-    </div>
   </div>
 </div>
 
@@ -46,7 +32,6 @@ const { items, icons } = Astro.props;
   .marquee-inner {
     display: inline-flex;
     width: max-content;
-    animation: marquee-scroll 34s linear infinite;
   }
 
   .marquee-content {
@@ -61,35 +46,17 @@ const { items, icons } = Astro.props;
     margin: 0 14px;
   }
 
-  .marquee-inner:hover {
-    animation-play-state: paused;
-  }
-
-  @keyframes marquee-scroll {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
   noscript .marquee-inner {
-    animation: none;
     width: auto;
-  }
-
-  noscript .marquee-content:last-child {
-    display: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .marquee-inner {
-      animation: none;
       width: auto;
-    }
-    .marquee-content:last-child {
-      display: none;
     }
   }
 </style>
+
+<script>
+  import "@/scripts/marquee";
+</script>

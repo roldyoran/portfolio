@@ -24,21 +24,36 @@ export function initMarquee(options: MarqueeOptions = {}) {
   }
 
   const contents = marquee.querySelectorAll<HTMLElement>(".marquee-content");
-  if (contents.length < 2) {
-    console.warn("[marquee] Need at least 2 .marquee-content elements for seamless loop");
+  if (contents.length < 1) {
+    console.warn("[marquee] Need at least 1 .marquee-content element");
     return;
   }
 
-  let distance = 0;
-  const startX = config.direction === "right" ? -distance : 0;
-  const endX = config.direction === "right" ? 0 : -distance;
-
   let marqueeAnimation: ReturnType<typeof animate> | null = null;
 
-  const startAnimation = () => {
-    distance = contents[0].offsetWidth;
-    const sx = config.direction === "right" ? -distance : 0;
-    const ex = config.direction === "right" ? 0 : -distance;
+  function startAnimation() {
+    const parent = marquee.parentElement;
+    if (!parent) return;
+
+    const contentWidth = contents[0].offsetWidth;
+    if (contentWidth === 0) return;
+
+    const parentWidth = parent.offsetWidth;
+    const copiesNeeded = Math.ceil(parentWidth / contentWidth) + 1;
+
+    const existing = marquee.querySelectorAll<HTMLElement>(".marquee-content");
+    for (let i = 1; i < existing.length; i++) {
+      existing[i].remove();
+    }
+
+    for (let i = 1; i < copiesNeeded; i++) {
+      const clone = contents[0].cloneNode(true) as HTMLElement;
+      clone.setAttribute("aria-hidden", "true");
+      marquee.appendChild(clone);
+    }
+
+    const sx = config.direction === "right" ? -contentWidth : 0;
+    const ex = config.direction === "right" ? 0 : -contentWidth;
 
     marqueeAnimation = animate(
       marquee,
@@ -47,14 +62,18 @@ export function initMarquee(options: MarqueeOptions = {}) {
         duration: config.speed,
         easing: "linear",
         repeat: Infinity,
-      }
+      },
     );
 
     if (config.pauseOnHover) {
-      marquee.addEventListener("mouseenter", () => marqueeAnimation?.pause());
-      marquee.addEventListener("mouseleave", () => marqueeAnimation?.play());
+      const pause = () => marqueeAnimation?.pause();
+      const play = () => marqueeAnimation?.play();
+      marquee.addEventListener("mouseenter", pause);
+      marquee.addEventListener("mouseleave", play);
+      marquee.addEventListener("focusin", pause);
+      marquee.addEventListener("focusout", play);
     }
-  };
+  }
 
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
