@@ -53,15 +53,17 @@ const aboutBio = lang === "es" ? config.bioEs : config.bio;
 
   <Marquee items={config.marquee} icons={marqueeTechIcons} />
 
-  <Experience experience={experience} lang={lang} />
+  <div class="container-page">
+    <Experience experience={experience} lang={lang} />
 
-  <Projects projects={projects} lang={lang} />
+    <Projects projects={projects} lang={lang} />
 
-  <About skillsWithIcons={skillsWithIcons} lang={lang} bio={aboutBio} />
+    <About skillsWithIcons={skillsWithIcons} lang={lang} bio={aboutBio} />
 
-  <Contact email={config.email} social={config.social} lang={lang} />
+    <Contact email={config.email} social={config.social} lang={lang} />
 
-  <Footer name={config.name} lang={lang} />
+    <Footer name={config.name} lang={lang} />
+  </div>
 </main>
 
 <script>
