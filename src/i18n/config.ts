@@ -5,7 +5,7 @@ export const languages = {
 
 export type Lang = keyof typeof languages;
 
-export const defaultLang: Lang = 'en';
+export const defaultLang: Lang = 'es';
 
 export function getLangFromUrl(url: URL): Lang {
   const [, lang] = url.pathname.split('/');

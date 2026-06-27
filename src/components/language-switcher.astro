@@ -11,8 +11,8 @@ const currentPath = Astro.url.pathname;
 const base = '/portfolio';
 const pathWithoutBase = currentPath.replace(base, '') || '/';
 
-const enPath = pathWithoutBase.replace(/^\/es(\/.*)?$/, '$1') || '/';
-const esPath = pathWithoutBase.startsWith('/es') ? pathWithoutBase : `/es${pathWithoutBase === '/' ? '' : pathWithoutBase}`;
+const esPath = pathWithoutBase.replace(/^\/en(\/.*)?$/, '$1') || '/';
+const enPath = pathWithoutBase.startsWith('/en') ? pathWithoutBase : `/en${pathWithoutBase === '/' ? '' : pathWithoutBase}`;
 ---
 
 <div class="lang-switcher flex items-center gap-1.5 font-mono text-[0.65rem] tracking-wider" role="navigation" aria-label="Language selector">
