@@ -1,13 +1,14 @@
 ---
 import "../styles/global.css";
 import type { Lang } from "../i18n/config";
+import { Font } from "astro:assets";
 
 interface Props {
   title?: string;
   lang?: Lang;
 }
 
-const { title = "", lang = "en" } = Astro.props;
+const { title = "", lang = "es" } = Astro.props;
 
 const descriptions = {
   en: "Full Stack & DevOps Engineer - Building high-performance systems from pixel to production",
@@ -42,16 +43,17 @@ const hrefLangEn = new URL(`${base}${enPath}`, origin).href;
     <meta name="description" content={descriptions[lang]} />
     <title>{title}</title>
 
-    <link rel="canonical" href={hrefLangEn} />
+    <link rel="canonical" href={hrefLangEs} />
     <link rel="alternate" hreflang="en" href={hrefLangEn} />
     <link rel="alternate" hreflang="es" href={hrefLangEs} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <Font cssVariable="--font-big" preload />
+    <Font cssVariable="--font-sans" preload />
+    <Font cssVariable="--font-mono" preload />
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={descriptions[lang]} />
-    <meta property="og:url" content={hrefLangEn} />
+    <meta property="og:url" content={hrefLangEs} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Edgar Alvarez" />
 
@@ -77,28 +79,6 @@ const hrefLangEn = new URL(`${base}${enPath}`, origin).href;
         }
       }
     </script>
-
-    <link
-      rel="preload"
-      href={`${base}/fonts/BebasNeue-Regular.ttf`}
-      as="font"
-      type="font/ttf"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href={`${base}/fonts/SpaceGrotesk-Regular.ttf`}
-      as="font"
-      type="font/ttf"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href={`${base}/fonts/SpaceMono-Regular.ttf`}
-      as="font"
-      type="font/ttf"
-      crossorigin
-    />
 
     <script is:inline>
       document.documentElement.classList.add("motion-ready");
