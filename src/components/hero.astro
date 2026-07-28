@@ -52,9 +52,9 @@ const tagline =
 
   <div class="container-page">
     <div
-      class="hero-content relative z-10 flex flex-col lg:flex-row lg:items-end justify-between pb-2 md:pb-4 pt-0 gap-0 lg:gap-2"
+      class="hero-content relative z-10 flex flex-col lg:grid lg:grid-cols-[40%_1fr] lg:items-center pb-2 md:pb-4 pt-0 gap-0"
     >
-    <div class="hero-left order-1 shrink-0 lg:max-w-[55%]">
+    <div class="hero-left shrink-0">
       <div
         class="hero-eyebrow font-mono text-[0.8rem] text-o tracking-widest mb-2 md:mb-3 py-1.5 inline-block rounded"
       >
@@ -79,7 +79,7 @@ const tagline =
     </div>
 
     <div
-      class="hero-right flex flex-col justify-end gap-3 md:gap-4 order-2 lg:order-2 lg:max-w-[45%]"
+      class="hero-right flex flex-col justify-end gap-3 md:gap-4"
     >
       <p class="hero-description text-[0.88rem] md:text-[0.92rem] text-t2 leading-relaxed">
         {lang === "es" && hero.descriptionEs ? hero.descriptionEs : hero.description}
