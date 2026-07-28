@@ -2,12 +2,6 @@
   "name": "portfolio",
   "type": "module",
   "version": "0.0.1",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "sharp"
-    ]
-  },
   "engines": {
     "node": ">=22.12.0"
   },
@@ -21,9 +15,8 @@
     "@astrojs/sitemap": "^3.7.2",
     "@lucide/astro": "^1.16.0",
     "@tailwindcss/vite": "^4.3.0",
-    "astro": "^6.4.8",
+    "astro": "^7.1.5",
     "motion": "^12.38.0",
     "tailwindcss": "^4.3.0"
-  },
-  "packageManager": "pnpm@11.1.2"
+  }
 }

@@ -24,6 +24,8 @@ export interface ButtonProps {
   class?: string;
   ariaLabel?: string;
   download?: boolean;
+  "data-tooltip"?: string;
+  "data-copied-text"?: string;
 }
 
 interface Props extends ButtonProps {}
@@ -43,6 +45,8 @@ const {
   class: className = "",
   ariaLabel,
   download = false,
+  "data-tooltip": tooltip,
+  "data-copied-text": copiedText,
 } = Astro.props;
 
 const t = useTranslations(lang);
@@ -85,7 +89,7 @@ const iconSizes = {
 };
 
 const primaryClipPath =
-  variant === "primary"
+  variant === "primary" && !copyEmail
     ? "clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)"
     : "";
 const primaryHoverStyle =
@@ -107,6 +111,8 @@ const computedAriaLabel = ariaLabel || label || '';
       class:list={[buttonClasses, "copy-email-btn"]}
       data-copy-email="true"
       data-email={email}
+      data-tooltip={tooltip}
+      data-copied-text={copiedText}
       aria-label={ariaLabel || copyText}
       style={primaryClipPath}
     >
@@ -135,11 +141,9 @@ const computedAriaLabel = ariaLabel || label || '';
   )
 }
 
-<!-- Copy email script (commented out - uncomment to restore)
 <script>
   import "@/scripts/copy-email";
 </script>
--->
 
 <style>
   a[style*="clip-path"],

@@ -55,7 +55,27 @@ const contactInfo = lang === "es"
       <span class="text-o">{t.contact.highlight}</span>
     </h2>
     <div class="mt-4 md:mt-0 flex flex-col gap-3 w-full max-w-xl ml-auto">
-      <ButtonGroup variant="primary" email={email} iconLeft="mail" iconRight="arrow-right" label={t.contact.sendMessage} class="w-full text-[1.1rem] md:text-[1.2rem] py-3" />
+      <div class="flex gap-2 w-full">
+        <ButtonGroup
+          variant="primary"
+          copyEmail={true}
+          email={email}
+          iconLeft="mail"
+          label={t.hero.copyEmail}
+          ariaLabel={lang === "es" ? "Copiar correo electrónico al portapapeles" : "Copy email to clipboard"}
+          data-tooltip={lang === "es" ? "Copiar email" : "Copy Email"}
+          data-copied-text={t.hero.copied}
+          class="copy-email-btn-contact flex-1 text-[1.1rem] md:text-[1.2rem] py-3"
+        />
+        <ButtonGroup
+          variant="primary"
+          email={email}
+          iconLeft="mail"
+          iconRight="arrow-right"
+          label={t.contact.sendMessage}
+          class="flex-1 text-[1.1rem] md:text-[1.2rem] py-3"
+        />
+      </div>
       <div class="flex flex-wrap gap-2 md:gap-2.5 w-full">
         {social.github && (
           <ButtonGroup variant="outline" href={social.github} target="_blank" rel="noopener" iconLeft="github" label="GitHub" ariaLabel={lang === "es" ? "Ver repositorios en GitHub" : "View GitHub repositories"} class="w-full md:flex-1 min-w-0" />
@@ -79,3 +99,138 @@ const contactInfo = lang === "es"
   <!-- Bottom decorative line -->
   <div class="absolute bottom-0 left-12 right-12 h-px bg-line" aria-hidden="true"></div>
 </section>
+
+<style>
+  :global(.copy-email-btn-contact) {
+    position: relative;
+    aspect-ratio: 1;
+    width: 52px;
+    height: 52px;
+    padding: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 52px;
+  }
+
+  :global(.copy-email-btn-contact .email-label) {
+    display: none;
+  }
+
+  :global(.copy-email-btn-contact .icon-mail),
+  :global(.copy-email-btn-contact .icon-check) {
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+  }
+
+  :global(.copy-email-btn-contact.copied) {
+    background: #16a34a !important;
+    box-shadow: 0 0 20px rgba(22, 163, 74, 0.4);
+  }
+
+  :global(.copy-email-btn-contact.copied:hover) {
+    background: #15803d !important;
+  }
+
+  @keyframes iconPopIn {
+    0% {
+      transform: scale(0) rotate(-90deg);
+      opacity: 0;
+    }
+    40% {
+      transform: scale(1.15) rotate(5deg);
+      opacity: 1;
+    }
+    60% {
+      transform: scale(0.95) rotate(-2deg);
+    }
+    75% {
+      transform: scale(1.05) rotate(1deg);
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+
+  :global(.copy-email-tooltip) {
+    position: fixed;
+    transform: translateX(-50%) translateY(0);
+    background: #1a1a1a;
+    color: #e5e5e5;
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 6px 12px;
+    border-radius: 0;
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 9998;
+  }
+
+  :global(.copy-email-tooltip::after) {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #1a1a1a;
+  }
+
+  :global(.copy-email-tooltip.show) {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-4px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.copy-email-btn-contact .icon-mail),
+    :global(.copy-email-btn-contact .icon-check) {
+      transition: opacity 0.15s ease;
+    }
+    :global(.copy-email-tooltip) {
+      transition: opacity 0.15s ease;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  :global(.copy-toast) {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #16a34a;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 30px rgba(22, 163, 74, 0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 9999;
+  }
+
+  :global(.copy-toast.show) {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.copy-toast) {
+      transition: opacity 0.15s ease;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+</style>
