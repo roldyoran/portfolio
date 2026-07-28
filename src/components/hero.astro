@@ -85,14 +85,27 @@ const tagline =
         {lang === "es" && hero.descriptionEs ? hero.descriptionEs : hero.description}
       </p>
       <div class="hero-cta w-full flex flex-col gap-2">
-        <ButtonGroup
-          variant="primary"
-          href={`mailto:${email}`}
-          iconLeft="mail"
-          iconRight="arrow-right"
-          label={t.hero.contactMe}
-          class="w-full text-[1.05rem] md:text-[1.1rem] py-2.5"
-        />
+        <div class="flex gap-2 w-full">
+          <ButtonGroup
+            variant="primary"
+            copyEmail={true}
+            email={email}
+            iconLeft="mail"
+            label={t.hero.copyEmail}
+            ariaLabel={lang === "es" ? "Copiar correo electrónico al portapapeles" : "Copy email to clipboard"}
+            data-tooltip={lang === "es" ? "Copiar email" : "Copy Email"}
+            data-copied-text={t.hero.copied}
+            class="copy-email-btn-hero"
+          />
+          <ButtonGroup
+            variant="primary"
+            href={`mailto:${email}`}
+            iconLeft="mail"
+            iconRight="arrow-right"
+            label={t.hero.contactMe}
+            class="flex-1 text-[1.05rem] md:text-[1.1rem] py-2.5"
+          />
+        </div>
         <div class="flex flex-wrap gap-2 w-full items-center">
           <ButtonGroup
             variant="ghost"
@@ -204,6 +217,31 @@ const tagline =
 </section>
 
 <style is:global>
+  .copy-email-btn-hero {
+    position: relative;
+    aspect-ratio: 1;
+    width: 48px;
+    height: 48px;
+    padding: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 48px;
+  }
+
+  .copy-email-btn-hero .email-label {
+    display: none;
+  }
+
+  .copy-email-btn-hero.copied {
+    background: #16a34a !important;
+    box-shadow: 0 0 20px rgba(22, 163, 74, 0.4);
+  }
+
+  .copy-email-btn-hero.copied:hover {
+    background: #15803d !important;
+  }
+
   .hero-eyebrow {
     --load-order: 1;
   }
