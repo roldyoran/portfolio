@@ -24,98 +24,86 @@ function buildImageSrc(imgPath: string) {
   if (imgPath.startsWith(baseNorm + "/")) return imgPath;
   return `${baseNorm}${imgPath}`;
 }
+
 ---
 
-<section id="projects" class="border-b border-line section-inner">
-  <div
-    class="section-header reveal-hidden flex-col md:flex-row md:items-baseline md:justify-between text-center md:text-left"
-  >
-    <span class="sec-num">[ 03 ]</span>
-    <h2 class="sec-title text-center md:text-left mt-2 md:mt-0 md:ml-4">
-      {t.projects.title}<br />{t.projects.subtitle}
-    </h2>
-    <p class="sec-desc md:text-right mt-2 md:mt-0" set:html={t.projects.desc} />
+<section id="projects" class="section-inner py-10 md:py-14">
+  <div class="reveal-hidden flex flex-wrap items-end justify-between gap-3 mb-6 md:mb-8">
+    <div>
+      <h2 class="font-big text-[clamp(2.2rem,6vw,4rem)] leading-none text-t1">
+        {t.projects.title} {t.projects.subtitle}
+      </h2>
+    </div>
+    <p class="font-mono text-[0.7rem] text-t3 tracking-widest uppercase">
+      {projects.filter((p) => p.demo).length} {lang === "es" ? "en vivo" : "live"} · {projects.length} {lang === "es" ? "destacados" : "featured"}
+    </p>
   </div>
 
-  <div class="flex flex-col">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
     {
       projects.map((project, index) => {
-        const isEven = index % 2 === 0;
+        const topTech = project.tech.slice(0, 4);
+        const primaryHref = project.demo ?? project.github;
+        const primaryLabel = project.demo ? t.projects.liveDemo : t.projects.architecture;
         return (
-          <article
-            class="proj-row reveal-hidden group relative grid grid-cols-1 md:grid-cols-2 border-t border-line overflow-hidden"
-          >
-            <!-- Image side -->
-            <div class={`relative h-52 md:h-auto min-h-65 overflow-hidden ${isEven ? "md:order-1" : "md:order-2"}`}>
+          <article class="bento-card reveal-hidden group flex flex-col !p-0 overflow-hidden">
+            <div class="relative h-44 overflow-hidden">
               {project.image ? (
                 <>
                   <img
                     src={buildImageSrc(project.image)}
                     alt={`${project.name} screenshot`}
-                    class="absolute inset-0 w-full h-full object-cover object-top transition-all duration-700 ease-out group-hover:scale-105"
+                    loading="lazy"
+                    class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                   />
-                  <div class="absolute inset-0 bg-linear-to-t md:bg-linear-to-r from-bg/40 via-bg/20 to-transparent" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-bg2 via-bg2/20 to-transparent" />
                 </>
               ) : (
-                <div class="absolute inset-0 bg-linear-to-br from-bg3 via-bg2 to-o/5" />
+                <div class="absolute inset-0 bg-gradient-to-br from-bg3 via-bg2 to-white/5" />
               )}
+              <div class="absolute top-3 left-3 flex items-center gap-2">
+                <span class="font-mono text-[0.62rem] tracking-widest text-t3 bg-bg/80 backdrop-blur px-2 py-1 rounded-full border border-line">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                {project.demo && (
+                  <span data-tip={lang === "es" ? "Desplegado y respondiendo" : "Deployed and responding"} data-tip-pos="below" class="inline-flex items-center gap-1.5 font-mono text-[0.62rem] tracking-widest uppercase text-green-400 bg-bg/80 backdrop-blur px-2 py-1 rounded-full border border-line">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" aria-hidden="true" />
+                    {lang === "es" ? "En vivo" : "Live"}
+                  </span>
+                )}
+              </div>
             </div>
 
-            <!-- Content side -->
-            <div class={`relative flex flex-col justify-center p-6 md:p-10 lg:p-14 ${isEven ? "md:order-2" : "md:order-1"}`}>
-              <!-- Big number background -->
-              <div
-                class="absolute -bottom-4 md:bottom-auto md:top-1/2 md:-translate-y-1/2 font-big text-[8rem] md:text-[12rem] leading-none text-white/2 select-none pointer-events-none"
-                class:list={[isEven ? "right-2" : "left-2"]}
-                aria-hidden="true"
-              >
-                {String(index + 1).padStart(2, "0")}
-              </div>
-
-              <!-- Title -->
-              <h3 class="proj-name relative mb-4 font-big text-[clamp(1.6rem,5vw,2.8rem)] leading-none tracking-wider text-t1 transition-colors duration-300">
+            <div class="flex flex-col gap-3 p-5 flex-1">
+              <h3 class="font-big text-[1.7rem] leading-none tracking-wide text-t1">
                 {lang === "es" && project.nameEs ? project.nameEs : project.name}
               </h3>
-
-              <!-- Tagline -->
-              <p class="relative mb-5 text-[0.85rem] text-t2/85 leading-[1.65] max-w-lg">
+              <p class="text-[0.85rem] text-t2/90 leading-relaxed">
                 {lang === "es" && project.taglineEs ? project.taglineEs : project.tagline}
               </p>
-
-              <!-- Tech stack as chips -->
-              <div class="relative flex gap-1.5 flex-wrap mb-6">
-                {project.tech.map((techItem) => {
+              <ul class="flex flex-wrap gap-1.5 mt-auto pt-1">
+                {topTech.map((techItem) => {
                   const Icon = techIcons[techItem];
                   return (
-                    <span class="chip inline-flex items-center gap-1.5">
-                      {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-40" /> : null}
+                    <li class="chip inline-flex items-center gap-1.5">
+                      {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-70" /> : null}
                       {techItem}
-                    </span>
+                    </li>
                   );
                 })}
-              </div>
-
-              <!-- Actions -->
-              <div class="relative flex items-center gap-3">
-                {project.demo && (
-                  <div class="relative inline-flex">
-                    <span class="absolute -top-1 -left-0.5 z-10 flex h-2 w-2">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                      <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
-                    </span>
-                    <ButtonGroup
-                      variant="primary"
-                      size="sm"
-                      href={project.demo}
-                      target="_blank"
-                      rel="noopener"
-                      iconRight="external"
-                      label={t.projects.liveDemo}
-                      class="font-bold text-[0.8rem] md:text-[0.85rem]"
-                    />
-                  </div>
-                )}
-                {project.github && (
+              </ul>
+              <div class="flex items-center gap-3 pt-2 border-t border-line mt-1">
+                <ButtonGroup
+                  variant="primary"
+                  size="sm"
+                  href={primaryHref ?? "#"}
+                  target="_blank"
+                  rel="noopener"
+                  iconRight="external"
+                  label={primaryLabel}
+                  class="font-bold"
+                />
+                {project.demo && project.github && (
                   <ButtonGroup
                     variant="ghost"
                     size="sm"
@@ -123,8 +111,9 @@ function buildImageSrc(imgPath: string) {
                     target="_blank"
                     rel="noopener"
                     iconLeft="github"
-                    label="GitHub"
-                    class="font-bold text-[0.8rem] md:text-[0.85rem]"
+                    label={t.projects.readCode}
+                    ariaLabel={lang === "es" ? "Ver código en GitHub" : "View code on GitHub"}
+                    class="code-btn font-bold"
                   />
                 )}
               </div>
@@ -137,31 +126,21 @@ function buildImageSrc(imgPath: string) {
 </section>
 
 <style>
-  .proj-row {
-    transition: background 0.4s ease;
+  .code-btn {
+    transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
   }
 
-  .proj-row:hover {
-    background: rgba(255, 255, 255, 0.01);
-  }
-
-  .proj-row::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.3), transparent);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-
-  .proj-row:hover::after {
-    opacity: 1;
-  }
-
-  .proj-row:hover .proj-name {
+  .code-btn:hover {
+    transform: translateY(-2px);
+    border-color: rgba(249, 115, 22, 0.5);
     color: var(--color-o2);
+    background: rgba(249, 115, 22, 0.07);
+    box-shadow: 0 8px 20px rgba(249, 115, 22, 0.18);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .code-btn:hover {
+      transform: none;
+    }
   }
 </style>
