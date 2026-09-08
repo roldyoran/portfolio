@@ -11,8 +11,8 @@ interface Props {
 const { title = "", lang = "es" } = Astro.props;
 
 const descriptions = {
-  en: "Full Stack & DevOps Engineer - Building high-performance systems from pixel to production",
-  es: "Ingeniero Full Stack & DevOps - Construyendo sistemas de alto rendimiento desde píxel hasta producción",
+  en: "Edgar Alvarez, DevOps & Backend Engineer. APIs, Kubernetes, cloud and AI Harness (Claude Code, OpenCode, open LLMs).",
+  es: "Edgar Alvarez, Ingeniero DevOps & Backend. APIs, Kubernetes, cloud y Harness de IA (Claude Code, OpenCode, LLMs abiertos).",
 };
 
 const origin = Astro.url.origin;
@@ -56,6 +56,7 @@ const hrefLangEn = new URL(`${base}${enPath}`, origin).href;
     <meta property="og:url" content={hrefLangEs} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Edgar Alvarez" />
+    <meta property="og:image" content={new URL(`${base}/og-cover.webp`, origin).href} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -67,10 +68,12 @@ const hrefLangEn = new URL(`${base}${enPath}`, origin).href;
         "@type": "Person",
         "name": "Edgar Rolando Alvarez Rodriguez",
         "url": "https://roldyoran.github.io/portfolio",
-        "jobTitle": "Backend & Cloud Engineer",
+        "jobTitle": "DevOps & Backend Engineer, AI Harness",
+        "telephone": "+502 5549 0300",
+        "knowsAbout": ["Go", "Python", "TypeScript", "Kubernetes", "Docker", "Cloud", "Claude Code", "OpenCode", "Open LLMs", "AI Harness", "AI Automation"],
         "sameAs": [
           "https://github.com/roldyoran",
-          "https://www.linkedin.com/in/edgar-rolando-alvarez-rodriguez-88695839a/"
+          "https://www.linkedin.com/in/roldyoran"
         ],
         "address": {
           "@type": "PostalAddress",
@@ -92,10 +95,11 @@ const hrefLangEn = new URL(`${base}${enPath}`, origin).href;
       Skip to main content
     </a>
 
-    <!-- Grid Overlay -->
+    <!-- Noise texture overlay -->
     <div
-      class="fixed inset-0 pointer-events-none z-0 opacity-35"
-      style="background-image: linear-gradient(var(--color-line) 1px, transparent 1px), linear-gradient(90deg, var(--color-line) 1px, transparent 1px); background-size: 80px 80px;"
+      class="fixed inset-0 pointer-events-none z-0 opacity-[0.11]"
+      style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E&quot;); background-size: 140px 140px;"
+      aria-hidden="true"
     >
     </div>
 
