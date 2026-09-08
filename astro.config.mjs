@@ -65,7 +65,7 @@ export default defineConfig({
       },
     },
     {
-      name: 'Space Mono',
+      name: 'Geist Mono',
       cssVariable: '--font-mono',
       provider: fontProviders.local(),
       options: {
@@ -73,22 +73,22 @@ export default defineConfig({
           {
             weight: 400,
             style: 'normal',
-            src: ['./src/assets/fonts/SpaceMono-Regular.woff2'],
+            src: ['./src/assets/fonts/GeistMono-Regular.woff2'],
+          },
+          {
+            weight: 500,
+            style: 'normal',
+            src: ['./src/assets/fonts/GeistMono-Medium.woff2'],
           },
           {
             weight: 700,
             style: 'normal',
-            src: ['./src/assets/fonts/SpaceMono-Bold.woff2'],
+            src: ['./src/assets/fonts/GeistMono-Bold.woff2'],
           },
           {
-            weight: 400,
-            style: 'italic',
-            src: ['./src/assets/fonts/SpaceMono-Italic.woff2'],
-          },
-          {
-            weight: 700,
-            style: 'italic',
-            src: ['./src/assets/fonts/SpaceMono-BoldItalic.woff2'],
+            weight: 900,
+            style: 'normal',
+            src: ['./src/assets/fonts/GeistMono-Black.woff2'],
           },
         ],
       },
