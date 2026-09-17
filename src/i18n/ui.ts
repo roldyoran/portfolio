@@ -8,7 +8,7 @@ export const ui = {
       projects: "Projects",
       about: "About",
       contact: "Contact",
-      hireMe: "Hire Me",
+      hireMe: "Contact Me",
     },
     topbar: {
       availableForHire: "Available for hire",
@@ -87,7 +87,7 @@ export const ui = {
       projects: "Proyectos",
       about: "Sobre mí",
       contact: "Contacto",
-      hireMe: "Contrátame",
+      hireMe: "Contáctame",
     },
     topbar: {
       availableForHire: "Disponible para trabajar",
