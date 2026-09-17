@@ -50,7 +50,7 @@ const ArrowIcon = bentoIcons.arrowUpRight;
             <p class="mt-3 text-[0.9rem] text-t2/90 leading-relaxed max-w-2xl">
               {lang === "es" && exp.descriptionEs ? exp.descriptionEs : exp.description}
             </p>
-            <ul class="flex flex-wrap gap-1.5 mt-4">
+            <ul class="flex flex-wrap gap-x-1.5 gap-y-2 mt-4">
               {exp.tech.slice(0, 5).map((techItem) => {
                 const Icon = techIcons[techItem];
                 return (

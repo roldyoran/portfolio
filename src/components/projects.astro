@@ -81,7 +81,7 @@ function buildImageSrc(imgPath: string) {
               <p class="text-[0.85rem] text-t2/90 leading-relaxed">
                 {lang === "es" && project.taglineEs ? project.taglineEs : project.tagline}
               </p>
-              <ul class="flex flex-wrap gap-1.5 mt-auto pt-1">
+              <ul class="flex flex-wrap gap-x-1.5 gap-y-2 mt-auto pt-1">
                 {topTech.map((techItem) => {
                   const Icon = techIcons[techItem];
                   return (

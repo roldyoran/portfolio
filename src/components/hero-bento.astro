@@ -163,7 +163,7 @@ const AiIcon = bentoIcons.ai;
   <article class="bento-card hero-anim md:col-span-4 flex flex-col gap-4">
     <span class="icon-chip" data-tip={lang === "es" ? "APIs con Go, Python y TypeScript" : "APIs in Go, Python and TypeScript"}><BackendIcon size={18} /></span>
     <h2 class="font-mono text-[0.72rem] tracking-[0.16em] uppercase text-t1">{t.hero.cards.backend}</h2>
-    <ul class="flex flex-wrap gap-1.5">
+    <ul class="flex flex-wrap gap-x-1.5 gap-y-2">
       {backendStack.map((name) => {
         const Icon = techIcons[name];
         return (
@@ -180,7 +180,7 @@ const AiIcon = bentoIcons.ai;
   <article class="bento-card hero-anim md:col-span-4 flex flex-col gap-4">
     <span class="icon-chip" data-tip="Kubernetes · Docker · Linux · GCP"><CloudIcon size={18} /></span>
     <h2 class="font-mono text-[0.72rem] tracking-[0.16em] uppercase text-t1">{t.hero.cards.cloud}</h2>
-    <ul class="flex flex-wrap gap-1.5">
+    <ul class="flex flex-wrap gap-x-1.5 gap-y-2">
       {cloudStack.map((name) => {
         const Icon = techIcons[name];
         return (
@@ -197,7 +197,7 @@ const AiIcon = bentoIcons.ai;
   <article class="bento-card bento-card-accent hero-anim md:col-span-4 flex flex-col gap-4">
     <span class="icon-chip icon-chip-accent" data-tip={lang === "es" ? "Claude Code, OpenCode y LLMs abiertos" : "Claude Code, OpenCode and open LLMs"}><AiIcon size={18} /></span>
     <h2 class="font-mono text-[0.72rem] tracking-[0.16em] uppercase text-t1">{t.hero.cards.ai}</h2>
-    <ul class="flex flex-wrap gap-1.5">
+    <ul class="flex flex-wrap gap-x-1.5 gap-y-2">
       {aiStack.map((name) => {
         const Icon = techIcons[name];
         return (
