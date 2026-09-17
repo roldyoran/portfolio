@@ -2,17 +2,19 @@
 import "../styles/global.css";
 import type { Lang } from "../i18n/config";
 import { Font } from "astro:assets";
+import config from "@/data/content";
 
 interface Props {
   title?: string;
+  description?: string;
   lang?: Lang;
 }
 
-const { title = "", lang = "es" } = Astro.props;
+const { title = "", description, lang = "es" } = Astro.props;
 
 const descriptions = {
-  en: "Full Stack & DevOps Engineer - Building high-performance systems from pixel to production",
-  es: "Ingeniero Full Stack & DevOps - Construyendo sistemas de alto rendimiento desde píxel hasta producción",
+  en: "Portfolio of Edgar Alvarez, DevOps and backend engineer based in Guatemala. Go, Python and TypeScript APIs, Kubernetes, cloud and AI harness in production.",
+  es: "Portafolio de Edgar Alvarez, ingeniero DevOps y backend en Guatemala. APIs en Go, Python y TypeScript, Kubernetes, cloud y harness de IA en producción.",
 };
 
 const origin = Astro.url.origin;
@@ -30,6 +32,85 @@ const enPath = pathWithoutBase.startsWith("/en")
   ? pathWithoutBase
   : `/en${pathWithoutBase === "/" ? "" : pathWithoutBase}`;
 const hrefLangEn = new URL(`${base}${enPath}`, origin).href;
+
+const canonicalUrl = new URL(pathname, origin).href;
+const siteUrl = new URL(`${base}/`, origin).href;
+const ogImage = new URL(`${base}/og-cover.png`, origin).href;
+const metaDescription = description ?? descriptions[lang];
+
+const locale = lang === "es" ? "es_ES" : "en_US";
+const localeAlt = lang === "es" ? "en_US" : "es_ES";
+const ogImageAlt =
+  lang === "es"
+    ? "Edgar Alvarez, ingeniero DevOps y backend"
+    : "Edgar Alvarez, DevOps and backend engineer";
+
+const sameAs = [config.social.github, config.social.linkedin].filter(
+  (url): url is string => Boolean(url) && url !== "#"
+);
+
+const jsonLd = JSON.stringify(
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${siteUrl}#website`,
+        url: siteUrl,
+        name: "Edgar Alvarez — Portfolio",
+        inLanguage: ["es", "en"],
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": `${canonicalUrl}#profilepage`,
+        url: canonicalUrl,
+        name: title,
+        description: metaDescription,
+        inLanguage: lang,
+        isPartOf: { "@id": `${siteUrl}#website` },
+        about: { "@id": `${siteUrl}#person` },
+      },
+      {
+        "@type": "Person",
+        "@id": `${siteUrl}#person`,
+        name: config.name,
+        jobTitle: lang === "es" ? config.titleEs ?? config.title : config.title,
+        description: metaDescription,
+        url: siteUrl,
+        image: ogImage,
+        email: `mailto:${config.email}`,
+        sameAs,
+        knowsAbout: [
+          "Go",
+          "Python",
+          "TypeScript",
+          "Kubernetes",
+          "Docker",
+          "Cloud",
+          "CI/CD",
+          "Claude Code",
+          "OpenCode",
+          "Open LLMs",
+          "AI Harness",
+          "AI Automation",
+        ],
+        knowsLanguage: ["es", "en"],
+        alumniOf: {
+          "@type": "CollegeOrUniversity",
+          name: "Universidad de San Carlos de Guatemala (USAC)",
+        },
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "San Miguel Petapa",
+          addressRegion: "Guatemala",
+          addressCountry: "GT",
+        },
+      },
+    ],
+  },
+  null,
+  2
+);
 ---
 
 <!doctype html>
@@ -40,45 +121,45 @@ const hrefLangEn = new URL(`${base}${enPath}`, origin).href;
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
     <link rel="icon" href={`${base}/favicon.ico`} />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={descriptions[lang]} />
+    <meta name="author" content="Edgar Alvarez" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="description" content={metaDescription} />
     <title>{title}</title>
 
-    <link rel="canonical" href={hrefLangEs} />
-    <link rel="alternate" hreflang="en" href={hrefLangEn} />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang="es" href={hrefLangEs} />
+    <link rel="alternate" hreflang="en" href={hrefLangEn} />
+    <link rel="alternate" hreflang="x-default" href={hrefLangEs} />
+    <link rel="sitemap" type="application/xml" href={`${base}/sitemap-index.xml`} />
 
     <Font cssVariable="--font-big" preload />
     <Font cssVariable="--font-sans" preload />
     <Font cssVariable="--font-mono" preload />
 
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={descriptions[lang]} />
-    <meta property="og:url" content={hrefLangEs} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Edgar Alvarez" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:locale" content={locale} />
+    <meta property="og:locale:alternate" content={localeAlt} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={descriptions[lang]} />
+    <meta name="twitter:description" content={metaDescription} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Edgar Rolando Alvarez Rodriguez",
-        "url": "https://roldyoran.github.io/portfolio",
-        "jobTitle": "Backend & Cloud Engineer",
-        "sameAs": [
-          "https://github.com/roldyoran",
-          "https://www.linkedin.com/in/edgar-rolando-alvarez-rodriguez-88695839a/"
-        ],
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "San Miguel Petapa",
-          "addressCountry": "GT"
-        }
-      }
-    </script>
+    <script type="application/ld+json" set:html={jsonLd} />
 
     <script is:inline>
       document.documentElement.classList.add("motion-ready");
@@ -91,13 +172,6 @@ const hrefLangEn = new URL(`${base}${enPath}`, origin).href;
     >
       Skip to main content
     </a>
-
-    <!-- Grid Overlay -->
-    <div
-      class="fixed inset-0 pointer-events-none z-0 opacity-35"
-      style="background-image: linear-gradient(var(--color-line) 1px, transparent 1px), linear-gradient(90deg, var(--color-line) 1px, transparent 1px); background-size: 80px 80px;"
-    >
-    </div>
 
     <slot />
   </body>

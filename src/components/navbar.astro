@@ -20,30 +20,33 @@ const navItems = [
 ];
 ---
 
-<nav id="sidenav" class="fixed top-0 left-0 right-0 h-15 flex items-center justify-between px-6 md:px-12 lg:px-24 border-b border-line z-100 bg-bg2/95 backdrop-blur-md hidden lg:flex" aria-label="Main navigation">
-  <div class="flex items-center gap-1">
+<nav id="sidenav" class="fixed top-3 md:top-4 left-1/2 -translate-x-1/2 z-100 hidden lg:block w-[min(1060px,calc(100%-3rem))]" aria-label={lang === "es" ? "Navegación principal" : "Main navigation"}>
+  <div class="flex items-center justify-between gap-6 rounded-full border border-line bg-bg2/90 backdrop-blur-md pl-5 pr-2 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.45)]">
+  <div class="flex items-center gap-2 min-w-0">
     <a href="#home" class="nav-logo">@roldyoran</a>
     <div id="scroll-pct" class="nav-counter font-mono text-[0.72rem] text-t3 tracking-widest">00%</div>
   </div>
 
-  <div class="nav-items flex gap-8 items-center">
+  <div class="nav-items flex gap-7 items-center min-w-0">
     {navItems.map((item) => (
       <a href={item.href} class="nav-item" aria-current={item.href === '#home' ? 'true' : 'false'}>{item.label}</a>
     ))}
-    <a href="https://github.com/roldyoran" target="_blank" rel="noopener noreferrer" class="nav-icon">
+    <a href="https://github.com/roldyoran" target="_blank" rel="noopener noreferrer" class="nav-icon" aria-label="GitHub" data-tip="GitHub · @roldyoran" data-tip-pos="below">
       <GithubIcon size={16} />
     </a>
+    <a href="#contact" class="nav-hire">{t.nav.hireMe}</a>
   </div>
 
   <LanguageSwitcher currentLang={lang} />
+  </div>
   </nav>
 
 <style>
   .nav-logo {
     font-family: var(--font-mono);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     letter-spacing: 0.06em;
-    color: var(--color-o);
+    color: var(--color-t1);
     text-decoration: none;
     font-weight: 700;
   }
@@ -72,7 +75,7 @@ const navItems = [
   }
 
   .nav-item:hover {
-    color: var(--color-o2);
+    color: var(--color-t1);
   }
 
   .nav-item:hover::after {
@@ -81,7 +84,7 @@ const navItems = [
   }
 
   .nav-item.active {
-    color: var(--color-o2);
+    color: var(--color-t1);
   }
 
   .nav-item.active::after {
@@ -102,7 +105,28 @@ const navItems = [
   }
 
   .nav-icon:hover {
-    color: var(--color-o2);
+    color: var(--color-t1);
+  }
+
+  .nav-hire {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #000;
+    background: var(--color-o);
+    text-decoration: none;
+    padding: 9px 18px;
+    border-radius: 999px;
+    transition: background 0.2s, transform 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-hire:hover {
+    background: var(--color-o-hover);
+    color: #fff;
+    transform: translateY(-1px);
   }
 </style>
 

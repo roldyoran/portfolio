@@ -1,0 +1,218 @@
+---
+import ButtonGroup from "@/components/button-group.astro";
+import type { Hero } from "@/data/types";
+import type { Lang } from "@/i18n/config";
+import { useTranslations } from "@/i18n/ui";
+import { techIcons } from "@/data/content";
+import { bentoIcons, aiMonogram } from "@/data/icon-map";
+
+interface Props {
+  hero: Hero;
+  email?: string;
+  lang: Lang;
+  github?: string;
+  linkedin?: string;
+  githubStats?: {
+    repos: number;
+    followers: number;
+    contributions: number;
+    yearsExp: number;
+  };
+}
+
+const { hero, email = "#", lang, github = "#", linkedin = "#", githubStats } = Astro.props;
+const t = useTranslations(lang);
+const base = import.meta.env.BASE_URL || "/";
+const baseUrl = base.endsWith("/") ? base : `${base}/`;
+const cvUrl = `${baseUrl}cv/CV-Edgar-Alvarez-estudiante-ingenieria-en-sistemas.pdf`;
+
+const yearsCount = githubStats?.yearsExp ?? (parseInt(hero.years, 10) || 0);
+const reposCount = githubStats?.repos || 0;
+const contributionsCount = githubStats?.contributions || 0;
+const followersCount = githubStats?.followers || 0;
+
+const tagline =
+  lang === "es" && hero.taglineEs ? hero.taglineEs : hero.tagline;
+
+const backendStack = ["Go", "Python", "TypeScript", "Hono"];
+const cloudStack = ["Kubernetes", "Docker", "Linux", "GCP"];
+const aiStack = ["Claude Code", "OpenCode", "Pi", "AI Harness"];
+
+const BackendIcon = bentoIcons.backend;
+const CloudIcon = bentoIcons.cloud;
+const AiIcon = bentoIcons.ai;
+---
+
+<div class="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-4">
+  <!-- A · Identity, una sola card en dos columnas como el original -->
+  <article class="bento-card hero-anim md:col-span-12 flex flex-col gap-6 md:p-8">
+    <div class="grid gap-6 lg:grid-cols-[38%_1fr] lg:gap-10 lg:items-center">
+      <div>
+        <h1 class="font-big text-[clamp(52px,9vw,104px)] leading-[0.9] tracking-[-0.02em] text-t1">
+          {hero.namePrimary} <span class="block">{hero.nameAccent}.</span>
+        </h1>
+        <p class="mt-3 font-mono text-[0.82rem] text-t2 leading-7 border-l-2 border-line pl-4" set:html={tagline} />
+      </div>
+
+      <div class="flex flex-col justify-center gap-4">
+        <span class="inline-flex w-fit items-center gap-2 font-mono text-[0.65rem] tracking-widest uppercase border border-line bg-white/[0.03] text-t2 px-3 py-1.5 rounded-full">
+          <span class="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_6px_#22c55e] animate-pulse" aria-hidden="true"></span>
+          {t.hero.availability}
+          <span class="text-t3 tabular-nums" data-clock>--:--</span>
+        </span>
+        <p class="text-[0.88rem] md:text-[0.92rem] text-t2/90 leading-relaxed max-w-2xl">
+          {lang === "es" && hero.descriptionEs ? hero.descriptionEs : hero.description}
+        </p>
+        <div class="flex flex-col gap-2">
+          <div class="flex gap-2">
+            <ButtonGroup
+              variant="primary"
+              href={`mailto:${email}`}
+              iconLeft="mail"
+              iconRight="arrow-right"
+              label={t.hero.contactMe}
+              ariaLabel={lang === "es" ? "Enviar correo electrónico" : "Send email"}
+              class="justify-center flex-1 text-[0.95rem] md:text-[1rem] py-3"
+            />
+            <ButtonGroup
+              variant="ghost"
+              copyEmail={true}
+              email={email}
+              iconLeft="mail"
+              label={t.hero.copyEmail}
+              ariaLabel={lang === "es" ? "Copiar correo electrónico al portapapeles" : "Copy email to clipboard"}
+              data-tooltip={lang === "es" ? "Copiar email" : "Copy Email"}
+              data-copied-text={t.hero.copied}
+              class="copy-email-btn-hero"
+            />
+          </div>
+          <div class="grid grid-cols-1 min-[480px]:grid-cols-3 gap-2">
+          <ButtonGroup
+            variant="ghost"
+            href={linkedin}
+            target="_blank"
+            rel="noopener"
+            iconLeft="linkedin"
+            label={t.hero.linkedin}
+            ariaLabel={lang === "es" ? "Conectar en LinkedIn" : "Connect on LinkedIn"}
+            class="justify-center w-full text-[0.72rem] py-3"
+          />
+          <ButtonGroup
+            variant="ghost"
+            href={github}
+            target="_blank"
+            rel="noopener"
+            iconLeft="github"
+            label={t.hero.github}
+            ariaLabel={lang === "es" ? "Ver perfil de GitHub" : "View GitHub profile"}
+            class="justify-center w-full text-[0.72rem] py-3"
+          />
+          <a
+            href={cvUrl}
+            data-download-cv
+            data-tip={t.hero.downloadCV}
+            class="inline-flex items-center justify-center gap-2 font-mono font-bold uppercase text-decoration-none transition-all duration-200 cursor-pointer bg-transparent text-t2 border border-line hover:border-white/25 hover:text-t1 text-[0.72rem] py-3 px-4 w-full"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              ><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline
+                points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"
+              ></line></svg
+            >
+            {t.hero.downloadCV}
+          </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <dl class="grid grid-cols-2 md:grid-cols-4 gap-3 border-t border-line pt-5">
+      <div>
+        <dt class="sr-only">{t.hero.contributions}</dt>
+        <dd class="font-big text-[1.6rem] md:text-[1.9rem] leading-none text-t1"><span class="stat-number" data-count={contributionsCount} data-suffix="+">0</span></dd>
+        <dd class="bento-label mt-1">{t.hero.contributions}</dd>
+      </div>
+      <div>
+        <dt class="sr-only">{t.hero.productsShipped}</dt>
+        <dd class="font-big text-[1.6rem] md:text-[1.9rem] leading-none text-t1"><span class="stat-number" data-count={reposCount}>0</span></dd>
+        <dd class="bento-label mt-1">{t.hero.productsShipped}</dd>
+      </div>
+      <div>
+        <dt class="sr-only">{t.hero.followers}</dt>
+        <dd class="font-big text-[1.6rem] md:text-[1.9rem] leading-none text-t1"><span class="stat-number" data-count={followersCount}>0</span></dd>
+        <dd class="bento-label mt-1">{t.hero.followers}</dd>
+      </div>
+      <div>
+        <dt class="sr-only">{t.hero.yearsExp}</dt>
+        <dd class="font-big text-[1.6rem] md:text-[1.9rem] leading-none text-t1"><span class="stat-number" data-count={yearsCount} data-suffix="+">0</span></dd>
+        <dd class="bento-label mt-1">{t.hero.yearsExp}</dd>
+      </div>
+    </dl>
+  </article>
+
+  <!-- B · Backend -->
+  <article class="bento-card hero-anim md:col-span-4 flex flex-col gap-4">
+    <span class="icon-chip" data-tip={lang === "es" ? "APIs con Go, Python y TypeScript" : "APIs in Go, Python and TypeScript"}><BackendIcon size={18} /></span>
+    <h2 class="font-mono text-[0.72rem] tracking-[0.16em] uppercase text-t1">{t.hero.cards.backend}</h2>
+    <ul class="flex flex-wrap gap-x-1.5 gap-y-2">
+      {backendStack.map((name) => {
+        const Icon = techIcons[name];
+        return (
+          <li class="chip inline-flex items-center gap-1.5">
+            {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-70" /> : null}
+            {name}
+          </li>
+        );
+      })}
+    </ul>
+  </article>
+
+  <!-- C · Cloud -->
+  <article class="bento-card hero-anim md:col-span-4 flex flex-col gap-4">
+    <span class="icon-chip" data-tip="Kubernetes · Docker · Linux · GCP"><CloudIcon size={18} /></span>
+    <h2 class="font-mono text-[0.72rem] tracking-[0.16em] uppercase text-t1">{t.hero.cards.cloud}</h2>
+    <ul class="flex flex-wrap gap-x-1.5 gap-y-2">
+      {cloudStack.map((name) => {
+        const Icon = techIcons[name];
+        return (
+          <li class="chip inline-flex items-center gap-1.5">
+            {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-70" /> : null}
+            {name}
+          </li>
+        );
+      })}
+    </ul>
+  </article>
+
+  <!-- D · AI (accent) -->
+  <article class="bento-card bento-card-accent hero-anim md:col-span-4 flex flex-col gap-4">
+    <span class="icon-chip icon-chip-accent" data-tip={lang === "es" ? "Claude Code, OpenCode y LLMs abiertos" : "Claude Code, OpenCode and open LLMs"}><AiIcon size={18} /></span>
+    <h2 class="font-mono text-[0.72rem] tracking-[0.16em] uppercase text-t1">{t.hero.cards.ai}</h2>
+    <ul class="flex flex-wrap gap-x-1.5 gap-y-2">
+      {aiStack.map((name) => {
+        const Icon = techIcons[name];
+        return (
+          <li class="chip inline-flex items-center gap-1.5">
+            {Icon ? (
+              <Icon size={14} class="block h-3.5 w-3.5" />
+            ) : (
+              <span class="w-4 h-4 rounded bg-white/10 text-[0.6rem] flex items-center justify-center text-t1 font-mono">
+                {aiMonogram(name)}
+              </span>
+            )}
+            {name}
+          </li>
+        );
+      })}
+    </ul>
+  </article>
+</div>

@@ -87,7 +87,7 @@ const { items, icons, label = "Technologies", duration = 20, direction = "left" 
 
 <style>
   /* ============================================================
-     Marquee — bucle infinito 100% CSS.
+     Marquee, bucle infinito 100% CSS.
      La clave: cada .marquee__group ocupa exactamente 25% del ancho
      del track (que tiene el cuádruple de contenido). Animamos de 0% a
      -25%, así el segundo grupo queda pixel-perfect donde empezó el
@@ -176,8 +176,9 @@ const { items, icons, label = "Technologies", duration = 20, direction = "left" 
   }
 
   .marquee__dot {
-    color: var(--color-o, #ff6b00);
+    color: var(--color-t3, #8a8a8a);
     margin-inline: 0.5rem;
+    opacity: 0.6;
   }
 
   @keyframes marquee-scroll {
