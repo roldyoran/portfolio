@@ -44,6 +44,14 @@ import ClaudeIcon from "@/components/icons/tech/claude-ai.astro";
 import JavascriptIcon from "@/components/icons/tech/javascript.astro";
 import RustIcon from "@/components/icons/tech/rust.astro";
 import OpenaiIcon from "@/components/icons/tech/openai.astro";
+import JavaIcon from "@/components/icons/tech/java.astro";
+import MysqlIcon from "@/components/icons/tech/mysql.astro";
+import OpenCodeIcon from "@/components/icons/tech/opencode.astro";
+import CloudflareIcon from "@/components/icons/tech/cloudflare.astro";
+import OllamaIcon from "@/components/icons/tech/ollama.astro";
+import PiIcon from "@/components/icons/tech/pi.astro";
+import OhMyPiIcon from "@/components/icons/tech/oh-my-pi.astro";
+import AiHarnessIcon from "@/components/icons/tech/ai-harness.astro";
 
 /** Union of keys used by skills, marquee labels, and About */
 const techIcons: Record<string, any> = {
@@ -52,8 +60,10 @@ const techIcons: Record<string, any> = {
   TypeScript: TypescriptIcon,
   JavaScript: JavascriptIcon,
   Python: PythonIcon,
+  Java: JavaIcon,
   SQL: PostgresqlIcon,
   PostgreSQL: PostgresqlIcon,
+  MySQL: MysqlIcon,
   React: ReactIcon,
   "Node.js": NodejsIcon,
   Astro: AstroIcon,
@@ -80,7 +90,16 @@ const techIcons: Record<string, any> = {
   GCP: GcpIcon,
   "Google Cloud": GcpIcon,
   "Cloudflare Workers": CloudflareWorkersIcon,
+  Cloudflare: CloudflareIcon,
+  "Cloudflare D1": CloudflareIcon,
+  "Google Kubernetes Engine": KubernetesIcon,
   "Claude Code": ClaudeIcon,
+  Opus: ClaudeIcon,
+  OpenCode: OpenCodeIcon,
+  Pi: PiIcon,
+  "Oh-my-pi": OhMyPiIcon,
+  "AI Harness": AiHarnessIcon,
+  "Open LLMs": OllamaIcon,
   GPT: OpenaiIcon,
 };
 
