@@ -431,9 +431,9 @@
   /* Contact copy button: icon-only square, same height as primary CTA */
   .copy-email-btn-contact {
     position: relative;
-    width: 46px;
-    flex: 0 0 46px;
-    min-height: 44px;
+    width: 56px;
+    flex: 0 0 56px;
+    min-height: 56px;
     padding: 0 !important;
     display: inline-flex;
     align-items: center;

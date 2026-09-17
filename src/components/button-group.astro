@@ -7,7 +7,7 @@ import type { Lang } from "@/i18n/config";
 import { useTranslations } from "@/i18n/ui";
 
 export type ButtonVariant = "primary" | "ghost" | "outline";
-export type ButtonSize = "sm" | "md";
+export type ButtonSize = "sm" | "md" | "lg";
 
 export interface ButtonProps {
   variant?: ButtonVariant;
@@ -80,12 +80,14 @@ const sizeStyles = {
   xs: "text-[0.74rem] py-2 px-[14px]",
   sm: "text-[0.7rem] py-2 px-3.5",
   md: "text-[0.9rem] py-3 px-[26px]",
+  lg: "text-[1rem] py-4 px-[34px] min-h-[56px]",
 };
 
 const iconSizes = {
   xs: 16,
   sm: 14,
   md: 18,
+  lg: 20,
 };
 
 const primaryClipPath =
