@@ -1,5 +1,5 @@
 /**
- * El marquee se anima 100% por CSS (@keyframes) — ver Marquee.astro.
+ * El marquee se anima 100% por CSS (@keyframes), ver Marquee.astro.
  * Esto es deliberado: una animación CSS de transform corre en el
  * compositor del navegador, no se desincroniza con resize, no requiere
  * medir anchos en JS, y no se rompe si este script falla en cargar.

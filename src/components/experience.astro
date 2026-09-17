@@ -2,7 +2,7 @@
 import type { Lang } from "@/i18n/config";
 import { useTranslations } from "@/i18n/ui";
 import { techIcons } from "@/data/content";
-import { ExternalLink } from "@lucide/astro";
+import { bentoIcons } from "@/data/icon-map";
 
 interface Experience {
   id: number;
@@ -24,104 +24,62 @@ interface Props {
 
 const { experience, lang } = Astro.props;
 const t = useTranslations(lang);
+const WorkIcon = bentoIcons.work;
+const ArrowIcon = bentoIcons.arrowUpRight;
 ---
 
-<section id="experience" class="border-b border-line section-inner">
-  <div
-    class="section-header reveal-hidden flex-col md:flex-row md:items-baseline md:justify-between text-center md:text-left"
-  >
-    <span class="sec-num">[ 02 ]</span>
-    <h2 class="sec-title text-center md:text-left mt-2 md:mt-0 md:ml-4">
-      {t.experience.title}<br />{t.experience.subtitle}
+<section id="experience" class="section-inner py-10 md:py-14">
+  <div class="reveal-hidden mb-6 md:mb-8">
+    <h2 class="font-big text-[clamp(2.2rem,6vw,4rem)] leading-none text-t1">
+      {t.experience.title} {t.experience.subtitle}
     </h2>
-    <p class="sec-desc md:text-right mt-2 md:mt-0" set:html={t.experience.desc} />
   </div>
 
-  {
-    experience.map((exp, index) => (
-      <div class="reveal-hidden exp-row relative px-4 md:px-12 py-6 md:py-8 border-t border-line overflow-hidden">
-        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-2 md:gap-8">
-          <div class="flex items-start gap-3 md:gap-4 md:min-w-[280px] lg:min-w-[320px]">
-            <div class="flex-1 min-w-0">
-              <div class="font-big text-[1.6rem] md:text-[2rem] leading-none tracking-wider">
-                {lang === "es" && exp.roleEs ? exp.roleEs : exp.role}
-              </div>
-              <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1.5">
-                <span class="text-[0.95rem] font-semibold text-t1">{exp.company}</span>
-                <span class="text-t3 text-[0.7rem]">·</span>
-                <span class="font-mono text-[0.78rem] text-o2 tracking-wider">{exp.location}</span>
-              </div>
-            </div>
+  <div class="grid grid-cols-1 gap-3 md:gap-4">
+    {
+      experience.map((exp) => (
+        <article class="bento-card reveal-hidden flex flex-col md:flex-row gap-5 md:gap-8 md:items-start">
+          <span class="icon-chip"><WorkIcon size={18} /></span>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-big text-[1.7rem] md:text-[2rem] leading-none tracking-wide text-t1">
+              {lang === "es" && exp.roleEs ? exp.roleEs : exp.role}
+            </h3>
+            <p class="mt-1.5 font-mono text-[0.72rem] tracking-wider text-t2">
+              {exp.company} · {exp.location}
+            </p>
+            <p class="mt-3 text-[0.9rem] text-t2/90 leading-relaxed max-w-2xl">
+              {lang === "es" && exp.descriptionEs ? exp.descriptionEs : exp.description}
+            </p>
+            <ul class="flex flex-wrap gap-x-1.5 gap-y-2 mt-4">
+              {exp.tech.slice(0, 5).map((techItem) => {
+                const Icon = techIcons[techItem];
+                return (
+                  <li class="chip inline-flex items-center gap-1.5">
+                    {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-70" /> : null}
+                    {techItem}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
-
-          <div class="flex flex-col md:items-end md:shrink-0 md:pt-0.5 gap-1.5">
-            <span class="font-mono text-[0.78rem] text-t3 tracking-wider whitespace-nowrap">
-              {lang === "es" && exp.period.startEs ? exp.period.startEs : exp.period.start} —{" "}
+          <div class="flex md:flex-col items-center md:items-end gap-2 md:text-right shrink-0">
+            <span class="font-mono text-[0.7rem] text-t3 tracking-widest whitespace-nowrap">
+              {lang === "es" && exp.period.startEs ? exp.period.startEs : exp.period.start} ·{" "}
               {lang === "es" && exp.period.endEs ? exp.period.endEs : exp.period.end}
             </span>
-            {exp.link ? (
+            {exp.link && (
               <a
                 href={exp.link}
                 target="_blank"
                 rel="noopener"
-                class="exp-docs-link inline-flex items-center gap-1 font-mono text-[0.7rem] text-t3 tracking-wider hover:text-o transition-colors duration-200"
+                class="inline-flex items-center gap-1 font-mono text-[0.68rem] tracking-widest uppercase text-t3 hover:text-t1 transition-colors"
               >
-                <ExternalLink size={12} />
-                <span>{t.experience.docs}</span>
+                {t.experience.docs} <ArrowIcon size={13} />
               </a>
-            ) : null}
+            )}
           </div>
-        </div>
-
-        <div class="mt-3 md:mt-4 ">
-          <p class="text-[0.92rem] md:text-[0.95rem] text-t2 leading-relaxed">
-            {lang === "es" && exp.descriptionEs ? exp.descriptionEs : exp.description}
-          </p>
-          <div class="flex gap-1.5 flex-wrap mt-2.5">
-            {exp.tech.map((techItem) => {
-              const Icon = techIcons[techItem];
-              return (
-                <span class="chip inline-flex items-center gap-1.5">
-                  {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-40" /> : null}
-                  {techItem}
-                </span>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    ))
-  }
+        </article>
+      ))
+    }
+  </div>
 </section>
-
-<style>
-  .exp-row {
-    transition: background 0.5s ease;
-  }
-
-  .exp-row::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 0;
-    background: linear-gradient(to right, rgba(249, 115, 22, 0.1), transparent);
-    transition: width 0.7s ease;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .exp-row:hover::before {
-    width: 100%;
-  }
-
-  .exp-row:hover {
-    background: var(--color-bg2);
-  }
-
-  .exp-docs-link {
-    position: relative;
-    z-index: 20;
-  }
-</style>

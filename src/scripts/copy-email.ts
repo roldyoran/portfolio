@@ -58,7 +58,7 @@ function initCopyEmail() {
       iconCheck.style.display = "none";
     }
 
-    createTooltip(btn);
+    const tip = createTooltip(btn);
 
     btn.addEventListener("click", async () => {
       const email = btn.dataset.email;
@@ -87,7 +87,6 @@ function initCopyEmail() {
       const copiedText = btn.getAttribute("data-copied-text") || "Copied!";
       showToast(copiedText);
 
-      const tip = document.querySelector<HTMLElement>(".copy-email-tooltip");
       if (tip) {
         tip.textContent = copiedText;
         tip.classList.add("show");

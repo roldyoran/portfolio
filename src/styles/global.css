@@ -14,7 +14,7 @@
   --color-t2: rgba(245,243,239,0.92);
   --color-t3: rgba(245,243,239,0.8);
 
-  --font-mono: 'Space Mono', monospace;
+  --font-mono: 'Geist Mono', monospace;
   --font-sans: 'Space Grotesk', sans-serif;
   --font-big: 'Bebas Neue', sans-serif;
 
@@ -102,7 +102,7 @@
   .sec-num {
     font-family: var(--font-mono);
     font-size: 0.68rem;
-    color: var(--color-o);
+    color: var(--color-t3);
     letter-spacing: 0.15em;
     flex-shrink: 0;
   }
@@ -150,9 +150,177 @@
     font-size: 0.65rem;
     letter-spacing: 0.08em;
     padding: 2px 8px;
-    border: 1px solid rgba(249,115,22,0.15);
+    border: 1px solid var(--color-line);
+    color: var(--color-t2);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  /* 60/30/10: metric badges, neutral by default, one accent max per card */
+  .metric-badge {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border: 1px solid var(--color-line);
+    color: var(--color-t2);
+    background: rgba(255, 255, 255, 0.04);
+    white-space: nowrap;
+  }
+
+  .metric-badge-accent {
+    border-color: rgba(249, 115, 22, 0.45);
     color: var(--color-o2);
-    background: rgba(249,115,22,0.03);
+    background: rgba(249, 115, 22, 0.08);
+  }
+
+  /* Bento system, neutral cards, single accent variant */
+  .bento-card {
+    position: relative;
+    background: color-mix(in srgb, var(--color-bg2) 78%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    padding: 1.25rem;
+    overflow: hidden;
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  }
+
+  @media (min-width: 768px) {
+    .bento-card {
+      padding: 1.5rem;
+    }
+  }
+
+  .bento-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.15);
+    background: color-mix(in srgb, var(--color-bg3) 82%, transparent);
+  }
+
+  .bento-card-accent {
+    border-color: rgba(249, 115, 22, 0.4);
+  }
+
+  .bento-card-accent:hover {
+    border-color: rgba(249, 115, 22, 0.65);
+  }
+
+  .icon-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    border: 1px solid var(--color-line);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--color-t2);
+  }
+
+  .icon-chip-accent {
+    border-color: rgba(249, 115, 22, 0.45);
+    background: rgba(249, 115, 22, 0.1);
+    color: var(--color-o2);
+  }
+
+  .bento-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-t3);
+  }
+
+  /* Accessible CSS-only tooltip (no JS, no deps).
+     Usage: <a data-tip="Label" data-tip-pos="below">…</a>
+     Default shows above; use data-tip-pos="below" inside
+     overflow-hidden cards or near the viewport top. */
+  [data-tip] {
+    position: relative;
+  }
+
+  [data-tip]::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: #161616;
+    color: var(--color-t2);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 6px 10px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 80;
+  }
+
+  [data-tip]::before {
+    content: "";
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #161616;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease;
+    z-index: 80;
+  }
+
+  [data-tip]:hover::after,
+  [data-tip]:focus-visible::after,
+  [data-tip]:hover::before,
+  [data-tip]:focus-visible::before {
+    opacity: 1;
+  }
+
+  [data-tip]:hover::after,
+  [data-tip]:focus-visible::after {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  [data-tip-pos="below"]::after {
+    top: calc(100% + 10px);
+    bottom: auto;
+    transform: translateX(-50%) translateY(-4px);
+  }
+
+  [data-tip-pos="below"]::before {
+    top: calc(100% + 4px);
+    bottom: auto;
+    border-top-color: transparent;
+    border-bottom-color: #161616;
+  }
+
+  [data-tip-pos="below"]:hover::after,
+  [data-tip-pos="below"]:focus-visible::after {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  @media (hover: none) {
+    [data-tip]::after,
+    [data-tip]::before {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-tip]::after,
+    [data-tip]::before {
+      transition: opacity 0.12s ease;
+    }
   }
 
   .cta-primary {
@@ -198,6 +366,102 @@
   .cta-ghost:hover {
     border-color: var(--color-o);
     color: var(--color-o2);
+  }
+
+  /* Copy-email floating tooltip (JS-created, one per button, fixed positioned) */
+  .copy-email-tooltip {
+    position: fixed;
+    transform: translate(-50%, -100%);
+    background: #161616;
+    color: var(--color-t2);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 6px 10px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease;
+    z-index: 9999;
+  }
+
+  .copy-email-tooltip.show {
+    opacity: 1;
+  }
+
+  /* Copy-email toast (sonner-like, bottom center) */
+  .copy-toast {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(12px);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #161616;
+    color: var(--color-t1);
+    border: 1px solid rgba(34, 197, 94, 0.4);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 10px 16px;
+    border-radius: 10px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 9999;
+    max-width: calc(100vw - 2rem);
+  }
+
+  .copy-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .copy-toast svg {
+    color: #22c55e;
+    flex-shrink: 0;
+  }
+
+  /* Contact copy button: icon-only square, same height as primary CTA */
+  .copy-email-btn-contact {
+    position: relative;
+    width: 56px;
+    flex: 0 0 56px;
+    min-height: 56px;
+    padding: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .copy-email-btn-contact .email-label {
+    display: none;
+  }
+
+  .copy-email-btn-contact.copied,
+  .copy-email-btn-hero.copied {
+    background: #16a34a !important;
+    border-color: #16a34a !important;
+    color: #fff !important;
+  }
+
+  @keyframes iconPopIn {
+    0% { transform: scale(0.4); opacity: 0; }
+    60% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .copy-toast,
+    .copy-email-tooltip {
+      transition: opacity 0.12s ease;
+    }
   }
 }
 

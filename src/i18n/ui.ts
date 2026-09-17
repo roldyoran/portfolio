@@ -8,6 +8,7 @@ export const ui = {
       projects: "Projects",
       about: "About",
       contact: "Contact",
+      hireMe: "Hire Me",
     },
     topbar: {
       availableForHire: "Available for hire",
@@ -24,6 +25,13 @@ export const ui = {
       productsShipped: "Repos",
       followers: "Followers",
       contributions: "Contributions",
+      liveP99: "Live p99 latency",
+      availability: "Available - Guatemala",
+      cards: {
+        backend: "Backend APIs",
+        cloud: "Cloud & K8s",
+        ai: "AI Harness",
+      },
     },
     experience: {
       title: "Experience",
@@ -37,6 +45,8 @@ export const ui = {
       desc: "",
       projectImage: "Project Image",
       liveDemo: "Live Demo",
+      readCode: "Code",
+      architecture: "README / Architecture",
     },
     about: {
       title: "About",
@@ -52,6 +62,8 @@ export const ui = {
         Database: "Database",
         DevOps: "DevOps",
         Cloud: "Cloud",
+        AI: "AI",
+        Automation: "Automation",
       },
     },
     contact: {
@@ -75,6 +87,7 @@ export const ui = {
       projects: "Proyectos",
       about: "Sobre mí",
       contact: "Contacto",
+      hireMe: "Contrátame",
     },
     topbar: {
       availableForHire: "Disponible para trabajar",
@@ -91,6 +104,13 @@ export const ui = {
       productsShipped: "Repos",
       followers: "Seguidores",
       contributions: "Contribuciones",
+      liveP99: "Latencia p99 en vivo",
+      availability: "Disponible - Guatemala",
+      cards: {
+        backend: "APIs Backend",
+        cloud: "Cloud y K8s",
+        ai: "Harness de IA",
+      },
     },
     experience: {
       title: "Experiencia",
@@ -104,6 +124,8 @@ export const ui = {
       desc: "",
       projectImage: "Imagen del Proyecto",
       liveDemo: "Demo en Vivo",
+      readCode: "Código",
+      architecture: "README / Arquitectura",
     },
     about: {
       title: "Sobre mí",
@@ -119,6 +141,8 @@ export const ui = {
         Database: "Base de datos",
         DevOps: "DevOps",
         Cloud: "Cloud",
+        AI: "IA",
+        Automation: "Automatización",
       },
     },
     contact: {

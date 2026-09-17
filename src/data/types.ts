@@ -84,6 +84,9 @@ export interface Project {
   github: string;
   /** Optional public path to a project image shown in the Projects section */
   image?: string;
+  /** Metric badges: first entry is the accent (orange) one, rest are neutral */
+  metrics?: string[];
+  metricsEs?: string[];
 }
 
 export type SkillCategory =
@@ -92,7 +95,9 @@ export type SkillCategory =
   | "Backend"
   | "Database"
   | "DevOps"
-  | "Cloud";
+  | "Cloud"
+  | "AI"
+  | "Automation";
 
 export interface Skill {
   name: string;

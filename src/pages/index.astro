@@ -1,9 +1,12 @@
 ---
 import Layout from "@/layouts/layout.astro";
 import Home from "@/components/home.astro";
-import config from "@/data/content";
+
+const title = "Edgar Alvarez | Ingeniero DevOps & Backend — Go, K8s, IA";
+const description =
+  "Portafolio de Edgar Alvarez, ingeniero DevOps y backend en Guatemala. APIs en Go, Python y TypeScript, Kubernetes, cloud y harness de IA en producción.";
 ---
 
-<Layout title={`${config.name} — ${config.titleEs ?? config.title}`} lang="es">
+<Layout title={title} description={description} lang="es">
   <Home lang="es" />
 </Layout>

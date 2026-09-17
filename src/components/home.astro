@@ -1,6 +1,5 @@
 ---
 import Navbar from "@/components/navbar.astro";
-import TopBar from "@/components/top-bar.astro";
 import Hero from "@/components/hero.astro";
 import Marquee from "@/components/marquee.astro";
 import Experience from "@/components/experience.astro";
@@ -33,25 +32,15 @@ const aboutBio = lang === "es" ? config.bioEs : config.bio;
 
 <MobileNav location={mobileLocation} available={config.available} lang={lang} />
 
-<main id="main-content" class="relative z-10 pt-14 lg:pt-14">
-  <TopBar
-    location={config.location}
-    locationEs={config.locationEs}
-    available={config.available}
-    lang={lang}
-  />
-
+<main id="main-content" class="relative z-10 pt-13 lg:pt-16">
   <Hero
     hero={config.hero}
-    marquee={config.marquee}
-    linkedin={config.social.linkedin}
-    github={config.social.github}
     email={config.email}
     lang={lang}
     githubStats={githubStats}
   />
 
-  <Marquee items={config.marquee} icons={marqueeTechIcons} />
+  <Marquee items={config.marquee} icons={marqueeTechIcons} label={lang === "es" ? "Tecnologías" : "Technologies"} />
 
   <div class="container-page">
     <Experience experience={experience} lang={lang} />
