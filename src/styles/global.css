@@ -444,11 +444,35 @@
     display: none;
   }
 
+  /* Subtle pulse for copy-email buttons (hero + contact) */
+  .copy-email-btn-hero,
+  .copy-email-btn-contact {
+    animation: copy-pulse 2.8s ease-out infinite;
+  }
+
+  .copy-email-btn-hero:hover,
+  .copy-email-btn-contact:hover {
+    animation-play-state: paused;
+  }
+
   .copy-email-btn-contact.copied,
   .copy-email-btn-hero.copied {
     background: #16a34a !important;
     border-color: #16a34a !important;
     color: #fff !important;
+    animation: none;
+  }
+
+  @keyframes copy-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.35);
+    }
+    70% {
+      box-shadow: 0 0 0 9px rgba(249, 115, 22, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(249, 115, 22, 0);
+    }
   }
 
   @keyframes iconPopIn {
@@ -461,6 +485,10 @@
     .copy-toast,
     .copy-email-tooltip {
       transition: opacity 0.12s ease;
+    }
+    .copy-email-btn-hero,
+    .copy-email-btn-contact {
+      animation: none;
     }
   }
 }
