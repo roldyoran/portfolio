@@ -138,7 +138,7 @@ export const projects: Project[] = [
     demo: "https://roly.top",
     github: "https://github.com/roldyoran/shorturl",
     // Image shown in the Projects section. Expected public path includes the 'porfolio' prefix per deployment.
-    image: "/portfolio/imgs/url-shortener-roldyoran.webp",
+    image: "/portfolio/imgs/url-shortener-demo-roldyoran.webp",
     metrics: ["Live · p99 <60ms", "REST API + OAuth", "Workers + D1"],
     metricsEs: ["En vivo · p99 <60ms", "API REST + OAuth", "Workers + D1"],
   },
@@ -180,7 +180,7 @@ export const projects: Project[] = [
     demo: "https://votaciones-antagonista.vercel.app/",
     github: "https://github.com/roldyoran/antagonista-site",
     // Image shown in the Projects section. Expected public path includes the 'porfolio' prefix per deployment.
-    image: "/portfolio/imgs/antagonita-site-votations-roldyoran.webp",
+    image: "/portfolio/imgs/votaciones-antagonista-demo-roldyoran.webp",
     metrics: ["Real users in prod", "OAuth + ranked vote", "Autosave per user"],
     metricsEs: ["Usuarios reales en prod", "OAuth + voto rankeado", "Autoguardado por usuario"],
   },
@@ -262,12 +262,12 @@ const config: Config = {
   },
   bio: [
     {
-        text: "I studied Computer Science and Systems Engineering at USAC and served as a lab teaching assistant for Operating Systems 1 for 2 semesters: Linux, Docker, Kubernetes, kernel modules, VMs. I build backend APIs (Go, Python, TypeScript) and cloud delivery (K8s, CI/CD), and I use AI Harness daily: Claude Code, OpenCode, Pi/Oh-my-pi, plus open LLMs for automation and process tooling. Open to Junior Backend / DevOps roles with an AI focus.",
+        text: "I studied Computer Science and Systems Engineering at USAC and worked as a teaching assistant for the Operating Systems 1 lab for two semesters, teaching Linux, Docker, Kubernetes, kernel modules, VMs and Google Cloud Platform. I enjoy building backend APIs (Go, Python, TypeScript) and working with K8s and CI/CD. I use AI harnesses daily (Claude Code, OpenCode, Pi/Oh-my-pi) with my own configurations, plus open LLMs for automation. I'm looking for Junior Fullstack and DevOps roles.",
     },
   ],
   bioEs: [
     {
-        text: "Estudié Ingeniería en Ciencias y Sistemas en la USAC y fui auxiliar del laboratorio de Sistemas Operativos 1 durante 2 semestres: Linux, Docker, Kubernetes, módulos del kernel y VMs. Construyo APIs backend (Go, Python, TypeScript) y entrega cloud (K8s, CI/CD), y uso Harness de IA a diario: Claude Code, OpenCode, Pi/Oh-my-pi, además de LLMs abiertos para automatización. Busco roles Junior Backend / DevOps con foco en IA.",
+        text: "Estudié Ingeniería en Ciencias y Sistemas en la USAC y fui auxiliar docente del laboratorio de Sistemas Operativos 1 durante dos semestres, enseñando Linux, Docker, Kubernetes, módulos del kernel, VMs y Google Cloud Platform. Disfruto construir APIs backend (Go, Python, TypeScript) y trabajar con K8s y CI/CD. Uso a diario harness de IA (Claude Code, OpenCode, Pi/Oh-my-pi) con mis propias configuraciones, además de LLMs abiertos para automatización. Busco roles Junior Fullstack y DevOps.",
     },
   ],
   marquee: [
