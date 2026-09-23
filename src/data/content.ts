@@ -285,7 +285,7 @@ const config: Config = {
     "Claude Code",
   ],
   githubStats: {
-    yearsExp: 1,
+    yearsExp: 5,
     repos: 36,
     contributions: 1270,
     followers: 2,
