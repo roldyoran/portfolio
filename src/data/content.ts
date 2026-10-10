@@ -170,19 +170,19 @@ export const projects: Project[] = [
   },
   {
     id: 3,
-    name: "Votaciones Antagonista",
-    nameEs: "Votaciones Antagonista",
+    name: "AI Front Skills",
+    nameEs: "AI Front Skills",
     tagline:
-      "Real public fan vote with Google OAuth, ranked ballots and per-user autosave, running in production.",
+      "Skills registry for frontend design-engineering with visual before/after comparisons, full-text search and topic filters, in English and Spanish.",
     taglineEs:
-      "Votación pública real con OAuth de Google, voto por ranking y autoguardado por usuario, corriendo en producción.",
-    tech: ["Astro", "React", "Tailwind CSS", "TypeScript", "Turso"],
-    demo: "https://votaciones-antagonista.vercel.app/",
-    github: "https://github.com/roldyoran/antagonista-site",
+      "Registro de skills de diseño e interfaces con comparativas visuales antes/después, búsqueda full-text y filtros por tema, en inglés y español.",
+    tech: ["Astro", "TypeScript", "Tailwind CSS", "Svelte"],
+    demo: "https://ai-front-skills.vercel.app",
+    github: "https://github.com/roldyoran/ai-front-skills",
     // Image shown in the Projects section. Expected public path includes the 'porfolio' prefix per deployment.
-    image: "/portfolio/imgs/votaciones-antagonista-demo-roldyoran.webp",
-    metrics: ["Real users in prod", "OAuth + ranked vote", "Autosave per user"],
-    metricsEs: ["Usuarios reales en prod", "OAuth + voto rankeado", "Autoguardado por usuario"],
+    image: "/portfolio/imgs/ai-front-skills-demo-roldyoran.webp",
+    metrics: ["Live registry", "Before/after visuals", "Search + filters"],
+    metricsEs: ["Registro en vivo", "Comparativas visuales", "Búsqueda + filtros"],
   },
 ];
 
