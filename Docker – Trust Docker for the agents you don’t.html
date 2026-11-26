@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Docker – Trust Docker for the agents you don’t</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0e0e; --panel:#141414; --line:#2a2a2a; --text:#fff; --muted:#8c8c8c;
+  --blue:#4c5bff; --green:#2f9e5b; --red:#c0392b; --page:#fff;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{background:var(--page);font-family:'Inter Tight',system-ui,sans-serif;color:var(--text);padding:0 0 12px;min-height:100%;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.hero{position:relative;background:var(--bg);min-height:max(620px,100vh);border-radius:0 0 56px 56px;overflow:hidden;padding:12px 40px 40px;display:flex;flex-direction:column}
+#fx{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+
+/* NAV */
+.nav{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;height:55px;padding:0 24px 0 16px;background:rgba(20,20,20,.9);border:1px solid #232323;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.4);backdrop-filter:blur(8px)}
+.logo{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:600;letter-spacing:-.02em}
+.logo svg{width:26px;height:20px}
+.links{display:flex;gap:40px;font-size:14.5px;font-weight:500}
+.links a{opacity:.95;transition:opacity .2s,color .2s}
+.links a:hover{color:#a9b0ff}
+.actions{display:flex;align-items:center;gap:16px}
+.search{background:none;border:0;color:#fff;cursor:pointer;display:grid;place-items:center;width:28px;height:28px}
+.btn{font:500 14px 'Inter Tight',sans-serif;padding:9px 14px;border-radius:6px;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+.btn.ghost{background:transparent;color:#fff;border:1px solid #6b6b6b}
+.btn.ghost:hover{border-color:#fff}
+.btn.solid{background:var(--blue);color:#fff;border:1px solid var(--blue)}
+.btn.solid:hover{background:#6471ff}
+.burger{display:none;background:none;border:0;color:#fff;font-size:24px}
+
+/* BADGE */
+.badge{position:relative;z-index:3;display:inline-flex;align-items:center;gap:10px;margin:150px 0 0;padding:6px 12px 6px 7px;border:1px solid #5a5a5a;border-radius:6px;font-size:12.5px;font-weight:500;width:max-content;transition:border-color .2s}
+.badge:hover{border-color:#fff}
+.badge b{color:#ff6a3d;font-weight:600;letter-spacing:.02em;font-size:12px}
+
+/* CONTENT */
+.content{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:40px;margin-top:26px}
+h1{font-weight:500;font-size:clamp(46px,5.9vw,84px);line-height:1.02;letter-spacing:-.035em;flex:0 0 auto}
+h1 .l{display:block;overflow:hidden;padding-bottom:.08em}
+h1 .l span{display:inline-block;transform:translateY(105%);animation:rise 1s var(--ease) forwards}
+h1 .l1 span{animation-delay:.35s}
+h1 .l2{color:var(--muted);font-weight:300}
+h1 .l2 span{animation-delay:.55s}
+.lead{text-align:right;font-size:clamp(18px,1.65vw,22px);line-height:1.35;font-weight:400;max-width:520px;color:#f2f2f2}
+.lead span{display:block;opacity:0;transform:translateY(16px);animation:fade .9s var(--ease) forwards}
+.lead span:nth-child(1){animation-delay:.9s}.lead span:nth-child(2){animation-delay:1.05s}
+
+/* AGENTS */
+.agent{position:absolute;z-index:2;display:flex;align-items:center;gap:8px;padding:5px 10px 5px 6px;border-radius:8px;background:#171717;border:1px solid var(--c);box-shadow:0 0 18px -2px var(--c);font:400 11px 'IBM Plex Mono',monospace;color:#9a9a9a;letter-spacing:.04em;opacity:0;animation:pop .8s var(--ease) forwards, float var(--d) ease-in-out infinite;animation-delay:var(--w),calc(var(--w) + .8s)}
+.agent i{width:18px;height:18px;border-radius:50%;background:#2a2a2a;display:grid;place-items:center;font-style:normal;font-size:9px;color:#ddd}
+.agent svg{position:absolute;left:-13px;top:-17px;width:16px;height:16px;transform:rotate(var(--r,0deg))}
+.agent.g{--c:rgba(47,158,91,.55)} .agent.r{--c:rgba(192,57,43,.55)}
+
+/* LOGOS */
+.logos{position:relative;z-index:3;margin-top:auto;padding-top:60px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding-left:5%;padding-right:5%;opacity:.95}
+.logos>div{opacity:0;transform:translateY(14px);animation:fade .9s var(--ease) forwards;display:flex;align-items:center;gap:8px;font-weight:600;white-space:nowrap}
+.logos>div:nth-child(1){animation-delay:1.3s}.logos>div:nth-child(2){animation-delay:1.4s}.logos>div:nth-child(3){animation-delay:1.5s}.logos>div:nth-child(4){animation-delay:1.6s}.logos>div:nth-child(5){animation-delay:1.7s}
+.jp{position:relative;font-family:Georgia,serif;font-size:15px;color:#555;font-weight:400}
+.adobe{font-size:21px;letter-spacing:-.02em;margin-left:-70px;position:relative;top:10px}
+.novo{font-size:11px;font-weight:400;color:#ddd;flex-direction:column;gap:2px;letter-spacing:.02em}
+.novo svg{width:44px;height:36px}
+.notion{font-size:16px}
+.notion span{width:26px;height:26px;border:2px solid #fff;border-radius:5px;display:grid;place-items:center;font-family:Georgia,serif;font-size:15px;background:#000}
+.cf{font-size:11px;letter-spacing:.18em;font-weight:600}
+.cf svg{width:44px;height:20px}
+.rk{font-size:26px;font-weight:700;letter-spacing:-.03em}
+
+/* KEYFRAMES */
+@keyframes rise{to{transform:none}}
+@keyframes fade{to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{translate:0 0}50%{translate:6px -9px}}
+.nav,.badge{opacity:0;animation:fade .9s var(--ease) forwards}
+.nav{transform:translateY(-14px);animation-delay:.05s}
+.badge{transform:translateY(10px);animation-delay:.2s}
+
+/* RESPONSIVE */
+@media(max-width:1000px){
+  .links{display:none}.burger{display:block}
+  .content{flex-direction:column;align-items:flex-start}
+  .lead{text-align:left}
+  .agent{display:none}
+  .logos{flex-wrap:wrap;justify-content:center;gap:24px 36px;padding-top:40px}
+  .adobe{margin-left:0;top:0}.jp{display:none}
+}
+@media(max-width:600px){
+  .hero{padding:10px 16px 28px;border-radius:0 0 32px 32px}
+  .btn.ghost{display:none}.badge{margin-top:90px;font-size:11.5px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01s!important;animation-delay:0s!important}
+}
+:focus-visible{outline:2px solid #8f9aff;outline-offset:2px}
+.demos{background:var(--bg);margin-top:12px;border-radius:56px;padding:96px 40px 72px}
+.demos h2{font-size:clamp(30px,3.6vw,48px);font-weight:500;letter-spacing:-.03em;text-align:center}
+.demos .sub{color:var(--muted);text-align:center;margin:12px auto 48px;max-width:520px;font-size:17px;line-height:1.4}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1240px;margin:0 auto}
+.card{position:relative;background:#080808;border:1px solid #232323;border-radius:18px;overflow:hidden;height:300px;opacity:0;transform:translateY(18px);transition:opacity .8s var(--ease),transform .8s var(--ease),border-color .3s}
+.card.in{opacity:1;transform:none}.card:hover{border-color:#3a3a3a}
+.card canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.card figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 20px 16px;background:linear-gradient(transparent,rgba(8,8,8,.92));font-size:13.5px;color:var(--muted);line-height:1.35}
+.card figcaption b{display:block;color:#fff;font-weight:500;font-size:15.5px;margin-bottom:2px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.demos{padding:72px 20px 48px;border-radius:32px}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.sites{background:var(--bg);margin-top:12px;border-radius:56px;padding:80px 40px 72px}
+.sites h2{font-size:clamp(28px,3.2vw,42px);font-weight:500;letter-spacing:-.03em;text-align:center}
+.sites .sub{color:var(--muted);text-align:center;margin:12px auto 44px;max-width:520px;font-size:17px;line-height:1.4}
+.sgrid{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:1000px;margin:0 auto}
+.sgrid a{display:flex;flex-direction:column;gap:6px;height:100%;padding:22px 24px;border:1px solid #232323;border-radius:16px;background:#101010;transition:border-color .25s,background .25s}
+.sgrid a:hover{border-color:var(--blue);background:#13131a}
+.sgrid b{font-size:18px;font-weight:500}
+.sgrid span{color:var(--muted);font-size:14.5px;line-height:1.4}
+.sgrid em{font-style:normal;color:#8f9aff;font-size:13px;margin-top:auto;padding-top:6px}
+@media(max-width:1000px){.sites{padding:64px 20px 48px;border-radius:32px}}
+@media(max-width:600px){.sgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="hero" id="hero">
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <nav class="nav" aria-label="Principal">
+    <a class="logo" href="#" aria-label="Docker">
+      <svg viewBox="0 0 26 20" fill="#fff" aria-hidden="true"><path d="M25.4 8.2c-.6-.4-2-.6-3.1-.4-.1-1.100-.8-2-1.600-2.800l-.5-.4-.4.500c-.5.800-.7 2-.6 3 0 .400.200 1 .500 1.400-.3.200-.9.400-1.700.400H.4l-.1.600c-.1 1.700.100 3.300.800 4.700.700 1.300 1.800 2.400 3.100 3 1.500.7 3.800 1 6.500.9 1.200 0 2.400-.2 3.500-.5 1.600-.5 3-1.200 4.200-2.200 1-.8 1.800-1.800 2.500-2.800 1.100-.1 2.200-.5 3-1.100.3-.200.800-.700 1-1.100l.2-.4-.5-.3zM3 8.600h2.600v2.500H3zm3.100 0h2.600v2.500H6.100zm3.100 0h2.600v2.500H9.200zm3.100 0h2.600v2.500h-2.600zM6.100 5.600h2.600v2.500H6.100zm3.100 0h2.600v2.500H9.200zm3.100 0h2.600v2.500h-2.600zm0-3h2.600v2.500h-2.600z"/></svg>
+      docker
+    </a>
+    <div class="links">
+      <a href="#">Products</a><a href="#">Solutions</a><a href="#">Support</a><a href="#">Pricing</a><a href="#">Blog</a><a href="#">Docs</a>
+    </div>
+    <div class="actions">
+      <button class="search" aria-label="Buscar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.500-3.500"/></svg></button>
+      <button class="btn ghost">Sign in</button>
+      <button class="btn solid">Contact sales</button>
+      <button class="burger" aria-label="Menú">☰</button>
+    </div>
+  </nav>
+
+  <a class="badge" href="#"><b>NEW</b> Claim $250 in Cloud Credits for Docker Sandboxes
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="1.2"><path d="M2 8 8 2M3.500 2H8v4.500"/></svg>
+  </a>
+
+  <div class="content">
+    <h1>
+      <span class="l l1"><span>Trust Docker</span></span>
+      <span class="l l2"><span>for the agents you don’t</span></span>
+    </h1>
+    <p class="lead">
+      <span>Docker securely contains autonomous agents</span>
+      <span>so you can confidently build, ship, and run on trust.</span>
+    </p>
+  </div>
+
+  <!-- Agentes -->
+  <div class="agent g" style="left:32.800%;top:30.500%;--w:1.2s;--d:6s"><svg viewBox="0 0 16 16" style="--r:0deg;left:auto;right:-14px" fill="#777"><path d="M2 14 14 2M6 2h8v8" stroke="#777" fill="none" stroke-width="1.200"/></svg><i>◈</i>AGENT 4</div>
+  <div class="agent g" style="left:50.700%;top:33%;--w:1.4s;--d:7s"><svg viewBox="0 0 16 16" style="left:-14px;top:-14px" fill="#777"><path d="M14 14 2 2M10 2H2v8" stroke="#777" fill="none" stroke-width="1.200"/></svg><i>●</i>AGENT 2</div>
+  <div class="agent r" style="left:31%;top:49%;--w:1.6s;--d:6.500s"><svg viewBox="0 0 16 16" style="left:auto;right:-14px;top:-14px" fill="#777"><path d="M2 14 14 2M6 2h8v8" stroke="#777" fill="none" stroke-width="1.200"/></svg><i>✦</i>AGENT 5</div>
+  <div class="agent g" style="left:54.300%;top:52%;--w:1.8s;--d:5.500s"><svg viewBox="0 0 16 16" style="left:-18px;top:-18px" fill="#777"><path d="M14 14 2 2M10 2H2v8" stroke="#777" fill="none" stroke-width="1.200"/></svg><i>✺</i>AGENT 1</div>
+  <div class="agent g" style="left:58.200%;top:66%;--w:2s;--d:7.500s"><svg viewBox="0 0 16 16" style="left:-18px;top:-12px" fill="#777"><path d="M14 14 2 2M10 2H2v8" stroke="#777" fill="none" stroke-width="1.200"/></svg><i>◉</i>AGENT 6</div>
+  <div class="agent r" style="left:44.300%;top:73%;--w:2.200s;--d:6.200s"><svg viewBox="0 0 16 16" style="left:-18px;top:-14px" fill="#777"><path d="M14 14 2 2M10 2H2v8" stroke="#777" fill="none" stroke-width="1.200"/></svg><i>◎</i>AGENT 3</div>
+
+  <div class="logos" aria-label="Clientes">
+    <div class="jp">JPMorganChase</div>
+    <div class="adobe">Adobe</div>
+    <div class="novo"><svg viewBox="0 0 44 36" fill="none" stroke="#ddd" stroke-width="1.400"><path d="M8 26V14l5-6h14l6 5 5-3v8l-5 3v7M13 8l-2 6M20 26v-8h10v8M6 26h30"/></svg>novo nordisk</div>
+    <div class="notion"><span>N</span>Notion</div>
+    <div class="cf"><svg viewBox="0 0 44 20" fill="#fff"><path d="M36 17H8a5 5 0 0 1-.600-10A9 9 0 0 1 24 4a7 7 0 0 1 8 5 5 5 0 0 1 4 8Z"/></svg>CLOUDFLARE</div>
+    <div class="rk">Rakuten</div>
+  </div>
+</header>
+
+<section class="demos" aria-labelledby="dt">
+  <h2 id="dt">Animaciones de partículas</h2>
+  <p class="sub">Treinta estudios sobre fondo negro, cada uno con su propio movimiento. Solo se animan cuando están en pantalla.</p>
+  <div class="grid">
+    <figure class="card"><canvas data-demo="net"></canvas><figcaption><b>Constelación</b>Puntos a la deriva que se conectan por cercanía.</figcaption></figure>
+    <figure class="card"><canvas data-demo="sphere"></canvas><figcaption><b>Globo de puntos</b>Esfera en rotación con profundidad.</figcaption></figure>
+    <figure class="card"><canvas data-demo="wave"></canvas><figcaption><b>Malla ondulante</b>Campo de puntos con ola en perspectiva.</figcaption></figure>
+    <figure class="card"><canvas data-demo="rain"></canvas><figcaption><b>Flujo de código</b>Columnas de símbolos que caen y se desvanecen.</figcaption></figure>
+    <figure class="card"><canvas data-demo="warp"></canvas><figcaption><b>Túnel de estrellas</b>Estelas que avanzan hacia el espectador.</figcaption></figure>
+    <figure class="card"><canvas data-demo="orbit"></canvas><figcaption><b>Órbitas</b>Anillos inclinados girando en torno a un núcleo.</figcaption></figure>
+    <figure class="card"><canvas data-demo="flow"></canvas><figcaption><b>Campo de flujo</b>Partículas que siguen corrientes invisibles.</figcaption></figure>
+    <figure class="card"><canvas data-demo="fireflies"></canvas><figcaption><b>Luciérnagas</b>Destellos suaves que laten a su propio ritmo.</figcaption></figure>
+    <figure class="card"><canvas data-demo="streaks"></canvas><figcaption><b>Lluvia diagonal</b>Estelas finas que cruzan la pantalla.</figcaption></figure>
+    <figure class="card"><canvas data-demo="galaxy"></canvas><figcaption><b>Galaxia</b>Brazos espirales con rotación diferencial.</figcaption></figure>
+    <figure class="card"><canvas data-demo="vortex"></canvas><figcaption><b>Vórtice</b>Un embudo de puntos que gira y desciende.</figcaption></figure>
+    <figure class="card"><canvas data-demo="ripple"></canvas><figcaption><b>Ondas radiales</b>Anillos de puntos que se expanden y se apagan.</figcaption></figure>
+    <figure class="card"><canvas data-demo="dna"></canvas><figcaption><b>Doble hélice</b>Dos cadenas entrelazadas con profundidad.</figcaption></figure>
+    <figure class="card"><canvas data-demo="pulse"></canvas><figcaption><b>Rejilla pulsante</b>Una ola de tamaño recorre la malla.</figcaption></figure>
+    <figure class="card"><canvas data-demo="torus"></canvas><figcaption><b>Toroide</b>Anillo 3D de puntos en rotación libre.</figcaption></figure>
+    <figure class="card"><canvas data-demo="lorenz"></canvas><figcaption><b>Atractor de Lorenz</b>Una trayectoria caótica dibuja su mariposa.</figcaption></figure>
+    <figure class="card"><canvas data-demo="fountain"></canvas><figcaption><b>Fuente de chispas</b>Partículas con gravedad que suben y caen.</figcaption></figure>
+    <figure class="card"><canvas data-demo="cube"></canvas><figcaption><b>Retícula 3D</b>Cubo de puntos con perspectiva.</figcaption></figure>
+    <figure class="card"><canvas data-demo="snow"></canvas><figcaption><b>Nevada</b>Copos con deriva lateral y tamaños variados.</figcaption></figure>
+    <figure class="card"><canvas data-demo="bubbles"></canvas><figcaption><b>Burbujas</b>Esferas translúcidas que ascienden y oscilan.</figcaption></figure>
+    <figure class="card"><canvas data-demo="ring"></canvas><figcaption><b>Anillo que respira</b>Dos coronas de puntos que laten en ondas.</figcaption></figure>
+    <figure class="card"><canvas data-demo="phyllo"></canvas><figcaption><b>Girasol</b>Disposición de ángulo áureo con una ola de brillo.</figcaption></figure>
+    <figure class="card"><canvas data-demo="comets"></canvas><figcaption><b>Cometas</b>Cabezas luminosas con estela de puntos.</figcaption></figure>
+    <figure class="card"><canvas data-demo="lissa"></canvas><figcaption><b>Curva de Lissajous</b>Un destello recorre una figura armónica.</figcaption></figure>
+    <figure class="card"><canvas data-demo="parallax"></canvas><figcaption><b>Paralaje</b>Tres capas de polvo a distinta velocidad.</figcaption></figure>
+    <figure class="card"><canvas data-demo="lat"></canvas><figcaption><b>Meridianos</b>Esfera de paralelos que giran a ritmos distintos.</figcaption></figure>
+    <figure class="card"><canvas data-demo="swarm"></canvas><figcaption><b>Enjambre</b>Partículas que persiguen un punto en movimiento.</figcaption></figure>
+    <figure class="card"><canvas data-demo="burst"></canvas><figcaption><b>Explosión radial</b>Rayos que nacen del centro y se disipan.</figcaption></figure>
+    <figure class="card"><canvas data-demo="eq"></canvas><figcaption><b>Ecualizador</b>Columnas de puntos que laten como una señal de audio.</figcaption></figure>
+    <figure class="card"><canvas data-demo="twinkle"></canvas><figcaption><b>Cielo estrellado</b>Centelleo de estrellas y estrellas fugaces.</figcaption></figure>
+  </div>
+</section>
+<section class="sites" aria-labelledby="st">
+  <h2 id="st">Dónde encontrar más animaciones</h2>
+  <p class="sub">Ocho sitios con demos, librerías y código abierto para seguir explorando.</p>
+  <ul class="sgrid">
+    <li><a href="https://vincentgarreau.com/particles.js/" target="_blank" rel="noopener noreferrer"><b>particles.js</b><span>La librería clásica de fondos de partículas, con un generador visual para configurarlas.</span><em>vincentgarreau.com ↗</em></a></li>
+    <li><a href="https://particles.js.org/" target="_blank" rel="noopener noreferrer"><b>tsParticles</b><span>Sucesora moderna de particles.js, con muchos presets, plugins y un editor en línea.</span><em>particles.js.org ↗</em></a></li>
+    <li><a href="https://threejs.org/examples/" target="_blank" rel="noopener noreferrer"><b>Three.js · ejemplos</b><span>Cientos de demos WebGL; busca las de puntos y partículas para efectos 3D.</span><em>threejs.org ↗</em></a></li>
+    <li><a href="https://codepen.io/search/pens?q=particles" target="_blank" rel="noopener noreferrer"><b>CodePen · particles</b><span>Miles de demos en HTML, CSS y JS que puedes abrir, leer y editar.</span><em>codepen.io ↗</em></a></li>
+    <li><a href="https://tympanus.net/codrops/" target="_blank" rel="noopener noreferrer"><b>Codrops</b><span>Tutoriales y demos de efectos con canvas y WebGL, con el código explicado.</span><em>tympanus.net ↗</em></a></li>
+    <li><a href="https://www.shadertoy.com/" target="_blank" rel="noopener noreferrer"><b>Shadertoy</b><span>Efectos creados con shaders, ideales para partículas y campos de luz complejos.</span><em>www.shadertoy.com ↗</em></a></li>
+    <li><a href="https://p5js.org/examples/" target="_blank" rel="noopener noreferrer"><b>p5.js · ejemplos</b><span>Ejemplos de arte generativo y sistemas de partículas, fáciles de leer y modificar.</span><em>p5js.org ↗</em></a></li>
+    <li><a href="https://www.vantajs.com/" target="_blank" rel="noopener noreferrer"><b>Vanta.js</b><span>Fondos animados listos para usar (nubes, redes, ondas) con unas pocas líneas.</span><em>www.vantajs.com ↗</em></a></li>
+  </ul>
+</section>
+
+<script>
+(() => {
+  const TAU = Math.PI * 2, reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const list = [];
+
+  /* ---------- Motor compartido: un solo bucle, solo dibuja lo visible ---------- */
+  function mount(cv, factory) {
+    const e = { cv, ctx: cv.getContext('2d'), vis: false, born: performance.now() };
+    const fit = () => {
+      const d = Math.min(devicePixelRatio || 1, 1.5);
+      e.W = cv.clientWidth; e.H = cv.clientHeight;
+      if (!e.W || !e.H) return;
+      cv.width = e.W * d; cv.height = e.H * d; e.ctx.setTransform(d, 0, 0, d, 0, 0);
+      e.api = factory(e.W, e.H);
+    };
+    let rt; new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(fit, 120); }).observe(cv);
+    new IntersectionObserver(a => e.vis = a[0].isIntersecting).observe(cv);
+    fit(); list.push(e);
+  }
+  let last = performance.now();
+  function loop(now) {
+    const dt = Math.min(.05, (now - last) / 1000); last = now;
+    if (!document.hidden) for (const e of list) if (e.vis && e.api) {
+      e.ctx.clearRect(0, 0, e.W, e.H);
+      e.api.draw(e.ctx, now / 1000, reduce ? 0 : dt, Math.min(1, (now - e.born) / 2200));
+    }
+    requestAnimationFrame(loop);
+  }
+
+  /* ---------- Sprites (letras y brillo) precalculados ---------- */
+  const CH = 'trusnuntstrAu'.split(''), spr = {};
+  function sprites() {
+    CH.forEach(c => { const s = document.createElement('canvas'); s.width = s.height = 24; const g = s.getContext('2d');
+      g.fillStyle = '#e6e6e6'; g.font = "19px 'IBM Plex Mono', monospace"; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(c, 12, 12); spr[c] = s; });
+    const d = document.createElement('canvas'); d.width = d.height = 32; const g = d.getContext('2d'), r = g.createRadialGradient(16, 16, 0, 16, 16, 16);
+    r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.3, 'rgba(255,255,255,.8)'); r.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = r; g.fillRect(0, 0, 32, 32); spr.glow = d;
+  }
+
+  /* ---------- HERO: listones helicoidales alrededor de un tubo invisible ---------- */
+  function hero(W, H) {
+    const radius = t => W * (.032 + .07 * Math.abs(Math.sin(t * 5.2 + .6)) ** 1.2);
+    const axis = t => W * .485 + Math.sin(t * 4 + 1) * W * .006;
+    const starts = [.05, .17, .30, .43, .55, .67, .79], P = [];
+    const per = Math.round(Math.min(64, Math.max(30, W / 22)));
+    starts.forEach((t0, i) => {
+      const R = { t0: t0 + rnd(-.02, .02), len: rnd(.13, .21), bw: rnd(.016, .03), turns: rnd(.55, .95) * (i % 3 ? 1 : 1.3), th0: rnd(0, TAU) };
+      for (let n = 0; n < per; n++) P.push(part(R, Math.random(), rnd(-1, 1)));
+    });
+    for (let n = 0; n < 50; n++) P.push(part(null, 0, 0));      // partículas sueltas (fuera de los listones)
+    function part(R, s, q) {
+      return { R, s, q, t0: Math.random(), th0: rnd(0, TAU), k: rnd(.96, 1.04), j: rnd(0, TAU),
+        dot: Math.random() < .2, big: Math.random() < .07, ch: spr[CH[(Math.random() * CH.length) | 0]], sz: rnd(8, 12), a: rnd(.5, 1) };
+    }
+    let rot = 0;
+    return { draw(ctx, now, dt, fade) {
+      rot += dt * .1;                                          // giro muy lento
+      for (const p of P) {
+        const R = p.R; let th, t, e = 1;
+        if (R) { th = R.th0 + R.turns * TAU * p.s + rot; t = R.t0 + R.len * p.s + p.q * R.bw; e = Math.min(1, p.s * 5, (1 - p.s) * 5); }
+        else { th = p.th0 + rot; t = p.t0; e = .5; }
+        const sn = Math.sin(th), depth = (sn + 1) / 2;         // 0 = detrás del tubo, 1 = delante
+        const x = axis(t) + Math.cos(th) * radius(t) * p.k, y = t * H;
+        ctx.globalAlpha = p.a * (.12 + .88 * depth * depth) * e * fade * (.8 + .2 * Math.sin(now * .8 + p.j));
+        const sc = .65 + .55 * depth;
+        if (p.big) { const r = 7 * sc; ctx.drawImage(spr.glow, x - r, y - r, r * 2, r * 2); }
+        else if (p.dot) { ctx.fillStyle = '#fff'; ctx.fillRect(x - .6, y - .6, 1.5 * sc, 1.5 * sc); }
+        else { const z = p.sz * sc; ctx.drawImage(p.ch, x - z / 2, y - z / 2, z, z); }
+      }
+      ctx.globalAlpha = 1;
+    } };
+  }
+
+  /* ---------- DEMOS ---------- */
+  const demos = {
+    net(W, H) { // constelación
+      const n = Math.round(Math.min(70, W / 8)), P = Array.from({ length: n }, () => ({ x: rnd(0, W), y: rnd(0, H), vx: rnd(-.2, .2) * 30, vy: rnd(-.2, .2) * 30 }));
+      return { draw(c, t, dt) {
+        for (const p of P) { p.x += p.vx * dt; p.y += p.vy * dt; if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1; }
+        c.lineWidth = 1; c.strokeStyle = '#fff';
+        for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) { const dx = P[i].x - P[j].x, dy = P[i].y - P[j].y, d = dx * dx + dy * dy;
+          if (d < 8100) { c.globalAlpha = (1 - d / 8100) * .35; c.beginPath(); c.moveTo(P[i].x, P[i].y); c.lineTo(P[j].x, P[j].y); c.stroke(); } }
+        c.globalAlpha = .9; c.fillStyle = '#fff'; for (const p of P) c.fillRect(p.x - 1, p.y - 1, 2, 2);
+        c.globalAlpha = 1; } };
+    },
+    sphere(W, H) { // esfera de puntos
+      const N = 320, pts = Array.from({ length: N }, (_, i) => { const y = 1 - 2 * (i + .5) / N, r = Math.sqrt(1 - y * y), a = i * 2.39996; return [Math.cos(a) * r, y, Math.sin(a) * r]; });
+      const R = Math.min(W, H) * .36; let a = 0;
+      return { draw(c, t, dt) { a += dt * .35; const ca = Math.cos(a), sa = Math.sin(a), tl = .4, ct = Math.cos(tl), st = Math.sin(tl);
+        for (let i = 0; i < N; i++) { const [x, y, z] = pts[i]; const x1 = x * ca + z * sa, z1 = -x * sa + z * ca, y1 = y * ct - z1 * st, z2 = y * st + z1 * ct;
+          const d = (z2 + 1) / 2; c.globalAlpha = .12 + .88 * d * d; c.fillStyle = i % 17 ? '#fff' : '#7f8bff'; const s = .8 + 1.4 * d;
+          c.fillRect(W / 2 + x1 * R - s / 2, H / 2 + y1 * R - s / 2, s, s); } c.globalAlpha = 1; } };
+    },
+    wave(W, H) { // malla ondulante
+      const cols = Math.round(Math.min(56, W / 9)), rows = 16;
+      return { draw(c, t) { c.fillStyle = '#fff';
+        for (let j = 0; j < rows; j++) { const k = j / (rows - 1), y0 = H * .3 + k * H * .55, sc = .5 + k;
+          for (let i = 0; i < cols; i++) { const x = (i / (cols - 1)) * W, y = y0 + Math.sin(i * .35 + t * .9 + j * .55) * 16 * sc;
+            c.globalAlpha = .15 + .6 * k; c.fillRect(x - sc, y - sc, 2 * sc, 2 * sc); } } c.globalAlpha = 1; } };
+    },
+    rain(W, H) { // lluvia de código
+      const cs = 15, n = Math.floor(W / cs), S = '01{}<>/=;$#', D = Array.from({ length: n }, () => ({ y: rnd(-H, 0), v: rnd(30, 80), g: Array.from({ length: 10 }, () => S[(Math.random() * S.length) | 0]) }));
+      return { draw(c, t, dt) { c.font = "12px 'IBM Plex Mono', monospace"; c.fillStyle = '#fff';
+        D.forEach((d, i) => { d.y += d.v * dt; if (d.y - 10 * cs > H) { d.y = 0; d.v = rnd(30, 80); } if (Math.random() < .03) d.g[(Math.random() * 10) | 0] = S[(Math.random() * S.length) | 0];
+          for (let k = 0; k < 10; k++) { c.globalAlpha = (1 - k / 10) * (k ? .45 : .95); c.fillText(d.g[k], i * cs + 2, d.y - k * cs); } }); c.globalAlpha = 1; } };
+    },
+    warp(W, H) { // túnel de estrellas
+      const S = Array.from({ length: 150 }, () => ({ x: rnd(-1, 1), y: rnd(-1, 1), z: rnd(.05, 1) })), sc = Math.max(W, H) * .5;
+      return { draw(c, t, dt) { c.strokeStyle = '#fff'; c.lineWidth = 1;
+        for (const s of S) { const pz = s.z; s.z -= dt * .18; if (s.z <= .02) { s.x = rnd(-1, 1); s.y = rnd(-1, 1); s.z = 1; continue; }
+          const x1 = W / 2 + s.x / pz * sc * .25, y1 = H / 2 + s.y / pz * sc * .25, x2 = W / 2 + s.x / s.z * sc * .25, y2 = H / 2 + s.y / s.z * sc * .25;
+          c.globalAlpha = Math.min(1, (1 - s.z) * 1.2); c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke(); } c.globalAlpha = 1; } };
+    },
+    orbit(W, H) { // anillos orbitales
+      const rings = [0, 1, 2].map(i => ({ r: Math.min(W, H) * (.2 + i * .11), tilt: i * 1.05 + .3, sp: (.25 + i * .08) * (i % 2 ? -1 : 1), n: 46 + i * 14 }));
+      return { draw(c, t) { for (const g of rings) { const ct = Math.cos(g.tilt), st = Math.sin(g.tilt);
+          for (let i = 0; i < g.n; i++) { const a = (i / g.n) * TAU + t * g.sp, x = Math.cos(a) * g.r, y = Math.sin(a) * g.r * .36, d = (Math.sin(a) + 1) / 2;
+            c.globalAlpha = .12 + .88 * d; c.fillStyle = i % 9 ? '#fff' : '#7f8bff'; const s = 1 + 1.6 * d; c.fillRect(W / 2 + x * ct - y * st - s / 2, H / 2 + x * st + y * ct - s / 2, s, s); } }
+        c.globalAlpha = 1; c.drawImage(spr.glow, W / 2 - 14, H / 2 - 14, 28, 28); } };
+    },
+    flow(W, H) { // campo de flujo
+      const P = Array.from({ length: Math.round(Math.min(160, W / 3)) }, () => ({ x: rnd(0, W), y: rnd(0, H) }));
+      return { draw(c, t, dt) { c.strokeStyle = '#fff'; c.lineWidth = 1; c.globalAlpha = .5; c.beginPath();
+        for (const p of P) { const a = Math.sin(p.x * .008 + t * .3) * 2 + Math.cos(p.y * .01 - t * .2) * 2, vx = Math.cos(a) * 45, vy = Math.sin(a) * 45;
+          p.x += vx * dt; p.y += vy * dt; if (p.x < 0) p.x = W; if (p.x > W) p.x = 0; if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+          c.moveTo(p.x, p.y); c.lineTo(p.x - vx * .14, p.y - vy * .14); } c.stroke(); c.globalAlpha = 1; } };
+    },
+    fireflies(W, H) { // luciérnagas
+      const F = Array.from({ length: 36 }, () => ({ x: rnd(0, W), y: rnd(0, H), ph: rnd(0, TAU), sp: rnd(.3, .8), a: rnd(15, 40) }));
+      return { draw(c, t) { for (const f of F) { const x = f.x + Math.sin(t * f.sp + f.ph) * f.a, y = f.y + Math.cos(t * f.sp * .8 + f.ph) * f.a * .6, g = (Math.sin(t * f.sp * 2 + f.ph) + 1) / 2;
+          c.globalAlpha = .1 + .9 * g * g; const r = 5 + 9 * g; c.drawImage(spr.glow, x - r, y - r, r * 2, r * 2); } c.globalAlpha = 1; } };
+    },
+    streaks(W, H) { // lluvia diagonal
+      const D = Array.from({ length: 90 }, () => ({ x: rnd(-40, W), y: rnd(0, H), l: rnd(8, 22), v: rnd(140, 300) }));
+      return { draw(c, t, dt) { c.strokeStyle = '#fff'; c.lineWidth = 1; c.globalAlpha = .35; c.beginPath();
+        for (const d of D) { d.y += d.v * dt; d.x += d.v * dt * .25; if (d.y > H) { d.y = -20; d.x = rnd(-40, W); } c.moveTo(d.x, d.y); c.lineTo(d.x - d.l * .25, d.y - d.l); }
+        c.stroke(); c.globalAlpha = 1; } };
+    },
+    galaxy(W, H) { // galaxia espiral
+      const R = Math.min(W, H) * .44, P = Array.from({ length: 420 }, (_, i) => { const r = Math.pow(Math.random(), .75) * R; return { r, a: (i % 3) * TAU / 3 + r / R * 3.4 + rnd(-.25, .25), s: Math.random() < .08 }; });
+      let rot = 0;
+      return { draw(c, t, dt) { rot += dt * .12;
+        for (const p of P) { const a = p.a + rot * (1.3 - p.r / R), x = W / 2 + Math.cos(a) * p.r, y = H / 2 + Math.sin(a) * p.r * .5;
+          c.globalAlpha = .25 + .75 * (1 - p.r / R); c.fillStyle = p.s ? '#7f8bff' : '#fff'; c.fillRect(x, y, 1.6, 1.6); }
+        c.globalAlpha = .9; c.drawImage(spr.glow, W / 2 - 18, H / 2 - 18, 36, 36); c.globalAlpha = 1; } };
+    },
+    vortex(W, H) { // vórtice
+      const P = Array.from({ length: 300 }, () => ({ h: Math.random(), th: rnd(0, TAU), k: rnd(.8, 1.2), v: rnd(.6, 1.4) })), R = Math.min(W * .4, 150);
+      return { draw(c, t, dt) { c.fillStyle = '#fff';
+        for (const p of P) { p.h += dt * .03; if (p.h > 1) p.h -= 1; p.th += dt * p.v * (.6 + (1 - p.h) * 1.6);
+          const rad = (8 + Math.pow(1 - p.h, 1.6) * R) * p.k, d = (Math.sin(p.th) + 1) / 2, x = W / 2 + Math.cos(p.th) * rad + Math.sin(p.h * 6 + t * .5) * 8, y = H * .08 + p.h * H * .84;
+          c.globalAlpha = (.1 + .9 * d * d) * Math.min(1, p.h * 6, (1 - p.h) * 6); const s = .8 + 1.4 * d; c.fillRect(x, y, s, s); } c.globalAlpha = 1; } };
+    },
+    ripple(W, H) { // ondas radiales
+      const R = Math.min(W, H) * .46;
+      return { draw(c, t) { c.fillStyle = '#fff';
+        for (let k = 0; k < 8; k++) { const f = (k / 8 + t * .06) % 1, r = f * R, n = Math.floor(r * .45) + 6; c.globalAlpha = (1 - f) * .85;
+          for (let i = 0; i < n; i++) { const a = i / n * TAU + k; c.fillRect(W / 2 + Math.cos(a) * r, H / 2 + Math.sin(a) * r, 1.6, 1.6); } } c.globalAlpha = 1; } };
+    },
+    dna(W, H) { // doble hélice
+      const n = Math.round(Math.min(44, W / 9));
+      return { draw(c, t) { const A = H * .28;
+        for (let i = 0; i < n; i++) { const x = W * .08 + i / (n - 1) * W * .84, ph = i * .36 + t * 1.1, s = Math.sin(ph), cs = (Math.cos(ph) + 1) / 2, y1 = H / 2 + s * A, y2 = H / 2 - s * A;
+          c.globalAlpha = .14; c.strokeStyle = '#fff'; c.beginPath(); c.moveTo(x, y1); c.lineTo(x, y2); c.stroke();
+          c.globalAlpha = .25 + .75 * cs; c.fillStyle = '#fff'; c.beginPath(); c.arc(x, y1, 1.2 + 2.2 * cs, 0, TAU); c.fill();
+          c.globalAlpha = .25 + .75 * (1 - cs); c.fillStyle = '#7f8bff'; c.beginPath(); c.arc(x, y2, 1.2 + 2.2 * (1 - cs), 0, TAU); c.fill(); } c.globalAlpha = 1; } };
+    },
+    pulse(W, H) { // rejilla pulsante
+      const g = 18, cols = Math.floor(W / g), rows = Math.floor(H / g), ox = (W - cols * g) / 2 + g / 2, oy = (H - rows * g) / 2 + g / 2;
+      return { draw(c, t) { c.fillStyle = '#fff';
+        for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) { const x = ox + i * g, y = oy + j * g, d = Math.hypot(x - W / 2, y - H / 2), w = (Math.sin(d * .045 - t * 2) + 1) / 2, s = .8 + 2.6 * w * w;
+          c.globalAlpha = .15 + .85 * w; c.fillRect(x - s / 2, y - s / 2, s, s); } c.globalAlpha = 1; } };
+    },
+    torus(W, H) { // toroide de puntos
+      const P = []; for (let i = 0; i < 30; i++) for (let j = 0; j < 14; j++) P.push([i / 30 * TAU, j / 14 * TAU]);
+      const R = Math.min(W, H) * .27, r = R * .4; let a = 0;
+      return { draw(c, t, dt) { a += dt * .4; const ca = Math.cos(a), sa = Math.sin(a), cb = Math.cos(a * .6 + .6), sb = Math.sin(a * .6 + .6);
+        for (const [u, v] of P) { const x = (R + r * Math.cos(v)) * Math.cos(u), y = (R + r * Math.cos(v)) * Math.sin(u), z = r * Math.sin(v);
+          const x1 = x * ca + z * sa, z1 = -x * sa + z * ca, y2 = y * cb - z1 * sb, z2 = y * sb + z1 * cb, d = (z2 / (R + r) + 1) / 2;
+          c.globalAlpha = .12 + .88 * d * d; c.fillStyle = '#fff'; const s = .8 + 1.8 * d; c.fillRect(W / 2 + x1 - s / 2, H / 2 + y2 - s / 2, s, s); } c.globalAlpha = 1; } };
+    },
+    lorenz(W, H) { // atractor de Lorenz
+      let x = 1, y = 1, z = 1, i = 0; const N = 280, T = new Float32Array(N * 2), sc = Math.min(W / 50, H / 58);
+      return { draw(c, t, dt) { if (dt) for (let k = 0; k < 3; k++) { const dx = 10 * (y - x), dy = x * (28 - z) - y, dz = x * y - 8 / 3 * z; x += dx * .006; y += dy * .006; z += dz * .006; T[i * 2] = W / 2 + x * sc; T[i * 2 + 1] = H * .9 - z * sc; i = (i + 1) % N; }
+        for (let k = 0; k < N; k++) { const j = (i + k) % N, f = k / N; c.globalAlpha = f * f; c.fillStyle = f > .96 ? '#7f8bff' : '#fff'; const s = .6 + 1.8 * f; c.fillRect(T[j * 2], T[j * 2 + 1], s, s); } c.globalAlpha = 1; } };
+    },
+    fountain(W, H) { // fuente de chispas
+      const P = Array.from({ length: 130 }, () => ({ l: Math.random(), x: 0, y: 0, vx: 0, vy: 0 })), spawn = p => { p.l = 0; p.x = W / 2; p.y = H * .88; p.vx = rnd(-45, 45); p.vy = -rnd(150, 230); };
+      P.forEach(p => { spawn(p); p.l = Math.random(); p.x += p.vx * p.l * 1.6; p.y += p.vy * p.l * 1.6; });
+      return { draw(c, t, dt) { for (const p of P) { p.l += dt * .6; p.vy += 190 * dt; p.x += p.vx * dt; p.y += p.vy * dt; if (p.l > 1 || p.y > H) spawn(p);
+          c.globalAlpha = 1 - p.l; c.fillStyle = p.l < .15 ? '#7f8bff' : '#fff'; c.fillRect(p.x, p.y, 1.8, 1.8); } c.globalAlpha = 1; } };
+    },
+    cube(W, H) { // retícula 3D
+      const P = []; for (let i = 0; i < 6; i++) for (let j = 0; j < 6; j++) for (let k = 0; k < 6; k++) P.push([i / 2.5 - 1, j / 2.5 - 1, k / 2.5 - 1]);
+      const S = Math.min(W, H) * .24; let a = 0;
+      return { draw(c, t, dt) { a += dt * .35; const ca = Math.cos(a), sa = Math.sin(a), cb = Math.cos(.6), sb = Math.sin(.6);
+        for (const [x, y, z] of P) { const x1 = x * ca + z * sa, z1 = -x * sa + z * ca, y2 = y * cb - z1 * sb, z2 = y * sb + z1 * cb, p = 3 / (3 + z2), d = (z2 / 1.8 + 1) / 2;
+          c.globalAlpha = .1 + .9 * (1 - d) * (1 - d); c.fillStyle = '#fff'; const s = 1 + 2 * p; c.fillRect(W / 2 + x1 * S * p - s / 2, H / 2 + y2 * S * p - s / 2, s, s); } c.globalAlpha = 1; } };
+    },
+    snow(W, H) { // nevada
+      const F = Array.from({ length: Math.round(Math.min(130, W / 3)) }, () => ({ x: rnd(0, W), y: rnd(0, H), r: rnd(.8, 2.4), v: rnd(15, 45), ph: rnd(0, TAU) }));
+      return { draw(c, t, dt) { c.fillStyle = '#fff';
+        for (const f of F) { f.y += f.v * dt; f.x += Math.sin(t * .8 + f.ph) * 12 * dt; if (f.y > H + 4) { f.y = -4; f.x = rnd(0, W); } c.globalAlpha = .3 + f.r * .25; c.fillRect(f.x, f.y, f.r, f.r); } c.globalAlpha = 1; } };
+    },
+    bubbles(W, H) { // burbujas
+      const B = Array.from({ length: 34 }, () => ({ x: rnd(0, W), y: rnd(0, H), r: rnd(3, 14), v: rnd(14, 40), ph: rnd(0, TAU) }));
+      return { draw(c, t, dt) { c.strokeStyle = '#fff'; c.lineWidth = 1; c.fillStyle = '#fff';
+        for (const b of B) { b.y -= b.v * dt; if (b.y < -20) { b.y = H + 20; b.x = rnd(0, W); } const x = b.x + Math.sin(t * .9 + b.ph) * 10;
+          c.globalAlpha = .45; c.beginPath(); c.arc(x, b.y, b.r, 0, TAU); c.stroke(); c.globalAlpha = .8; c.fillRect(x - b.r * .45, b.y - b.r * .45, 1.8, 1.8); } c.globalAlpha = 1; } };
+    },
+    ring(W, H) { // anillo que respira
+      const R = Math.min(W, H) * .3;
+      return { draw(c, t) { for (let k = 0; k < 2; k++) { const n = k ? 90 : 150, base = R * (k ? .6 : 1);
+          for (let i = 0; i < n; i++) { const a = i / n * TAU + t * (k ? -.15 : .1), r = base * (1 + .12 * Math.sin(t * 1.2 + i * .25) + .05 * Math.sin(t * .7 + i * .07)), g = (Math.sin(t * 1.5 + i * .2) + 1) / 2;
+            c.globalAlpha = .2 + .8 * g; c.fillStyle = k && i % 8 === 0 ? '#7f8bff' : '#fff'; c.fillRect(W / 2 + Math.cos(a) * r, H / 2 + Math.sin(a) * r, 1.8, 1.8); } } c.globalAlpha = 1; } };
+    },
+    phyllo(W, H) { // girasol (ángulo áureo)
+      const N = 340, k = Math.min(W, H) * .46 / Math.sqrt(N);
+      return { draw(c, t) { for (let n = 1; n < N; n++) { const r = k * Math.sqrt(n), a = n * 2.39996 + t * .12, w = (Math.sin(t * 1.4 - r * .05) + 1) / 2, s = .8 + 1.9 * w;
+          c.globalAlpha = (1 - n / N * .5) * (.3 + .7 * w); c.fillStyle = n % 21 ? '#fff' : '#7f8bff'; c.fillRect(W / 2 + Math.cos(a) * r - s / 2, H / 2 + Math.sin(a) * r - s / 2, s, s); } c.globalAlpha = 1; } };
+    },
+    comets(W, H) { // cometas
+      const mk = () => ({ x: rnd(-W * .3, W * .7), y: rnd(-30, -10), vx: rnd(110, 190), vy: rnd(90, 150) }), C = Array.from({ length: 5 }, () => { const m = mk(); m.y = rnd(-20, H); return m; });
+      return { draw(c, t, dt) { c.fillStyle = '#fff';
+        C.forEach((m, i) => { m.x += m.vx * dt; m.y += m.vy * dt; if (m.y > H + 20 || m.x > W + 20) C[i] = mk();
+          for (let k = 0; k < 16; k++) { c.globalAlpha = (1 - k / 16) * .8; const s = 2.4 * (1 - k / 20); c.fillRect(m.x - m.vx * k * .018, m.y - m.vy * k * .018, s, s); }
+          c.globalAlpha = 1; c.drawImage(spr.glow, m.x - 9, m.y - 9, 18, 18); }); c.globalAlpha = 1; } };
+    },
+    lissa(W, H) { // curva de Lissajous
+      const n = 260, A = W * .36, B = H * .34;
+      return { draw(c, t) { for (let i = 0; i < n; i++) { const u = i / n * TAU, f = ((i / n) - t * .12) % 1, g = f < 0 ? f + 1 : f;
+          c.globalAlpha = .1 + .9 * g * g * g; c.fillStyle = g > .97 ? '#7f8bff' : '#fff'; const s = .8 + 2 * g; c.fillRect(W / 2 + Math.sin(3 * u + t * .3) * A - s / 2, H / 2 + Math.sin(2 * u) * B - s / 2, s, s); } c.globalAlpha = 1; } };
+    },
+    parallax(W, H) { // capas con paralaje
+      const L = [[55, 1, .3, 9], [45, 1.6, .55, 22], [30, 2.6, .9, 48]].map(([n, s, a, v]) => ({ s, a, v, P: Array.from({ length: n }, () => ({ x: rnd(0, W), y: rnd(0, H), ph: rnd(0, TAU) })) }));
+      return { draw(c, t, dt) { c.fillStyle = '#fff';
+        for (const l of L) { c.globalAlpha = l.a; for (const p of l.P) { p.x -= l.v * dt; if (p.x < -4) p.x = W + 4; c.fillRect(p.x, p.y + Math.sin(t * .6 + p.ph) * 4 * l.s, l.s, l.s); } } c.globalAlpha = 1; } };
+    },
+    lat(W, H) { // meridianos y paralelos
+      const R = Math.min(W, H) * .36; let a = 0;
+      return { draw(c, t, dt) { a += dt * .3; const tc = Math.cos(.45), ts = Math.sin(.45);
+        for (let i = 1; i < 10; i++) { const ph = -Math.PI / 2 + i / 10 * Math.PI, cp = Math.cos(ph), sp = Math.sin(ph);
+          for (let j = 0; j < 30; j++) { const th = j / 30 * TAU + a * (1 + i % 2 * .5), x = cp * Math.cos(th), z = cp * Math.sin(th), y1 = sp * tc - z * ts, z1 = sp * ts + z * tc, d = (z1 + 1) / 2;
+            c.globalAlpha = .1 + .9 * d * d; c.fillStyle = i === 5 ? '#7f8bff' : '#fff'; const s = .7 + 1.6 * d; c.fillRect(W / 2 + x * R - s / 2, H / 2 + y1 * R - s / 2, s, s); } } c.globalAlpha = 1; } };
+    },
+    swarm(W, H) { // enjambre
+      const P = Array.from({ length: 90 }, () => ({ x: rnd(0, W), y: rnd(0, H), vx: 0, vy: 0, k: rnd(.6, 2.2) }));
+      return { draw(c, t, dt) { const tx = W / 2 + Math.sin(t * .7) * W * .3, ty = H / 2 + Math.sin(t * 1.1) * H * .28; c.fillStyle = '#fff'; c.globalAlpha = .85;
+        for (const p of P) { p.vx += (tx - p.x) * p.k * dt; p.vy += (ty - p.y) * p.k * dt; const d = 1 - dt * .8; p.vx *= d; p.vy *= d; p.x += p.vx * dt; p.y += p.vy * dt; c.fillRect(p.x, p.y, 1.8, 1.8); }
+        c.globalAlpha = 1; c.drawImage(spr.glow, tx - 8, ty - 8, 16, 16); } };
+    },
+    burst(W, H) { // explosión radial
+      const R = Math.hypot(W, H) * .32, P = Array.from({ length: 150 }, () => ({ a: rnd(0, TAU), l: Math.random(), v: rnd(.12, .3) }));
+      return { draw(c, t, dt) { c.strokeStyle = '#fff'; c.lineWidth = 1;
+        for (const p of P) { p.l += dt * p.v; if (p.l > 1) { p.l = 0; p.a = rnd(0, TAU); } const r = p.l * p.l * R, e = 4 + p.l * 14, ca = Math.cos(p.a), sa = Math.sin(p.a);
+          c.globalAlpha = (1 - p.l) * .8; c.beginPath(); c.moveTo(W / 2 + ca * r, H / 2 + sa * r); c.lineTo(W / 2 + ca * (r + e), H / 2 + sa * (r + e)); c.stroke(); } c.globalAlpha = 1; } };
+    },
+    eq(W, H) { // ecualizador de puntos
+      const n = Math.floor(W / 14), ox = (W - n * 14) / 2 + 7;
+      return { draw(c, t) { for (let i = 0; i < n; i++) { const h = (Math.sin(t * 2 + i * .4) + Math.sin(t * 3.1 + i * .9) * .6 + Math.sin(t * .7 + i * .15) * .5 + 2.1) / 4.2 * H * .8, x = ox + i * 14, m = Math.floor(h / 16);
+          for (let k = -m; k <= m; k++) { const e = 1 - Math.abs(k) / (m + 1); c.globalAlpha = .25 + .75 * e; c.fillStyle = Math.abs(k) === m ? '#7f8bff' : '#fff'; c.fillRect(x - 1.5, H / 2 + k * 8 - 1.5, 3, 3); } } c.globalAlpha = 1; } };
+    },
+    twinkle(W, H) { // cielo estrellado
+      const S = Array.from({ length: Math.round(Math.min(190, W / 2.2)) }, () => ({ x: rnd(0, W), y: rnd(0, H), ph: rnd(0, TAU), sp: rnd(.6, 2.2), r: Math.random() < .15 ? 2 : 1 }));
+      let sh = null, nx = 1;
+      return { draw(c, t, dt) { c.fillStyle = '#fff'; for (const s of S) { c.globalAlpha = .1 + .9 * ((Math.sin(t * s.sp + s.ph) + 1) / 2) ** 2; c.fillRect(s.x, s.y, s.r, s.r); }
+        nx -= dt; if (nx <= 0 && !sh) { sh = { x: rnd(0, W * .5), y: rnd(0, H * .4), l: 0 }; nx = rnd(2, 4); }
+        if (sh) { sh.l += dt * 1.1; const x = sh.x + sh.l * W * .45, y = sh.y + sh.l * H * .4; c.strokeStyle = '#fff'; c.globalAlpha = (1 - sh.l) * .9; c.beginPath(); c.moveTo(x, y); c.lineTo(x - 46, y - 40); c.stroke(); if (sh.l > 1) sh = null; }
+        c.globalAlpha = 1; } };
+    }
+  };
+
+  const start = () => {
+    sprites(); mount(document.getElementById('fx'), hero);
+    document.querySelectorAll('[data-demo]').forEach(cv => mount(cv, demos[cv.dataset.demo]));
+    const io = new IntersectionObserver(a => a.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } }), { threshold: .15 });
+    document.querySelectorAll('.card').forEach(c => io.observe(c));
+    requestAnimationFrame(loop);
+  };
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(start);
+})();
+</script>
+</body>
+</html>

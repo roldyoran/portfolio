@@ -1,0 +1,175 @@
+---
+import { Search, X, ChevronDown } from "@lucide/astro";
+import DockerWordmark from "./docker-wordmark.astro";
+import { dockerNavLinks, dockerMegaProducts } from "@/data/docker-study";
+
+const base = import.meta.env.BASE_URL || "/";
+const baseUrl = base.endsWith("/") ? base : `${base}/`;
+const homeHref = `${baseUrl}docker/`;
+
+const [productsLink, ...otherLinks] = dockerNavLinks;
+---
+
+<header class="dk-header" data-dk-header>
+  <div class="dk-nav" data-dk-nav>
+    <a class="dk-logo" href={homeHref} aria-label="Docker hero study — home">
+      <DockerWordmark />
+    </a>
+
+    <nav class="dk-menu" aria-label="Main">
+      <ul class="dk-menu__list">
+        <li class="dk-menu__item">
+          <a
+            class="dk-menu__link"
+            href={productsLink.href}
+            aria-expanded="false"
+            aria-controls="dk-mega-products"
+            data-dk-mega-trigger
+          >
+            {productsLink.label}
+          </a>
+        </li>
+        {otherLinks.map((link) => (
+          <li class="dk-menu__item">
+            <a class="dk-menu__link" href={link.href}>{link.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="dk-utils">
+      <form
+        class="dk-search"
+        role="search"
+        action="https://docs.docker.com/search/"
+        method="get"
+        data-dk-search
+      >
+        <label class="sr-only" for="dk-search-input">Search Docker</label>
+        <input
+          class="dk-search__input"
+          id="dk-search-input"
+          type="search"
+          name="q"
+          placeholder="Search Docker"
+          autocomplete="off"
+          tabindex="-1"
+          data-dk-search-input
+        />
+        <button
+          class="dk-search__toggle"
+          type="button"
+          aria-label="Open search"
+          aria-expanded="false"
+          aria-controls="dk-search-input"
+          data-dk-search-toggle
+        >
+          <Search size={18} />
+        </button>
+        <button
+          class="dk-search__close"
+          type="button"
+          aria-label="Close search"
+          data-dk-search-close
+        >
+          <X size={18} />
+        </button>
+      </form>
+
+      <a class="dk-btn dk-btn--outline" href="https://hub.docker.com/">Sign in</a>
+      <a class="dk-btn dk-btn--primary" href="https://www.docker.com/contact-sales/">
+        Contact sales
+      </a>
+    </div>
+
+    <button
+      class="dk-burger"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="dk-mobile-menu"
+      data-dk-burger
+    >
+      <span class="dk-burger__lines" aria-hidden="true"></span>
+    </button>
+
+    <div
+      class="dk-mega"
+      id="dk-mega-products"
+      role="region"
+      aria-label="Products menu"
+      data-dk-mega-panel
+      inert
+    >
+      <div class="dk-mega__inner">
+        <p class="dk-mega__label">Product</p>
+        <ul class="dk-mega__list">
+          {dockerMegaProducts.map((item) => (
+            <li>
+              <a class="dk-mega__link" href={item.href}>
+                <span class="dk-mega__title">
+                  {item.title}
+                  {item.badge && <span class="dk-badge">{item.badge}</span>}
+                </span>
+                <span class="dk-mega__desc">{item.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="dk-mobile" id="dk-mobile-menu" data-dk-mobile inert>
+    <form class="dk-mobile__search" role="search" action="https://docs.docker.com/search/" method="get">
+      <label class="sr-only" for="dk-mobile-search">Search Docker</label>
+      <input
+        class="dk-mobile__input"
+        id="dk-mobile-search"
+        type="search"
+        name="q"
+        placeholder="Search Docker"
+        autocomplete="off"
+      />
+      <button class="dk-mobile__search-btn" type="submit" aria-label="Search">
+        <Search size={18} />
+      </button>
+    </form>
+
+    <nav class="dk-mobile__nav" aria-label="Mobile">
+      <details class="dk-mobile__group">
+        <summary class="dk-mobile__summary">
+          Products
+          <ChevronDown size={16} aria-hidden="true" />
+        </summary>
+        <ul class="dk-mobile__sublist">
+          {dockerMegaProducts.map((item) => (
+            <li>
+              <a class="dk-mobile__sublink" href={item.href}>
+                {item.title}
+                {item.badge && <span class="dk-badge">{item.badge}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+
+      {otherLinks.map((link) => (
+        <a class="dk-mobile__link" href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+
+    <div class="dk-mobile__ctas">
+      <a class="dk-btn dk-btn--outline" href="https://hub.docker.com/">Sign in</a>
+      <a class="dk-btn dk-btn--primary" href="https://www.docker.com/contact-sales/">
+        Contact sales
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  import { initDockerNav } from "@/scripts/docker-nav";
+
+  initDockerNav();
+</script>

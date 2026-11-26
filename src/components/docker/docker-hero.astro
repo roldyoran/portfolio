@@ -1,0 +1,52 @@
+---
+import { ArrowUpRight } from "@lucide/astro";
+import DockerLogos from "./docker-logos.astro";
+import { dockerHero } from "@/data/docker-study";
+
+const [subLead, subRest] = dockerHero.subtitle.split(" so ");
+---
+
+<section class="dk-hero-pin" data-dk-pin>
+  <section class="dk-hero" data-dk-hero aria-labelledby="dk-hero-title">
+    <canvas class="dk-hero__particles" data-dk-particles aria-hidden="true"></canvas>
+
+    <div class="dk-hero__grid">
+      <div class="dk-hero__copy" data-dk-copy>
+        <a
+          class="dk-hero__pill dk-anim"
+          style="--dk-delay: 0.02s"
+          href={dockerHero.pillHref}
+        >
+          <span class="dk-hero__pill-tag">{dockerHero.pillTag}</span>
+          {dockerHero.pill}
+          <ArrowUpRight class="dk-hero__pill-icon" size={12} aria-hidden="true" />
+        </a>
+
+        <h1 class="dk-hero__title" id="dk-hero-title">
+          <span class="dk-anim" style="--dk-delay: 0.05s">{dockerHero.titleLead}</span>
+          <span class="dk-anim" style="--dk-delay: 0.2s">
+            <span class="dk-hero__title-soft">{dockerHero.titleSoft}</span>
+          </span>
+        </h1>
+
+        <div class="dk-hero__side">
+          <p class="dk-hero__sub dk-anim" style="--dk-delay: 0.38s">
+            {subLead}<br class="dk-hero__br" />
+            so {subRest}
+          </p>
+        </div>
+      </div>
+
+      <div class="dk-hero__zone" data-dk-zone></div>
+    </div>
+
+    <DockerLogos />
+    <p class="sr-only">{dockerHero.logosLabel}</p>
+  </section>
+</section>
+
+<script>
+  import { initDockerHero } from "@/scripts/docker-hero";
+
+  initDockerHero();
+</script>

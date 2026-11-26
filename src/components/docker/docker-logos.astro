@@ -1,0 +1,39 @@
+---
+import { dockerLogos, dockerLogoCellCount } from "@/data/docker-study";
+
+const base = import.meta.env.BASE_URL || "/";
+const baseUrl = base.endsWith("/") ? base : `${base}/`;
+
+// Each cell holds the full logo set stacked on top of each other; the script
+// crossfades from one active logo to the next, like the source hero.
+const cells = Array.from({ length: dockerLogoCellCount }, (_, cellIndex) => cellIndex);
+---
+
+<div class="dk-logos" data-dk-logos aria-hidden="true">
+  {cells.map((cellIndex) => (
+    <div
+      class="dk-logo-cell"
+      data-dk-logo-cell
+      style={`--dk-logo-delay: ${(cellIndex * 0.12).toFixed(2)}s`}
+    >
+      {dockerLogos.map((logo, logoIndex) => (
+        <img
+          class:list={["dk-logo-img", { "is-in": logoIndex === cellIndex }]}
+          src={`${baseUrl}docker-logos/${logo.file}`}
+          alt=""
+          width={logo.width}
+          height={logo.intrinsicHeight}
+          style={`--h: ${logo.height}px`}
+          data-dk-logo={logoIndex}
+          decoding="async"
+        />
+      ))}
+    </div>
+  ))}
+</div>
+
+<script>
+  import { initDockerLogos } from "@/scripts/docker-logos";
+
+  initDockerLogos();
+</script>

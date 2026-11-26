@@ -1,0 +1,29 @@
+---
+import DockerLayout from "@/layouts/docker-layout.astro";
+import DockerNav from "@/components/docker/docker-nav.astro";
+import DockerHero from "@/components/docker/docker-hero.astro";
+
+const base = import.meta.env.BASE_URL || "/";
+const baseUrl = base.endsWith("/") ? base : `${base}/`;
+---
+
+<DockerLayout>
+  <DockerNav />
+
+  <main id="dk-main">
+    <DockerHero />
+
+    <section class="dk-after" aria-labelledby="dk-after-title">
+      <div class="dk-after__inner">
+        <p class="dk-after__label">Design study</p>
+        <h2 id="dk-after-title">Hero &amp; navbar recreation of docker.com.</h2>
+        <p>
+          Built with Astro, Tailwind CSS and a hand-written canvas particle field. Docker and its
+          product marks belong to Docker, Inc. This page is a personal study and is not affiliated
+          with Docker.
+        </p>
+        <a href={baseUrl}>← Back to the portfolio</a>
+      </div>
+    </section>
+  </main>
+</DockerLayout>

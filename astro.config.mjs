@@ -65,6 +65,34 @@ export default defineConfig({
       },
     },
     {
+      name: 'Inter Tight',
+      cssVariable: '--font-docker-display',
+      provider: fontProviders.local(),
+      options: {
+        variants: [
+          {
+            weight: '300 500',
+            style: 'normal',
+            src: ['./src/assets/fonts/InterTight-Variable.woff2'],
+          },
+        ],
+      },
+    },
+    {
+      name: 'Inter',
+      cssVariable: '--font-docker-body',
+      provider: fontProviders.local(),
+      options: {
+        variants: [
+          {
+            weight: '300 500',
+            style: 'normal',
+            src: ['./src/assets/fonts/Inter-Variable.woff2'],
+          },
+        ],
+      },
+    },
+    {
       name: 'Geist Mono',
       cssVariable: '--font-mono',
       provider: fontProviders.local(),
