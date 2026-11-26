@@ -21,7 +21,7 @@ const navItems = [
 ---
 
 <nav id="sidenav" class="fixed top-3 md:top-4 left-1/2 -translate-x-1/2 z-100 hidden lg:block w-[min(1060px,calc(100%-3rem))]" aria-label={lang === "es" ? "Navegación principal" : "Main navigation"}>
-  <div class="flex items-center justify-between gap-6 rounded-full border border-line bg-bg2/90 backdrop-blur-md pl-5 pr-2 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.45)]">
+  <div class="flex items-center justify-between gap-6 rounded-lg border border-line2 bg-ink/60 backdrop-blur-md pl-5 pr-2 py-2 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
   <div class="flex items-center gap-2 min-w-0">
     <a href="#home" class="nav-logo">@roldyoran</a>
     <div id="scroll-pct" class="nav-counter font-mono text-[0.72rem] text-t3 tracking-widest">00%</div>
@@ -46,7 +46,7 @@ const navItems = [
     font-family: var(--font-mono);
     font-size: 0.85rem;
     letter-spacing: 0.06em;
-    color: var(--color-t1);
+    color: var(--color-cream);
     text-decoration: none;
     font-weight: 700;
   }
@@ -70,7 +70,7 @@ const navItems = [
     left: 50%;
     width: 0;
     height: 2px;
-    background: var(--color-o);
+    background: var(--color-ember);
     transition: width 0.3s ease, left 0.3s ease;
   }
 
@@ -114,18 +114,18 @@ const navItems = [
     letter-spacing: 0.12em;
     text-transform: uppercase;
     font-weight: 700;
-    color: #000;
-    background: var(--color-o);
+    color: var(--color-ink);
+    background: var(--color-ember);
     text-decoration: none;
     padding: 9px 18px;
-    border-radius: 999px;
+    border-radius: var(--radius-md);
     transition: background 0.2s, transform 0.2s;
     white-space: nowrap;
   }
 
   .nav-hire:hover {
-    background: var(--color-o-hover);
-    color: #fff;
+    background: var(--color-ember-hover);
+    color: var(--color-ink);
     transform: translateY(-1px);
   }
 </style>

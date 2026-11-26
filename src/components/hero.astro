@@ -1,129 +1,188 @@
 ---
-import HeroBento from "@/components/hero-bento.astro";
-import type { Hero } from "@/data/types";
+import { ArrowUpRight } from "@lucide/astro";
+import HeroLogos from "@/components/hero-logos.astro";
+import type { Hero, IconMap } from "@/data/types";
 import type { Lang } from "@/i18n/config";
-import config from "@/data/content";
+import { useTranslations } from "@/i18n/ui";
 
 interface Props {
   hero: Hero;
-  email?: string;
   lang: Lang;
-  githubStats?: {
-    repos: number;
-    followers: number;
-    contributions: number;
-    yearsExp: number;
-  };
+  logosLabel: string;
+  logoItems: string[];
+  logoIcons: IconMap;
 }
 
-const { hero, email = "#", lang, githubStats } = Astro.props;
+const { hero, lang, logosLabel, logoItems, logoIcons } = Astro.props;
+const t = useTranslations(lang);
+const summary = lang === "es" ? hero.descriptionEs : hero.description;
 ---
 
 <script>
-  import "@/scripts/hero-motion";
-  import "@/scripts/live-clock";
-  import "@/scripts/download-cv";
-  import { initNeuralGrid } from "@/scripts/neural-grid";
+  import { initPortfolioHero } from "@/scripts/portfolio-hero";
 
-  initNeuralGrid("#neural-canvas");
+  initPortfolioHero();
 </script>
 
-<section
-  id="home"
-  class="hero-section relative overflow-hidden border-b border-line pt-4 md:pt-6 pb-10 md:pb-14"
->
-  <canvas id="neural-canvas" class="hero-canvas"></canvas>
+<section id="home" class="ph-hero" data-ph-hero aria-labelledby="ph-title">
+  <canvas class="ph-hero__particles" data-ph-particles aria-hidden="true"></canvas>
 
-  <div class="container-page relative z-10">
-    <HeroBento
-      hero={hero}
-      email={email}
-      lang={lang}
-      github={config.social.github}
-      linkedin={config.social.linkedin}
-      githubStats={githubStats}
-    />
+  <div class="ph-hero__inner">
+    <h1 class="ph-hero__title ph-anim" id="ph-title" style="--d: 0.05s">
+      <span>{hero.namePrimary}</span>
+      <span class="ph-hero__title-soft">{hero.nameAccent}</span>
+    </h1>
+
+    <p class="ph-hero__sub ph-anim" style="--d: 0.38s">
+      {summary}
+    </p>
+
+    <div class="ph-hero__ctas ph-anim" style="--d: 0.5s">
+      <a class="ph-hero__cta" href="#contact">
+        {t.hero.contactMe}
+        <ArrowUpRight size={16} aria-hidden="true" />
+      </a>
+    </div>
+
+    <div class="ph-hero__logos ph-anim" style="--d: 0.6s">
+      <HeroLogos items={logoItems} icons={logoIcons} />
+      <p class="sr-only">{logosLabel}</p>
+    </div>
   </div>
 </section>
 
-<style is:global>
-  .copy-email-btn-hero {
+<style>
+  .ph-hero {
     position: relative;
-    aspect-ratio: 1;
-    width: 52px;
-    flex: 0 0 52px;
-    padding: 0 !important;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    padding-top: clamp(7rem, 18vh, 11rem);
+    overflow: hidden;
+    border-bottom-right-radius: 48px;
+    border-bottom-left-radius: 48px;
+    background: var(--color-ink);
+    color: var(--color-cream);
   }
 
-  .copy-email-btn-hero .email-label {
-    display: none;
-  }
-
-  .copy-email-btn-hero.copied {
-    background: #16a34a !important;
-    border-color: #16a34a !important;
-    color: #fff !important;
-    box-shadow: 0 0 20px rgba(22, 163, 74, 0.4);
-  }
-
-  .hero-anim {
-    --load-order: 1;
-  }
-  .hero-anim:nth-child(2) {
-    --load-order: 2;
-  }
-  .hero-anim:nth-child(3) {
-    --load-order: 3;
-  }
-  .hero-anim:nth-child(4) {
-    --load-order: 4;
-  }
-  .hero-anim:nth-child(5) {
-    --load-order: 5;
-  }
-  .hero-anim:nth-child(6) {
-    --load-order: 6;
-  }
-
-  .hero-anim {
-    opacity: 0;
-    animation: hero-fade-in 0.9s cubic-bezier(0.25, 0.1, 0.25, 1) calc(var(--load-order) * 0.08s)
-      forwards;
-  }
-
-  @keyframes hero-fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .hero-canvas {
+  .ph-hero__particles {
     position: absolute;
     inset: 0;
+    z-index: 0;
     width: 100%;
     height: 100%;
+    color: var(--color-cream);
+    opacity: 0;
     pointer-events: none;
-    -webkit-mask-image: radial-gradient(ellipse 82% 78% at 50% 52%, #000 28%, transparent 92%);
-    mask-image: radial-gradient(ellipse 82% 78% at 50% 52%, #000 28%, transparent 92%);
-    z-index: 0;
+    transition: opacity 1s ease;
+    -webkit-mask-image:
+      linear-gradient(to bottom, #000 0, #000 58%, transparent 100%),
+      linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to bottom, #000 0, #000 58%, transparent 100%),
+      linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%);
+    mask-composite: intersect;
   }
 
-  noscript .hero-anim {
-    opacity: 1 !important;
-    transform: none !important;
-    animation: none;
+  .ph-hero__particles.is-ready {
+    opacity: 1;
+  }
+
+  .ph-hero__inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    width: min(1100px, 100% - 3rem);
+    margin: 0 auto;
+    padding-bottom: 2rem;
+  }
+
+  .ph-hero__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(4.5rem, 13vw, 11rem);
+    line-height: 0.95;
+    letter-spacing: 0.01em;
+  }
+
+  .ph-hero__title > span {
+    display: block;
+  }
+
+  .ph-hero__title-soft {
+    color: var(--color-soft-ink);
+  }
+
+  .ph-hero__sub {
+    max-width: 44rem;
+    margin: 1.5rem 0 0;
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 2vw, 1.375rem);
+    line-height: 1.6;
+    color: var(--color-cream);
+  }
+
+  .ph-hero__ctas {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .ph-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.75rem;
+    border-radius: var(--radius-md);
+    background: var(--color-ember);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition:
+      background 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .ph-hero__cta:hover {
+    background: var(--color-ember-hover);
+    transform: translateY(-1px);
+  }
+
+  .ph-hero__cta:focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 3px;
+  }
+
+  .ph-hero__logos {
+    margin-top: 3.5rem;
+    padding-bottom: 3rem;
+  }
+
+  .ph-anim {
+    opacity: 0;
+    animation: ph-hero-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0s) both;
+  }
+
+  @keyframes ph-hero-in {
+    from {
+      opacity: 0;
+      transform: translateY(-14px);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-anim {
+    .ph-anim {
       animation: none !important;
       opacity: 1 !important;
       transform: none !important;

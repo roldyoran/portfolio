@@ -1,0 +1,173 @@
+---
+import GithubIcon from "@/components/icons/github.astro";
+import type { Lang } from "@/i18n/config";
+import { useTranslations } from "@/i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+interface NavLink {
+  href: string;
+  label: string;
+}
+
+const links: NavLink[] = [
+  { href: "#home", label: t.nav.home },
+  { href: "#experience", label: t.nav.work },
+  { href: "#projects", label: t.nav.projects },
+  { href: "#about", label: t.nav.about },
+  { href: "#contact", label: t.nav.contact },
+];
+---
+
+<nav
+  id="v2nav"
+  class="fixed top-3 md:top-4 left-1/2 -translate-x-1/2 z-100 hidden lg:block w-[min(1060px,calc(100%-3rem))]"
+  aria-label={lang === "es" ? "Navegación principal" : "Main navigation"}
+>
+  <div
+    class="flex items-center justify-between gap-6 rounded-lg border border-line bg-ink/60 backdrop-blur-md pl-5 pr-2 py-2 shadow-[0_4px_16px_rgba(0,0,0,0.4)]"
+  >
+    <div class="flex items-center gap-2 min-w-0">
+      <a href="#home" class="v2nav-logo">@roldyoran</a>
+      <div id="scroll-pct" class="v2nav-counter font-mono text-[0.72rem] tracking-widest">00%</div>
+    </div>
+
+    <div class="flex gap-7 items-center min-w-0">
+      {
+        links.map((item) => (
+          <a
+            href={item.href}
+            class="nav-item"
+            aria-current={item.href === "#home" ? "true" : "false"}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a
+        href="https://github.com/roldyoran"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="v2nav-icon"
+        aria-label="GitHub"
+      >
+        <GithubIcon size={16} />
+      </a>
+      <a href="#contact" class="v2nav-hire">{t.nav.hireMe}</a>
+    </div>
+
+  </div>
+</nav>
+
+<style>
+  /* Entrada réplica Docker 1:1 — fade puro, 0.5s de retardo, 0.9s de duración */
+  #v2nav {
+    opacity: 0;
+    animation: v2nav-in 0.9s ease 0.5s forwards;
+  }
+
+  @keyframes v2nav-in {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #v2nav {
+      animation: none;
+      opacity: 1;
+    }
+  }
+
+  .v2nav-logo {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    color: var(--color-cream);
+    text-decoration: none;
+    font-weight: 700;
+  }
+
+  .v2nav-counter {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: color-mix(in oklch, var(--color-cream) 50%, transparent);
+    letter-spacing: 0.06em;
+  }
+
+  .nav-item {
+    position: relative;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: color-mix(in oklch, var(--color-cream) 70%, transparent);
+    text-decoration: none;
+    padding: 4px 0;
+    transition: color 0.2s;
+  }
+
+  .nav-item::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--color-ember);
+    transition:
+      width 0.3s ease,
+      left 0.3s ease;
+  }
+
+  .nav-item:hover,
+  .nav-item.active {
+    color: var(--color-cream);
+  }
+
+  .nav-item:hover::after,
+  .nav-item.active::after {
+    width: 100%;
+    left: 0;
+  }
+
+  .v2nav-icon {
+    color: color-mix(in oklch, var(--color-cream) 70%, transparent);
+    transition: color 0.2s;
+  }
+
+  .v2nav-icon:hover {
+    color: var(--color-cream);
+  }
+
+  .v2nav-hire {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--color-ink);
+    background: var(--color-ember);
+    text-decoration: none;
+    padding: 9px 18px;
+    border-radius: var(--radius-md);
+    transition:
+      background 0.2s,
+      transform 0.2s;
+    white-space: nowrap;
+  }
+
+  .v2nav-hire:hover {
+    background: var(--color-ember-hover);
+    transform: translateY(-1px);
+  }
+</style>
+
+<script>
+  import "@/scripts/navbar";
+</script>

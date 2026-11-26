@@ -1,0 +1,49 @@
+---
+import "../styles/v2.css";
+import { Font } from "astro:assets";
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: "es" | "en";
+}
+
+const {
+  title = "Edgar Alvarez — Portfolio v2",
+  description = "Portafolio de Edgar Alvarez, ingeniero DevOps y backend. Lienzo v2 en construcción.",
+  lang = "es",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="author" content="Edgar Alvarez" />
+    <meta name="theme-color" content="#101010" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+
+    <Font cssVariable="--font-docker-display" preload />
+    <Font cssVariable="--font-docker-body" preload />
+    <Font cssVariable="--font-mono" preload />
+  </head>
+  <body class="bg-ink text-cream font-body min-h-screen">
+    <a
+      href="#v2-main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-999 focus:rounded-md focus:bg-ember focus:px-4 focus:py-2 focus:font-mono focus:text-sm focus:text-ink"
+    >
+      Saltar al contenido
+    </a>
+
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  section[id] {
+    scroll-margin-top: 4rem;
+  }
+</style>

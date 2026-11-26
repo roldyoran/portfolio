@@ -22,7 +22,7 @@ interface Props {
 
 const { lang } = Astro.props;
 
-const githubStats = config.githubStats;
+const logosLabel = lang === "es" ? "Tecnologías" : "Technologies";
 
 const mobileLocation = lang === "es" ? config.locationEs || config.location : config.location;
 const aboutBio = lang === "es" ? config.bioEs : config.bio;
@@ -35,12 +35,13 @@ const aboutBio = lang === "es" ? config.bioEs : config.bio;
 <main id="main-content" class="relative z-10 pt-13 lg:pt-16">
   <Hero
     hero={config.hero}
-    email={config.email}
     lang={lang}
-    githubStats={githubStats}
+    logosLabel={logosLabel}
+    logoItems={config.marquee}
+    logoIcons={marqueeTechIcons}
   />
 
-  <Marquee items={config.marquee} icons={marqueeTechIcons} label={lang === "es" ? "Tecnologías" : "Technologies"} />
+  <Marquee items={config.marquee} icons={marqueeTechIcons} label={logosLabel} />
 
   <div class="container-page">
     <Experience experience={experience} lang={lang} />

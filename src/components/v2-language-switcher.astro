@@ -1,0 +1,48 @@
+---
+import type { Lang } from "@/i18n/config";
+
+interface Props {
+  currentLang: Lang;
+  esHref: string;
+  enHref: string;
+}
+
+const { currentLang, esHref, enHref } = Astro.props;
+
+interface SwitchLink {
+  href: string;
+  label: string;
+  lang: Lang;
+  active: boolean;
+}
+
+const links: SwitchLink[] = [
+  { href: enHref, label: "English", lang: "en", active: currentLang === "en" },
+  { href: esHref, label: "Español", lang: "es", active: currentLang === "es" },
+];
+---
+
+<div
+  class="flex items-center gap-1.5 font-mono text-[0.65rem] tracking-wider"
+  role="navigation"
+  aria-label="Language"
+>
+  {
+    links.map((link, index) => (
+      <>
+        {index > 0 && <span class="text-cream/40">/</span>}
+        <a
+          href={link.href}
+          hreflang={link.lang}
+          aria-current={link.active ? "true" : "false"}
+          class:list={[
+            "px-1.5 py-0.5 no-underline transition-colors duration-200",
+            link.active ? "font-bold text-ember" : "text-cream/60 hover:text-cream",
+          ]}
+        >
+          {link.label}
+        </a>
+      </>
+    ))
+  }
+</div>

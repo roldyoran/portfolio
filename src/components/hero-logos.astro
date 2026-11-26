@@ -1,0 +1,115 @@
+---
+import type { IconMap } from "@/data/types";
+
+interface Props {
+  items: string[];
+  icons: IconMap;
+  /** Visible cells; every cell stacks the full set and shows one at a time. */
+  cells?: number;
+}
+
+const { items, icons, cells = 6 } = Astro.props;
+
+// Each cell holds the full logo set stacked on top of each other; the script
+// crossfades from one active logo to the next, like the /docker hero.
+const cellIndexes = Array.from({ length: cells }, (_, cellIndex) => cellIndex);
+---
+
+<div class="hero-logos" data-hero-logos aria-hidden="true">
+  {
+    cellIndexes.map((cellIndex) => (
+      <div
+        class="hero-logo-cell animate-rise opacity-0"
+        data-hero-logo-cell
+        style={`animation-delay: calc(0.55s + ${(cellIndex * 0.12).toFixed(2)}s)`}
+      >
+        {items.map((item, logoIndex) => {
+          const Icon = icons[item];
+          return Icon ? (
+            <span
+              class:list={["hero-logo-img", { "is-in": logoIndex === cellIndex % items.length }]}
+              data-hero-logo={logoIndex}
+              title={item}
+            >
+              <Icon size={30} />
+            </span>
+          ) : null;
+        })}
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .hero-logos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .hero-logos {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+  }
+
+  .hero-logo-cell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  .hero-logo-img {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(6px);
+    transition:
+      opacity 1.1s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1),
+      filter 1.1s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .hero-logo-img.is-in {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+
+  .hero-logo-img.is-out {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(-6px);
+  }
+
+  .hero-logo-img svg {
+    width: 30px;
+    height: 30px;
+    opacity: 0.92;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-logo-cell {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    .hero-logo-img {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { initHeroLogos } from "@/scripts/hero-logos";
+
+  initHeroLogos();
+</script>

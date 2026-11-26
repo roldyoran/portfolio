@@ -14,6 +14,17 @@
   --color-t2: rgba(245,243,239,0.92);
   --color-t3: rgba(245,243,239,0.8);
 
+  /* Design System v2 — tokens (ver design-system-v2.md) */
+  --color-ink: oklch(17.3% 0 0);
+  --color-cream: oklch(99.47% 0.004 78);
+  --color-soft-ink: color-mix(in oklch, oklch(99.47% 0.004 78) 62%, oklch(17.3% 0 0));
+  --color-line2: oklch(99.47% 0.004 78 / 0.09);
+  --color-ember: oklch(65.85% 0.167 44);
+  --color-ember-hover: oklch(71.08% 0.154 46);
+  --color-ember-deep: oklch(55.64% 0.139 46);
+  --color-ember-soft: color-mix(in oklch, oklch(65.85% 0.167 44) 12%, transparent);
+  --color-ring: oklch(65.85% 0.167 44);
+
   --font-mono: 'Geist Mono', monospace;
   --font-sans: 'Space Grotesk', sans-serif;
   --font-big: 'Bebas Neue', sans-serif;
@@ -28,10 +39,29 @@
 
   --shadow-text-sm: 0 0 40px rgba(0,0,0,0.5);
 
+  /* Design System v2 — esquinas afiladas + easing del sitio */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.375rem;
+  --ease-site: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --animate-rise: rise 0.9s var(--ease-site) forwards;
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
+
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.4; }
   }
+}
+
+/* Design System v2 — display/body mapean a las fuentes actuales del portafolio */
+@theme inline {
+  --font-display: var(--font-big);
+  --font-body: var(--font-sans);
 }
 
 @layer base {
