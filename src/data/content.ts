@@ -292,9 +292,9 @@ const config: Config = {
     nameAccent: "Alvarez",
     backdrop: "EDGAR",
     description:
-      "Systems student. Backend, Kubernetes and cloud with Go, Python and TypeScript, plus AI harness.",
+      "AI Engineering & DevOps. I build production backends, cloud infrastructure and AI automation with Go, Python and TypeScript.",
     descriptionEs:
-      "Estudiante de Sistemas. Backend, Kubernetes y cloud con Go, Python y TypeScript, más harness de IA.",
+      "AI Engineering & DevOps. Construyo backends de producción, infraestructura cloud y automatización con IA usando Go, Python y TypeScript.",
     tagline: "APIs, K8s & AI Harness<br />shipped to production.",
     taglineEs: "APIs, K8s y Harness de IA<br />en producción.",
     years: "5+",
