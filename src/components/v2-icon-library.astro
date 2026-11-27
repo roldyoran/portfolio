@@ -1,0 +1,159 @@
+---
+import TablerTechIcon from "@/components/icons/tabler-tech-icon.astro";
+import type { TablerTechIcon as TablerIconName } from "@/data/tabler-icons";
+
+import AiHarness from "@/components/icons/tech/ai-harness.astro";
+import ApacheKafka from "@/components/icons/tech/apache-kafka.astro";
+import AstroIcon from "@/components/icons/tech/astro.astro";
+import Aws from "@/components/icons/tech/aws.astro";
+import Cicd from "@/components/icons/tech/cicd.astro";
+import ClaudeAi from "@/components/icons/tech/claude-ai.astro";
+import CloudflareWorkers from "@/components/icons/tech/cloudflare-workers.astro";
+import Cloudflare from "@/components/icons/tech/cloudflare.astro";
+import Docker from "@/components/icons/tech/docker.astro";
+import DrizzleOrm from "@/components/icons/tech/drizzle-orm.astro";
+import FastApi from "@/components/icons/tech/fast-api.astro";
+import Gcp from "@/components/icons/tech/gcp.astro";
+import Git from "@/components/icons/tech/git.astro";
+import Go from "@/components/icons/tech/go.astro";
+import Grafana from "@/components/icons/tech/grafana.astro";
+import Graphql from "@/components/icons/tech/graphql.astro";
+import Grpc from "@/components/icons/tech/grpc.astro";
+import Hono from "@/components/icons/tech/hono.astro";
+import Java from "@/components/icons/tech/java.astro";
+import Javascript from "@/components/icons/tech/javascript.astro";
+import Kafka from "@/components/icons/tech/kafka.astro";
+import Kubernetes from "@/components/icons/tech/kubernetes.astro";
+import Linux from "@/components/icons/tech/linux.astro";
+import Mysql from "@/components/icons/tech/mysql.astro";
+import Nodejs from "@/components/icons/tech/nodejs.astro";
+import OhMyPi from "@/components/icons/tech/oh-my-pi.astro";
+import Ollama from "@/components/icons/tech/ollama.astro";
+import Openai from "@/components/icons/tech/openai.astro";
+import Opencode from "@/components/icons/tech/opencode.astro";
+import Pi from "@/components/icons/tech/pi.astro";
+import Postgresql from "@/components/icons/tech/postgresql.astro";
+import Python from "@/components/icons/tech/python.astro";
+import Rabbitmq from "@/components/icons/tech/rabbitmq.astro";
+import React from "@/components/icons/tech/react.astro";
+import Redis from "@/components/icons/tech/redis.astro";
+import Rust from "@/components/icons/tech/rust.astro";
+import Sqlite from "@/components/icons/tech/sqlite.astro";
+import Tailwind from "@/components/icons/tech/tailwind.astro";
+import Turso from "@/components/icons/tech/turso.astro";
+import Typescript from "@/components/icons/tech/typescript.astro";
+import Vue from "@/components/icons/tech/vue.astro";
+
+interface TechFile {
+  file: string;
+  Component: typeof AiHarness;
+  tabler?: TablerIconName;
+}
+
+/** All 41 .astro files in src/components/icons/tech, alphabetically. */
+const techFiles: TechFile[] = [
+  { file: "ai-harness", Component: AiHarness },
+  { file: "apache-kafka", Component: ApacheKafka },
+  { file: "astro", Component: AstroIcon, tabler: "brand-astro" },
+  { file: "aws", Component: Aws, tabler: "brand-aws" },
+  { file: "cicd", Component: Cicd },
+  { file: "claude-ai", Component: ClaudeAi },
+  { file: "cloudflare-workers", Component: CloudflareWorkers },
+  { file: "cloudflare", Component: Cloudflare, tabler: "brand-cloudflare" },
+  { file: "docker", Component: Docker, tabler: "brand-docker" },
+  { file: "drizzle-orm", Component: DrizzleOrm },
+  { file: "fast-api", Component: FastApi },
+  { file: "gcp", Component: Gcp },
+  { file: "git", Component: Git, tabler: "brand-git" },
+  { file: "go", Component: Go, tabler: "brand-golang" },
+  { file: "grafana", Component: Grafana },
+  { file: "graphql", Component: Graphql, tabler: "brand-graphql" },
+  { file: "grpc", Component: Grpc },
+  { file: "hono", Component: Hono },
+  { file: "java", Component: Java },
+  { file: "javascript", Component: Javascript, tabler: "brand-javascript" },
+  { file: "kafka", Component: Kafka },
+  { file: "kubernetes", Component: Kubernetes },
+  { file: "linux", Component: Linux },
+  { file: "mysql", Component: Mysql, tabler: "brand-mysql" },
+  { file: "nodejs", Component: Nodejs, tabler: "brand-nodejs" },
+  { file: "oh-my-pi", Component: OhMyPi },
+  { file: "ollama", Component: Ollama },
+  { file: "openai", Component: Openai, tabler: "brand-openai" },
+  { file: "opencode", Component: Opencode },
+  { file: "pi", Component: Pi },
+  { file: "postgresql", Component: Postgresql },
+  { file: "python", Component: Python, tabler: "brand-python" },
+  { file: "rabbitmq", Component: Rabbitmq },
+  { file: "react", Component: React, tabler: "brand-react" },
+  { file: "redis", Component: Redis },
+  { file: "rust", Component: Rust, tabler: "brand-rust" },
+  { file: "sqlite", Component: Sqlite },
+  { file: "tailwind", Component: Tailwind, tabler: "brand-tailwind" },
+  { file: "turso", Component: Turso },
+  { file: "typescript", Component: Typescript, tabler: "brand-typescript" },
+  { file: "vue", Component: Vue, tabler: "brand-vue" },
+];
+---
+
+<section id="icon-library" class="mt-24 md:mt-36" aria-labelledby="v2-icon-library-title">
+  <div class="v2-reveal" data-v2-reveal>
+    <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-ink/50">
+      05 · Referencia
+    </p>
+    <h2
+      id="v2-icon-library-title"
+      class="mt-3 max-w-[18ch] font-display text-[clamp(32px,5vw,64px)] leading-[1.04] tracking-[-0.03em]"
+    >
+      Sección de iconos.
+    </h2>
+    <p class="mt-5 max-w-[62ch] font-body text-sm font-light leading-relaxed text-ink/60">
+      Los <strong class="font-medium text-ink/80">{techFiles.length} archivos</strong> de
+      <code class="font-mono text-[0.92em]">components/icons/tech</code>, en orden alfabético.
+      La columna Tabler solo aparece cuando existe un glifo exacto para esa tecnología.
+    </p>
+  </div>
+
+  <ul class="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    {
+      techFiles.map(({ file, Component, tabler }, index) => (
+        <li
+          class="v2-reveal rounded-lg border border-ink/10 bg-white/55 p-4"
+          data-v2-reveal
+          style={`--reveal-delay:${Math.min(index * 25, 300)}ms`}
+        >
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-mono text-[11px] tracking-[0.04em] text-ink/70">
+              {file}<span class="text-ink/30">.astro</span>
+            </h3>
+            <span class="font-mono text-[9px] uppercase tracking-[0.1em] text-ink/35">
+              {tabler ? "Tabler / .astro" : "Solo .astro"}
+            </span>
+          </div>
+
+          <div class="mt-4 grid grid-cols-2 gap-2">
+            <div class="flex flex-col items-center justify-between gap-3 rounded-md border border-ink/10 bg-[#2a2a2a] px-2 py-4 text-cream">
+              <Component size={44} />
+              <span class="font-mono text-[9px] uppercase tracking-[0.12em] text-cream/45">
+                Original .astro
+              </span>
+            </div>
+
+            <div class="flex flex-col items-center justify-between gap-3 rounded-md border border-ink/10 bg-[#2a2a2a] px-2 py-4 text-cream">
+              {tabler ? (
+                <TablerTechIcon name={tabler} size={44} />
+              ) : (
+                <span class="flex h-11 items-center font-mono text-lg text-cream/25" aria-hidden="true">
+                  —
+                </span>
+              )}
+              <span class="font-mono text-[9px] uppercase tracking-[0.12em] text-cream/45">
+                {tabler ? "Tabler" : "Sin Tabler"}
+              </span>
+            </div>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>

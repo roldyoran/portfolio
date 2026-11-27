@@ -1,16 +1,27 @@
 ---
 import V2Layout from "@/layouts/v2-layout.astro";
 import V2Navbar from "@/components/v2-navbar.astro";
+import V2Hero from "@/components/v2-hero.astro";
+import V2ScrollStudy from "@/components/v2-scroll-study.astro";
+import config, { tablerBrandLabels } from "@/data/content";
 
 const title = "Edgar Alvarez — Portfolio v2 (borrador)";
 const description =
-  "Lienzo en blanco v2 del portafolio de Edgar Alvarez. Navbar + hero estilo Docker con design system v2.";
+  "Borrador v2 del portafolio de Edgar Alvarez: navbar y hero estilo Docker, más una sección temporal para probar el scroll.";
+const logosLabel = "Tecnologías";
 ---
 
 <V2Layout title={title} description={description} lang="es">
   <V2Navbar lang="es" />
 
   <main id="v2-main">
-    {/* v2-hero */}
+    <V2Hero
+      hero={config.hero}
+      lang="es"
+      logosLabel={logosLabel}
+      logoItems={tablerBrandLabels}
+    />
+
+    <V2ScrollStudy />
   </main>
 </V2Layout>

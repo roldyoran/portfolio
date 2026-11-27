@@ -13,6 +13,9 @@ const {
   description = "Portafolio de Edgar Alvarez, ingeniero DevOps y backend. Lienzo v2 en construcción.",
   lang = "es",
 } = Astro.props;
+
+const base = import.meta.env.BASE_URL || "/";
+const baseUrl = base.endsWith("/") ? base : `${base}/`;
 ---
 
 <!doctype html>
@@ -23,8 +26,12 @@ const {
     <meta name="generator" content={Astro.generator} />
     <meta name="author" content="Edgar Alvarez" />
     <meta name="theme-color" content="#101010" />
+    <meta name="robots" content="noindex, nofollow" />
     <meta name="description" content={description} />
     <title>{title}</title>
+
+    <link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
+    <link rel="icon" href={`${baseUrl}favicon.ico`} />
 
     <Font cssVariable="--font-docker-display" preload />
     <Font cssVariable="--font-docker-body" preload />
@@ -44,6 +51,6 @@ const {
 
 <style is:global>
   section[id] {
-    scroll-margin-top: 4rem;
+    scroll-margin-top: 5.5rem;
   }
 </style>

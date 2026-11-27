@@ -9,12 +9,12 @@
   --color-soft-ink: color-mix(in oklch, oklch(99.47% 0.004 78) 62%, oklch(17.3% 0 0));
   --color-line: oklch(99.47% 0.004 78 / 0.09);
 
-  --color-ember: oklch(65.85% 0.167 44);
-  --color-ember-hover: oklch(71.08% 0.154 46);
-  --color-ember-deep: oklch(55.64% 0.139 46);
-  --color-ember-soft: color-mix(in oklch, oklch(65.85% 0.167 44) 12%, transparent);
+  --color-ember: oklch(80% 0.17 60);
+  --color-ember-hover: oklch(86% 0.16 64);
+  --color-ember-deep: oklch(50% 0.15 50);
+  --color-ember-soft: color-mix(in oklch, oklch(80% 0.17 60) 12%, transparent);
 
-  --color-ring: oklch(65.85% 0.167 44);
+  --color-ring: oklch(80% 0.17 60);
 
   --radius-sm: 0.125rem;
   --radius-md: 0.25rem;
@@ -67,10 +67,413 @@
     outline-offset: 3px;
   }
 
+  /* En superficies claras el anillo brillante no contrasta: usa el tono profundo. */
+  .v2-lab :focus-visible {
+    outline-color: var(--color-ember-deep);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation: none !important;
       transition: none !important;
     }
+  }
+}
+
+/* ==========================================================================
+   V2 navbar — réplica estructural del navbar de /docker con la marca del
+   portafolio. El CSS vive aquí (no en el componente) para que los tokens y
+   las primitivas de v2 se lean en un solo archivo.
+   ========================================================================== */
+
+@layer components {
+  .v2-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    padding: 12px clamp(16px, 3vw, 48px) 0;
+    opacity: 0;
+    animation: v2-nav-in 0.9s ease 0.5s forwards;
+    transition:
+      transform 0.45s var(--ease-site),
+      opacity 0.9s ease;
+  }
+
+  @keyframes v2-nav-in {
+    to {
+      opacity: 1;
+    }
+  }
+
+  .v2-nav {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1344px;
+    min-height: 56px;
+    margin: 0 auto;
+    padding: 0 8px;
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+    background: color-mix(in oklch, var(--color-ink) 80%, transparent);
+    -webkit-backdrop-filter: blur(24px) saturate(1.2);
+    backdrop-filter: blur(24px) saturate(1.2);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.4);
+    color: var(--color-cream);
+  }
+
+  .v2-wordmark {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 8px;
+    min-height: 54px;
+    padding: 0 16px 0 8px;
+    color: var(--color-cream);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .v2-wordmark:hover {
+    color: #fff;
+  }
+
+  .v2-wordmark__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--color-ember);
+  }
+
+  .v2-nav__pct {
+    padding-left: 4px;
+    color: var(--color-soft-ink);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    line-height: 1;
+  }
+
+  .v2-nav__menu {
+    display: flex;
+    align-items: stretch;
+    align-self: stretch;
+    margin: 0 0 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+
+  .v2-nav__item {
+    display: flex;
+  }
+
+  .v2-nav__link {
+    display: flex;
+    align-items: center;
+    height: 54px;
+    padding: 0 18px;
+    color: var(--color-cream);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .v2-nav__link:hover,
+  .v2-nav__link:focus-visible,
+  .v2-nav__link[aria-current="true"],
+  .v2-nav__link.is-active {
+    color: var(--color-ember);
+  }
+
+  .v2-nav__utils {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 6px;
+    padding-left: 8px;
+  }
+
+  .v2-nav__icon {
+    display: grid;
+    flex: 0 0 auto;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    color: var(--color-cream);
+    transition: background-color 0.2s ease;
+  }
+
+  .v2-nav__icon:hover {
+    background: color-mix(in oklch, var(--color-cream) 8%, transparent);
+  }
+
+  .v2-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    padding: 10px 12px;
+    border-radius: 3px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .v2-btn--outline {
+    border: 1px solid color-mix(in oklch, var(--color-cream) 36%, transparent);
+    background: color-mix(in oklch, var(--color-ink) 72%, transparent);
+    color: var(--color-cream);
+  }
+
+  .v2-btn--outline:hover {
+    border-color: color-mix(in oklch, var(--color-cream) 60%, transparent);
+    background: color-mix(in oklch, var(--color-ink) 92%, transparent);
+  }
+
+  .v2-btn--primary {
+    border: 1px solid var(--color-ember);
+    background: var(--color-ember);
+    color: var(--color-ink);
+  }
+
+  .v2-btn--primary:hover {
+    border-color: var(--color-ember-hover);
+    background: var(--color-ember-hover);
+  }
+
+  /* Regla de marca: todo CTA “Contáctame / Contact Me” usa mono. */
+  .v2-btn--contact {
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+  }
+
+  .v2-burger {
+    position: relative;
+    display: none;
+    width: 44px;
+    height: 44px;
+    margin-left: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: none;
+    color: var(--color-cream);
+    cursor: pointer;
+  }
+
+  .v2-burger:hover {
+    background: color-mix(in oklch, var(--color-cream) 8%, transparent);
+  }
+
+  .v2-burger__lines,
+  .v2-burger__lines::before,
+  .v2-burger__lines::after {
+    position: absolute;
+    left: calc(50% - 9px);
+    width: 18px;
+    height: 1.5px;
+    border-radius: 1px;
+    background: currentColor;
+    transition: transform 0.3s var(--ease-site);
+  }
+
+  .v2-burger__lines {
+    top: calc(50% - 0.75px);
+  }
+
+  .v2-burger__lines::before,
+  .v2-burger__lines::after {
+    content: "";
+    left: 0;
+  }
+
+  .v2-burger__lines::before {
+    top: -6px;
+  }
+
+  .v2-burger__lines::after {
+    top: 6px;
+  }
+
+  .v2-header[data-mobile-open="true"] .v2-burger__lines {
+    background: transparent;
+  }
+
+  .v2-header[data-mobile-open="true"] .v2-burger__lines::before {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .v2-header[data-mobile-open="true"] .v2-burger__lines::after {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  .v2-mobile {
+    display: none;
+    width: 100%;
+    max-width: 1344px;
+    max-height: calc(100dvh - 92px);
+    margin: 8px auto 0;
+    padding: 16px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+    background: color-mix(in oklch, var(--color-ink) 94%, transparent);
+    -webkit-backdrop-filter: blur(24px) saturate(1.2);
+    backdrop-filter: blur(24px) saturate(1.2);
+    box-shadow: 0 16px 40px rgb(0 0 0 / 0.45);
+    color: var(--color-cream);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s var(--ease-site),
+      visibility 0s linear 0.25s;
+  }
+
+  .v2-header[data-mobile-open="true"] .v2-mobile {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+
+  .v2-mobile__nav {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .v2-mobile__link {
+    padding: 15px 4px;
+    border-top: 1px solid color-mix(in oklch, var(--color-cream) 10%, transparent);
+    color: var(--color-cream);
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: none;
+  }
+
+  .v2-mobile__link:first-child {
+    border-top: 0;
+  }
+
+  .v2-mobile__link:hover {
+    color: var(--color-ember);
+  }
+
+  .v2-mobile__ctas {
+    display: flex;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid color-mix(in oklch, var(--color-cream) 10%, transparent);
+  }
+
+  .v2-mobile__ctas .v2-btn {
+    flex: 1;
+    height: 42px;
+  }
+
+  body.v2-scroll-lock {
+    overflow: hidden;
+  }
+
+  @media (max-width: 1079px) {
+    .v2-nav__menu,
+    .v2-nav__utils,
+    .v2-nav__pct {
+      display: none;
+    }
+
+    .v2-burger {
+      display: block;
+    }
+
+    .v2-mobile {
+      display: block;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .v2-header {
+      opacity: 1;
+      transform: none;
+      animation: none;
+      transition: none;
+    }
+
+    .v2-mobile,
+    .v2-burger__lines,
+    .v2-burger__lines::before,
+    .v2-burger__lines::after {
+      transition: none;
+    }
+  }
+}
+
+/* Reveal primitives for the temporary scroll-study section. */
+@layer components {
+  .v2-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s var(--ease-site) var(--reveal-delay, 0ms),
+      transform 0.7s var(--ease-site) var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+
+  .v2-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .v2-reveal,
+    .v2-reveal.is-visible {
+      opacity: 1;
+      transform: none;
+      transition: none;
+      will-change: auto;
+    }
+  }
+}
+
+/* La sección clara nace con las esquinas superiores curvas y las endereza
+   según el scroll; el negro del hero queda detrás de los recortes. */
+.v2-lab {
+  border-top-left-radius: var(--v2-lab-radius, 48px);
+  border-top-right-radius: var(--v2-lab-radius, 48px);
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-lab {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
   }
 }
