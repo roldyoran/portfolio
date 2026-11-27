@@ -2,31 +2,35 @@
 
 Sistema base para el rediseño del portafolio. Extraído de `/docker`.
 Todos los colores en OKLCH. Implementación Tailwind v4 CSS-first
-(`@theme` en `src/styles/global.css`, sin `tailwind.config`).
+(`@theme` en `src/styles/v2.css`, sin `tailwind.config`). `global.css`
+conserva los tokens legacy del portafolio anterior; v2 no los importa.
 
 ## 1. Paleta
 
 | Token          | Valor                                        | Uso                                    |
 | -------------- | -------------------------------------------- | -------------------------------------- |
-| `--v2-ink`     | `oklch(17.30% 0 0)`                          | Fondo base (dark-first), texto en claro |
-| `--v2-cream`   | `oklch(99.47% 0.004 78)`                     | Superficie clara, texto en oscuro      |
-| `--v2-soft`    | `color-mix(in oklch, oklch(99.47% 0.004 78) 62%, oklch(17.30% 0 0))` | Texto secundario en claro |
-| `--v2-line`    | `oklch(99.47% 0.004 78 / 0.09)`              | Bordes sutiles en oscuro               |
-| `--v2-ember`   | `oklch(65.85% 0.167 44)`                     | Acento principal en oscuro             |
-| `--v2-ember-hover` | `oklch(71.08% 0.154 46)`                 | Hover del acento en oscuro             |
-| `--v2-ember-deep`  | `oklch(55.64% 0.139 46)`                | Acento como texto en claro             |
-| `--v2-ring`    | `oklch(65.85% 0.167 44)`                     | Anillo de foco visible                 |
+| `--color-ink`        | `oklch(17.30% 0 0)`                          | Fondo base (dark-first), texto en claro |
+| `--color-cream`      | `oklch(99.47% 0.004 78)`                     | Superficie clara, texto en oscuro      |
+| `--color-soft-ink`   | `color-mix(in oklch, oklch(99.47% 0.004 78) 62%, oklch(17.30% 0 0))` | Texto secundario en claro |
+| `--color-line`       | `oklch(99.47% 0.004 78 / 0.09)`              | Bordes sutiles en oscuro               |
+| `--color-ember`      | `oklch(80% 0.17 60)`                         | Acento principal en oscuro             |
+| `--color-ember-hover`| `oklch(86% 0.16 64)`                         | Hover del acento                       |
+| `--color-ember-deep` | `oklch(50% 0.15 50)`                         | Acento como texto en claro             |
+| `--color-ember-soft` | `color-mix(in oklch, oklch(80% 0.17 60) 12%, transparent)` | Fondo de hover sutil |
+| `--color-ring`       | `oklch(80% 0.17 60)`                         | Anillo de foco en oscuro               |
 
 Contrastes verificados: ink↔cream **18.5:1 (AAA)** · ember sobre ink
-**5.70:1 (AA)** · ember-hover sobre ink **7.03:1 (AA)** ·
-ember-deep sobre cream **4.92:1 (AA)**.
+**9.33:1 (AAA)** · ink sobre ember **9.33:1 (AAA)** ·
+ember-hover sobre ink **11.09:1 (AAA)** · ember-deep sobre cream
+**6.25:1 (AA)**.
 
 Reglas del acento:
 
-1. Un solo elemento ember por viewport.
+1. El acento se reserva para la acción principal, el estado activo y
+   metadatos cortos; nunca para párrafos.
 2. En oscuro: `ember` base, `ember-hover` para hover. En claro: texto
    siempre con `ember-deep`; `ember` solo en detalles grandes o decorativos.
-3. Nunca `ember` sobre `cream` como texto (3.29:1, no pasa AA).
+3. Nunca `ember` sobre `cream` como texto (2.01:1, no pasa AA).
 
 ## 2. Tipografía — trío v2
 
@@ -45,7 +49,9 @@ Reglas:
 1. Tres familias, ni una más. Bebas Neue y Space Grotesk quedan fuera de v2.
 2. Display solo en titulares (h1/h2) y cifras destacadas; nunca en cuerpo, botones o navegación.
 3. Secundaria para todo texto corrido e interfaz.
-4. Mono para metadatos y código; en navegación se permite (estilo actual del portafolio).
+4. Mono para metadatos, código, navegación y utilidades.
+5. Todos los CTA cuyo copy sea «Contáctame» / «Contact Me» usan
+   `--font-mono`, sin excepciones. Ver también `.v2-btn--contact`.
 
 ## 3. Implementación Tailwind
 
@@ -58,12 +64,12 @@ Reglas:
   --color-soft-ink: color-mix(in oklch, oklch(99.47% 0.004 78) 62%, oklch(17.30% 0 0));
   --color-line: oklch(99.47% 0.004 78 / 0.09);
 
-  --color-ember: oklch(65.85% 0.167 44);
-  --color-ember-hover: oklch(71.08% 0.154 46);
-  --color-ember-deep: oklch(55.64% 0.139 46);
-  --color-ember-soft: color-mix(in oklch, oklch(65.85% 0.167 44) 12%, transparent);
+  --color-ember: oklch(80% 0.17 60);
+  --color-ember-hover: oklch(86% 0.16 64);
+  --color-ember-deep: oklch(50% 0.15 50);
+  --color-ember-soft: color-mix(in oklch, oklch(80% 0.17 60) 12%, transparent);
 
-  --color-ring: oklch(65.85% 0.167 44);
+  --color-ring: oklch(80% 0.17 60);
 
   --radius-sm: 0.125rem;
   --radius-md: 0.25rem;
@@ -126,8 +132,15 @@ Keyframes dentro de `@theme`; retardos escalonados con
 
 Fade puro sin desplazamiento: 0.5s de retardo, 0.9s de duración,
 easing `ease`. Con `prefers-reduced-motion`: visible sin animación.
-Comportamiento observado (no implementado aún): el header se oculta al
-bajar scroll (más de 120px) y reaparece al subir o cerca del top.
+Implementado en `v2-navbar.ts`: el header queda **siempre visible**.
+No se oculta ni se traslada al hacer scroll; solo actualiza el porcentaje y
+la sección activa.
+
+El hero es `position: sticky; top: 0`: se queda fijo mientras la sección
+clara siguiente (fondo sólido, `relative`) se desliza encima. La sección
+clara arranca con las esquinas superiores a 48px y `v2-scroll-study.ts`
+las lleva a 0 según avanza el scroll (`--v2-lab-radius`), de modo que el
+negro del hero se ve en los recortes y se «descurva» al bajar.
 
 ## 5. Componentes (Astro)
 
@@ -190,6 +203,7 @@ de lo demás avisa el compilador. TS estricto, `any` prohibido, sin `.js`.
 | Formas y uniones | `interface` para objetos (props), `type` para uniones; inferir, anotar frontera pública; `as const` para literales. |
 | Brands | `Delay` verificado con `isDelay`, nunca con `as` (ver ejemplo). Reservado para cuando dos primitivos iguales puedan mezclarse. |
 | Dónde vive cada cosa | Tipos en `src/data/types.ts`; cliente en `src/scripts/*.ts`; sin `console.log` final. |
+| Uniones de iconos | `TablerTechIcon` y `TablerUiIcon` son uniones de claves de sus mapas raw. `TechIcon` recibe el label humano y resuelve primero el logo `.astro` mono; `IconByName` resuelve UI/social. |
 
 ```ts
 // Estados: solo existen los válidos; el switch es exhaustivo
@@ -229,3 +243,42 @@ const SWAP = { gapMin: 1400, gapRange: 2000 } satisfies Record<string, number>;
 
 Regla de oro: si un token o variante nuevo no rompe la compilación en
 todos sus usos, el tipo está mal escrito.
+
+
+## 8. Iconografía — Tabler + fallbacks originales
+
+Toda la interfaz usa `@tabler/icons` (MIT). Hay dos capas:
+
+| Capa | Archivo | Render |
+| ---- | ------- | ------ |
+| UI | `src/data/tabler-ui-icons.ts` | `tabler-ui-icon.astro` / `IconByName` |
+| Tech | `src/data/tabler-icons.ts` | `tabler-tech-icon.astro` |
+| Marcas sin glifo Tabler | `src/components/icons/tech/*.astro` | `TechIcon` (logo original) |
+
+`TechIcon` es el punto de entrada para cualquier label de tecnología:
+primero busca el logo propio en `src/components/icons/tech/`; si no existe,
+usa el Tabler real de `techIcons` (`content.ts`).
+
+**Regla del hero:** las tiras de logos de `home.astro` y `v2.astro` usan
+`tablerBrandLabels`, que solo contiene tecnologías con un glifo de marca real
+en Tabler. Los logos `.astro` originales se usan fuera del hero (marquee,
+chips, proyectos, experiencia, about) sin modificarlos.
+
+| Cobertura | Tecnologías |
+| --------- | ----------- |
+| Marca Tabler (hero) | Go, Rust, TypeScript, JavaScript, Python, MySQL, React, Node.js, Astro, Vue.js, Tailwind CSS, Svelte, GraphQL, Docker, Git, AWS, Cloudflare, OpenAI/GPT |
+| Logo `.astro` original (fuera del hero) | Java, PostgreSQL, Redis, Kubernetes/GKE, Linux, Kafka/Apache Kafka, RabbitMQ, gRPC, CI/CD, FastAPI, Hono, Drizzle ORM, Turso, SQLite, Grafana, GCP/Google Cloud, Cloudflare Workers, Claude/Opus, OpenCode, Pi/Oh-my-pi, AI Harness/Automation |
+| Genérico Tabler (fuera del hero) | SQL → `database`, Prometheus → `chart-line`, Open LLMs → `brain`, Cloudflare D1 → logo Cloudflare original |
+
+El tooltip del hero muestra siempre el label del icono activo
+(`data-label` actualizado por `hero-logos.ts`), nunca el de una capa oculta.
+El tono `mono` del hero usa `brightness(0) invert(1)` sobre los glifos Tabler
+para que todos queden blancos y con el mismo peso visual.
+
+## 9. Reglas de interacción
+
+- Los CTA «Contáctame» / «Contact Me» usan mono en cualquier idioma.
+- El tooltip de logos es solo hover (`(hover: hover) and (pointer: fine)`),
+  no aparece en táctil y se actualiza al mismo tiempo que el crossfade.
+- En secciones claras el anillo de foco usa `ember-deep` (el ember brillante
+  no contrasta sobre cream).
