@@ -20,8 +20,9 @@ src/
 │   ├── projects.astro
 │   ├── navbar.astro
 │   ├── top-bar.astro
-│   ├── v2-hero.astro    # V2 sticky hero (Docker geometry + Tabler logos)
-│   ├── v2-navbar.astro  # V2 glass navbar + mobile drawer
+│   ├── v2-hero.astro    # V2 sticky hero (one-line name, role, summary, CTA, logos)
+│   ├── v2-button.astro  # Reusable V2 CTA button (primary/outline, always mono)
+│   ├── v2-navbar.astro  # V2 solid navbar + mobile drawer
 │   └── v2-scroll-study.astro # Temporary fake section for scroll tests
 ├── data/                # Portfolio content (single module) + shared types
 │   ├── content.ts       # config, experience, projects, skills, tech labels + Tabler map
@@ -116,7 +117,7 @@ src/
   - Two locales are supported: English (`/`) and Spanish (`/es/`). UI strings and translation helpers are in `src/i18n/config.ts` and `src/i18n/ui.ts`. When adding copy, maintain `*Es` fields for long-form Spanish variants where used.
 - Motion & accessibility:
   - Motion scripts and reveal animations live under `src/scripts/` (hero-motion, home-motion, marquee). Respect `prefers-reduced-motion` — where the project already removes animations when reduced-motion is requested by the user.
-- CTA rule: every button/link whose copy is «Contáctame» / «Contact Me» must use `font-mono` (V2 has `.v2-btn--contact`; `ButtonGroup` is already mono).
+- CTA rule: V2 CTAs use `v2-button.astro`, which wraps `.v2-btn`; every `.v2-btn` is mono. `ButtonGroup` is already mono.
 - Projects listing & icons:
   - Project cards are rendered in `src/components/projects.astro`. Tech stacks are shown as `.chip` elements and project action buttons live in `ButtonGroup`.
 

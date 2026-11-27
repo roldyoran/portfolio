@@ -117,9 +117,7 @@
     padding: 0 8px;
     border: 1px solid var(--color-line);
     border-radius: 8px;
-    background: color-mix(in oklch, var(--color-ink) 80%, transparent);
-    -webkit-backdrop-filter: blur(24px) saturate(1.2);
-    backdrop-filter: blur(24px) saturate(1.2);
+    background: var(--color-ink);
     box-shadow: 0 4px 16px rgb(0 0 0 / 0.4);
     color: var(--color-cream);
   }
@@ -226,10 +224,12 @@
     justify-content: center;
     height: 36px;
     padding: 10px 12px;
+    gap: 8px;
     border-radius: 3px;
-    font-family: var(--font-body);
+    font-family: var(--font-mono);
     font-size: 14px;
     font-weight: 400;
+    letter-spacing: 0.02em;
     line-height: 1;
     text-align: center;
     text-decoration: none;
@@ -243,13 +243,13 @@
 
   .v2-btn--outline {
     border: 1px solid color-mix(in oklch, var(--color-cream) 36%, transparent);
-    background: color-mix(in oklch, var(--color-ink) 72%, transparent);
+    background: var(--color-ink);
     color: var(--color-cream);
   }
 
   .v2-btn--outline:hover {
     border-color: color-mix(in oklch, var(--color-cream) 60%, transparent);
-    background: color-mix(in oklch, var(--color-ink) 92%, transparent);
+    background: color-mix(in oklch, var(--color-cream) 8%, var(--color-ink));
   }
 
   .v2-btn--primary {
@@ -263,7 +263,7 @@
     background: var(--color-ember-hover);
   }
 
-  /* Regla de marca: todo CTA “Contáctame / Contact Me” usa mono. */
+  /* Alias heredado: todos los botones v2 ya usan mono. */
   .v2-btn--contact {
     font-family: var(--font-mono);
     letter-spacing: 0.02em;
@@ -340,9 +340,7 @@
     overscroll-behavior: contain;
     border: 1px solid var(--color-line);
     border-radius: 8px;
-    background: color-mix(in oklch, var(--color-ink) 94%, transparent);
-    -webkit-backdrop-filter: blur(24px) saturate(1.2);
-    backdrop-filter: blur(24px) saturate(1.2);
+    background: var(--color-ink);
     box-shadow: 0 16px 40px rgb(0 0 0 / 0.45);
     color: var(--color-cream);
     opacity: 0;

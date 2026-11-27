@@ -1,5 +1,6 @@
 ---
 import GithubIcon from "@/components/icons/github.astro";
+import V2Button from "@/components/v2-button.astro";
 import type { Lang } from "@/i18n/config";
 import { useTranslations } from "@/i18n/ui";
 
@@ -61,10 +62,10 @@ const closeLabel = lang === "es" ? "Cerrar menú" : "Close menu";
       >
         <GithubIcon size={18} />
       </a>
-      <a class="v2-btn v2-btn--outline" href={cvUrl} target="_blank" rel="noopener">
+      <V2Button href={cvUrl} variant="outline" target="_blank" rel="noopener">
         {t.hero.downloadCV}
-      </a>
-      <a class="v2-btn v2-btn--primary v2-btn--contact" href="#contact">{t.nav.hireMe}</a>
+      </V2Button>
+      <V2Button href="#contact">{t.nav.hireMe}</V2Button>
     </div>
 
     <button
@@ -93,10 +94,10 @@ const closeLabel = lang === "es" ? "Cerrar menú" : "Close menu";
     </nav>
 
     <div class="v2-mobile__ctas">
-      <a class="v2-btn v2-btn--outline" href={cvUrl} target="_blank" rel="noopener">
+      <V2Button href={cvUrl} variant="outline" target="_blank" rel="noopener">
         {t.hero.downloadCV}
-      </a>
-      <a class="v2-btn v2-btn--primary v2-btn--contact" href="#contact">{t.nav.hireMe}</a>
+      </V2Button>
+      <V2Button href="#contact">{t.nav.hireMe}</V2Button>
     </div>
   </div>
 </header>

@@ -1,6 +1,7 @@
 ---
 import TechIcon from "@/components/icons/tech-icon.astro";
 import IconByName from "@/components/icons/icon-by-name.astro";
+import V2Button from "@/components/v2-button.astro";
 import V2IconLibrary from "@/components/v2-icon-library.astro";
 
 interface FakeTech {
@@ -215,13 +216,10 @@ const fakeStats = [
               claro y cómo responde el scroll al llegar al final de la página.
             </p>
           </div>
-          <a
-            class="inline-flex w-fit items-center gap-2 rounded bg-ember px-5 py-3 font-body text-sm font-medium text-ink transition-colors duration-200 hover:bg-ember-hover"
-            href="mailto:hola@example.com"
-          >
+          <V2Button href="mailto:hola@example.com" class="w-fit">
             hola@example.com
             <IconByName name="arrow-up-right" size={16} />
-          </a>
+          </V2Button>
         </div>
       </div>
     </section>

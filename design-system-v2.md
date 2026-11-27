@@ -41,7 +41,7 @@ en voz baja, el contraste lo pone el tamaño, no el grosor.
 | Rol                 | Familia              | Variable                | Pesos   | Uso |
 | ------------------- | -------------------- | ----------------------- | ------- | --- |
 | Principal (display) | Inter Tight (Docker) | `--font-docker-display` | 300–500 | Titulares y cifras heroicas. `letter-spacing: -0.02em`, `line-height: 1.04`. |
-| Secundaria (texto)  | Inter (Docker)       | `--font-docker-body`    | 300–500 | Párrafos, UI, navegación, botones. Recomendada por legibilidad en cuerpo pequeño y coherencia con la principal. |
+| Secundaria (texto)  | Inter (Docker)       | `--font-docker-body`    | 300–500 | Párrafos, UI y navegación. Recomendada por legibilidad en cuerpo pequeño y coherencia con la principal. |
 | Mono (actual)       | Geist Mono           | `--font-mono`           | 400     | Etiquetas, meta (`11px`, `0.12em`, uppercase), código, contadores. Se mantiene la actual. |
 
 Reglas:
@@ -50,8 +50,8 @@ Reglas:
 2. Display solo en titulares (h1/h2) y cifras destacadas; nunca en cuerpo, botones o navegación.
 3. Secundaria para todo texto corrido e interfaz.
 4. Mono para metadatos, código, navegación y utilidades.
-5. Todos los CTA cuyo copy sea «Contáctame» / «Contact Me» usan
-   `--font-mono`, sin excepciones. Ver también `.v2-btn--contact`.
+5. Todos los botones V2 usan `--font-mono`, sin excepciones. El punto de
+   entrada es `v2-button.astro` (variantes `primary` y `outline`).
 
 ## 3. Implementación Tailwind
 
@@ -134,7 +134,8 @@ Fade puro sin desplazamiento: 0.5s de retardo, 0.9s de duración,
 easing `ease`. Con `prefers-reduced-motion`: visible sin animación.
 Implementado en `v2-navbar.ts`: el header queda **siempre visible**.
 No se oculta ni se traslada al hacer scroll; solo actualiza el porcentaje y
-la sección activa.
+la sección activa. La barra tiene fondo sólido `--color-ink` (sin blur ni
+transparencia), también en el drawer móvil.
 
 El hero es `position: sticky; top: 0`: se queda fijo mientras la sección
 clara siguiente (fondo sólido, `relative`) se desliza encima. La sección
@@ -142,12 +143,21 @@ clara arranca con las esquinas superiores a 48px y `v2-scroll-study.ts`
 las lleva a 0 según avanza el scroll (`--v2-lab-radius`), de modo que el
 negro del hero se ve en los recortes y se «descurva» al bajar.
 
+El copy del hero se apila en una sola columna: rol mono, nombre completo en
+una línea (`white-space: nowrap` + `clamp()`), resumen y CTA primario. Así el
+nombre no se parte y el centro queda ocupado por el bloque de texto en lugar
+de dos columnas separadas.
+
 ## 5. Componentes (Astro)
 
 Sin React/CVA: props tipadas + `class:list`. Patrón Base → Variantes →
 Tamaños → Estados (`hover:` con token hover, `focus-visible:` con
 `outline-ring`, `disabled:` con opacidad, `aria-*` donde aplique).
 Reglas de tipos aplicables en §7.
+
+`v2-button.astro` es el CTA reutilizable de V2: renderiza `<a>` si recibe
+`href` o `<button>` si no, aplica `.v2-btn` + variante (`primary`/`outline`) y
+usa mono siempre. El hero usa una variante `primary` para «Contáctame».
 
 ```astro
 ---
@@ -280,7 +290,7 @@ logos `.astro` para que todos queden blancos y con el mismo peso visual.
 
 ## 9. Reglas de interacción
 
-- Los CTA «Contáctame» / «Contact Me» usan mono en cualquier idioma.
+- Todos los botones V2 usan mono en cualquier idioma.
 - El tooltip de logos es solo hover (`(hover: hover) and (pointer: fine)`),
   no aparece en táctil y se actualiza al mismo tiempo que el crossfade.
 - En secciones claras el anillo de foco usa `ember-deep` (el ember brillante
