@@ -20,7 +20,7 @@ src/
 │   ├── projects.astro
 │   ├── navbar.astro
 │   ├── top-bar.astro
-│   ├── v2-hero.astro    # V2 sticky hero (one-line name, role, summary, CTA, logos)
+│   ├── v2-hero.astro    # V2 sticky hero (one-line name, summary, logos)
 │   ├── v2-button.astro  # Reusable V2 CTA button (primary/outline, always mono)
 │   ├── v2-navbar.astro  # V2 solid navbar + mobile drawer
 │   └── v2-scroll-study.astro # Temporary fake section for scroll tests

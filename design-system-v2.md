@@ -143,10 +143,10 @@ clara arranca con las esquinas superiores a 48px y `v2-scroll-study.ts`
 las lleva a 0 según avanza el scroll (`--v2-lab-radius`), de modo que el
 negro del hero se ve en los recortes y se «descurva» al bajar.
 
-El copy del hero se apila en una sola columna: rol mono, nombre completo en
-una línea (`white-space: nowrap` + `clamp()`), resumen y CTA primario. Así el
-nombre no se parte y el centro queda ocupado por el bloque de texto en lugar
-de dos columnas separadas.
+El copy del hero se apila en una sola columna: nombre completo en una línea
+(`white-space: nowrap` + `clamp()`) y resumen. El bloque se ancla arriba para
+no dejar un hueco grande bajo el navbar; el nombre no se parte y el centro
+queda ocupado por el texto en lugar de dos columnas separadas.
 
 ## 5. Componentes (Astro)
 
@@ -157,7 +157,7 @@ Reglas de tipos aplicables en §7.
 
 `v2-button.astro` es el CTA reutilizable de V2: renderiza `<a>` si recibe
 `href` o `<button>` si no, aplica `.v2-btn` + variante (`primary`/`outline`) y
-usa mono siempre. El hero usa una variante `primary` para «Contáctame».
+usa mono siempre. Se usa en el navbar, el menú móvil y los CTAs de sección.
 
 ```astro
 ---
