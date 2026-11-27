@@ -1,36 +1,50 @@
 {
-  "version": 1,
+  "version": 2,
   "skills": {
     "astro": {
       "source": "astrolicious/agent-skills",
       "sourceType": "autoskills-registry",
-      "computedHash": "2afd3a02edf4374598ce471dabb1ab5638851dbf7b82d0bb36f1019331eafb54"
+      "computedHash": ""
     },
     "bun": {
       "source": "midudev/autoskills",
       "sourceType": "autoskills-registry",
-      "computedHash": "1386ed5490ed278e38312a416c9aa074dbe3849f32ae7f841e4142fef5d4df94"
+      "computedHash": ""
     },
     "playwright-cli": {
       "source": "microsoft/playwright-cli",
       "sourceType": "github",
       "skillPath": "skills/playwright-cli/SKILL.md",
-      "computedHash": "08b71f8cb7c27fbc3b590517889ce2a706dc08e85d8bd5daa2d4e1251b94f0a4"
+      "computedHash": "be6adf4e501d64b28ac4ddd9302e09181fa854d1302260685dc539672b77ed73"
     },
     "seo": {
       "source": "addyosmani/web-quality-skills",
       "sourceType": "autoskills-registry",
-      "computedHash": "c184da724d1c61ad077f27418ea8e7e88fd54bcdf98165e18be7e4681cbd5e20"
+      "computedHash": ""
     },
     "tailwind-css-patterns": {
       "source": "giuseppe-trisciuoglio/developer-kit",
       "sourceType": "autoskills-registry",
-      "computedHash": "8fd534b64b3f305ade80c207e2f9ba4338d5e409e355af9f724c36764b6709c1"
+      "computedHash": ""
+    },
+    "tailwind-design-system": {
+      "source": "wshobson/agents",
+      "commit": "c96b5f6552dba32e4492307493ee613581430715",
+      "sourceType": "github",
+      "skillPath": "plugins/frontend-mobile-development/skills/tailwind-design-system/SKILL.md",
+      "computedHash": "c807f0c9619e8c389879f55846c2e395956f1073ab6d01a93fbb30b340015ab1"
     },
     "typescript-advanced-types": {
       "source": "wshobson/agents",
       "sourceType": "autoskills-registry",
-      "computedHash": "5ca0e177c6aaaba1889255691224daafdb7d71f317cc70bede1590d3907ded42"
+      "computedHash": ""
+    },
+    "typescript-best-practices": {
+      "source": "cursor/plugins",
+      "commit": "b7b93c36be9bcc36a74db438e0fd385d660bc559",
+      "sourceType": "github",
+      "skillPath": "harness/pstack/claude-code/skills/typescript-best-practices/SKILL.md",
+      "computedHash": "fb35e49d1b6a48fa42d81fff0e4e9834b8f98e0ebcf188203680f1f4265df690"
     }
   }
 }
