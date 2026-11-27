@@ -16,6 +16,7 @@ import DrizzleOrm from "@/components/icons/tech/drizzle-orm.astro";
 import FastApi from "@/components/icons/tech/fast-api.astro";
 import Gcp from "@/components/icons/tech/gcp.astro";
 import Git from "@/components/icons/tech/git.astro";
+import GithubCopilot from "@/components/icons/tech/github-copilot.astro";
 import Go from "@/components/icons/tech/go.astro";
 import Grafana from "@/components/icons/tech/grafana.astro";
 import Graphql from "@/components/icons/tech/graphql.astro";
@@ -51,7 +52,7 @@ interface TechFile {
   tabler?: TablerIconName;
 }
 
-/** All 42 .astro files in src/components/icons/tech, alphabetically. */
+/** All 43 .astro files in src/components/icons/tech, alphabetically. */
 const techFiles: TechFile[] = [
   { file: "ai-harness", Component: AiHarness },
   { file: "apache-kafka", Component: ApacheKafka },
@@ -67,6 +68,7 @@ const techFiles: TechFile[] = [
   { file: "fast-api", Component: FastApi },
   { file: "gcp", Component: Gcp },
   { file: "git", Component: Git, tabler: "brand-git" },
+  { file: "github-copilot", Component: GithubCopilot, tabler: "brand-github-copilot" },
   { file: "go", Component: Go, tabler: "brand-golang" },
   { file: "grafana", Component: Grafana },
   { file: "graphql", Component: Graphql, tabler: "brand-graphql" },
