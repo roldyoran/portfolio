@@ -43,7 +43,7 @@ const pinnedLabels = pinned.filter((label) => items.includes(label));
     { "hero-logos--mono": tone === "mono" },
     { "hero-logos--tall": tall },
   ]}
-  style={`--hero-logo-cols:${columns};--hero-logo-cols-mobile:${mobileColumns};--hero-logo-half:${iconSize / 2}px`}
+  style={`--hero-logo-cols:${columns};--hero-logo-cols-mobile:${mobileColumns};--hero-logo-size:${iconSize}px;--hero-logo-half:${iconSize / 2}px`}
   data-hero-logos
   aria-hidden="true"
 >
@@ -217,6 +217,8 @@ const pinnedLabels = pinned.filter((label) => items.includes(label));
   }
 
   .hero-logo-img :global(svg) {
+    width: auto;
+    height: var(--hero-logo-size, 30px);
     opacity: 0.92;
   }
 
