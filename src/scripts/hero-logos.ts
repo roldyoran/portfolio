@@ -16,6 +16,7 @@ interface LogoSequence {
   cell: HTMLElement;
   logos: HTMLElement[];
   active: number;
+  pinned: boolean;
 }
 
 const labelOf = (logo: HTMLElement | undefined): string => logo?.dataset.heroLogoLabel ?? "";
@@ -40,7 +41,12 @@ export function initHeroLogos(): void {
   const sequences: LogoSequence[] = cells.map((cell) => {
     const logos = Array.from(cell.querySelectorAll<HTMLElement>("[data-hero-logo]"));
     const activeIndex = logos.findIndex((logo) => logo.classList.contains("is-in"));
-    const sequence: LogoSequence = { cell, logos, active: activeIndex < 0 ? 0 : activeIndex };
+    const sequence: LogoSequence = {
+      cell,
+      logos,
+      active: activeIndex < 0 ? 0 : activeIndex,
+      pinned: cell.dataset.heroLogoPinned === "true",
+    };
     syncLabel(sequence, logos[sequence.active]);
     return sequence;
   });
@@ -49,6 +55,7 @@ export function initHeroLogos(): void {
 
   const total = sequences[0]?.logos.length ?? 0;
   if (total < 2) return;
+  if (!sequences.some((sequence) => !sequence.pinned)) return;
 
   let visible = true;
   let disposed = false;
@@ -65,7 +72,7 @@ export function initHeroLogos(): void {
 
   const advance = (cellIndex: number): void => {
     const sequence = sequences[cellIndex];
-    if (!sequence) return;
+    if (!sequence || sequence.pinned) return;
 
     /* Never show the same logo twice on screen: skip indexes visible elsewhere. */
     const taken = new Set<number>();
@@ -74,12 +81,10 @@ export function initHeroLogos(): void {
     });
 
     let incoming = sequence.active;
-    if (total > cells.length) {
+    if (taken.size < total) {
       do {
         incoming = (incoming + 1) % total;
       } while (taken.has(incoming));
-    } else {
-      incoming = (sequence.active + 1) % total;
     }
 
     const previous = sequence.logos[sequence.active];
@@ -103,19 +108,25 @@ export function initHeroLogos(): void {
   };
 
   const pickNext = (): number => {
-    if (cells.length < 2) return 0;
-    let next = Math.floor(Math.random() * cells.length);
+    const free = sequences
+      .map((sequence, index) => (sequence.pinned ? -1 : index))
+      .filter((index) => index >= 0);
+    if (free.length === 0) return -1;
+    if (free.length === 1) return free[0] ?? -1;
+
+    let next = free[Math.floor(Math.random() * free.length)] ?? -1;
     while (next === lastCell) {
-      next = Math.floor(Math.random() * cells.length);
+      next = free[Math.floor(Math.random() * free.length)] ?? -1;
     }
     return next;
   };
 
   const scheduleNext = (): void => {
     later(() => {
-      if (visible && !document.hidden) {
-        lastCell = pickNext();
-        advance(lastCell);
+      const next = pickNext();
+      if (visible && !document.hidden && next >= 0) {
+        lastCell = next;
+        advance(next);
       }
       scheduleNext();
     }, MIN_GAP + Math.random() * GAP_RANGE);

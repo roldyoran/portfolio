@@ -8,9 +8,10 @@ interface Props {
   lang: Lang;
   logosLabel: string;
   logoItems: string[];
+  pinnedItems?: string[];
 }
 
-const { hero, lang, logosLabel, logoItems } = Astro.props;
+const { hero, lang, logosLabel, logoItems, pinnedItems = [] } = Astro.props;
 const summary = lang === "es" ? hero.descriptionEs : hero.description;
 ---
 
@@ -37,6 +38,7 @@ const summary = lang === "es" ? hero.descriptionEs : hero.description;
   <div class="v2-hero__logos">
     <HeroLogos
       items={logoItems}
+      pinned={pinnedItems}
       tone="mono"
       tall
       cells={5}

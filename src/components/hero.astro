@@ -10,9 +10,10 @@ interface Props {
   lang: Lang;
   logosLabel: string;
   logoItems: string[];
+  pinnedItems?: string[];
 }
 
-const { hero, lang, logosLabel, logoItems } = Astro.props;
+const { hero, lang, logosLabel, logoItems, pinnedItems = [] } = Astro.props;
 const t = useTranslations(lang);
 const summary = lang === "es" ? hero.descriptionEs : hero.description;
 ---
@@ -44,7 +45,7 @@ const summary = lang === "es" ? hero.descriptionEs : hero.description;
     </div>
 
     <div class="ph-hero__logos ph-anim" style="--d: 0.6s">
-      <HeroLogos items={logoItems} tone="mono" />
+      <HeroLogos items={logoItems} pinned={pinnedItems} tone="mono" />
       <p class="sr-only">{logosLabel}</p>
     </div>
   </div>

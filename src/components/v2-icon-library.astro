@@ -8,6 +8,7 @@ import AstroIcon from "@/components/icons/tech/astro.astro";
 import Aws from "@/components/icons/tech/aws.astro";
 import Cicd from "@/components/icons/tech/cicd.astro";
 import ClaudeAi from "@/components/icons/tech/claude-ai.astro";
+import ClaudeCode from "@/components/icons/tech/claude-code.astro";
 import CloudflareWorkers from "@/components/icons/tech/cloudflare-workers.astro";
 import Cloudflare from "@/components/icons/tech/cloudflare.astro";
 import Docker from "@/components/icons/tech/docker.astro";
@@ -50,7 +51,7 @@ interface TechFile {
   tabler?: TablerIconName;
 }
 
-/** All 41 .astro files in src/components/icons/tech, alphabetically. */
+/** All 42 .astro files in src/components/icons/tech, alphabetically. */
 const techFiles: TechFile[] = [
   { file: "ai-harness", Component: AiHarness },
   { file: "apache-kafka", Component: ApacheKafka },
@@ -58,6 +59,7 @@ const techFiles: TechFile[] = [
   { file: "aws", Component: Aws, tabler: "brand-aws" },
   { file: "cicd", Component: Cicd },
   { file: "claude-ai", Component: ClaudeAi },
+  { file: "claude-code", Component: ClaudeCode },
   { file: "cloudflare-workers", Component: CloudflareWorkers },
   { file: "cloudflare", Component: Cloudflare, tabler: "brand-cloudflare" },
   { file: "docker", Component: Docker, tabler: "brand-docker" },

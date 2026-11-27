@@ -70,14 +70,23 @@ export const tablerBrandLabels: string[] = [
 /**
  * Hero logo strip: Tabler brand glyphs plus the project's .astro logos that
  * the owner wants in the hero. The hero renders with `tone="mono"`, so the
- * custom OpenCode, Pi and Claude AI logos are forced to white.
+ * custom OpenCode, Claude Code, Pi and Claude AI logos are forced to white.
  */
 export const heroLogoLabels: string[] = [
-  ...tablerBrandLabels.filter((label) => label !== "GPT"),
-  "OpenAI",
   "OpenCode",
+  "Claude Code",
   "Pi",
+  "GPT",
   "Claude AI",
+  ...tablerBrandLabels.filter((label) => label !== "GPT"),
+];
+
+/** Cells that stay visible on every page load instead of cycling away. */
+export const heroPinnedLabels: string[] = [
+  "OpenCode",
+  "Claude Code",
+  "Pi",
+  "GPT",
 ];
 
 /** Every tech label used by the portfolio, including the custom .astro logos. */

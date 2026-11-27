@@ -7,6 +7,8 @@ interface Props {
   items: string[];
   /** Visible cells; every cell stacks the full set and shows one at a time. */
   cells?: number;
+  /** Labels pinned to the first cells; those cells never cycle. */
+  pinned?: string[];
   /** "mono" renders every icon in black & white, like the Docker logos. */
   tone?: LogoTone;
   /** Tall strip (96px) like the Docker logo row; default is compact. */
@@ -21,6 +23,7 @@ interface Props {
 const {
   items,
   cells = 6,
+  pinned = [],
   tone = "color",
   tall = false,
   columns = 6,
@@ -31,6 +34,7 @@ const {
 // Each cell holds the full logo set stacked on top of each other; the script
 // crossfades from one active logo to the next, like the /docker hero.
 const cellIndexes = Array.from({ length: cells }, (_, cellIndex) => cellIndex);
+const pinnedLabels = pinned.filter((label) => items.includes(label));
 ---
 
 <div
@@ -44,27 +48,35 @@ const cellIndexes = Array.from({ length: cells }, (_, cellIndex) => cellIndex);
   aria-hidden="true"
 >
   {
-    cellIndexes.map((cellIndex) => (
-      <div
-        class="hero-logo-cell animate-rise opacity-0"
-        data-hero-logo-cell
-        data-label={items[cellIndex % items.length]}
-        style={`animation-delay: calc(0.55s + ${(cellIndex * 0.12).toFixed(2)}s)`}
-      >
-        {items.map((item, logoIndex) => (
-          <span
-            class:list={[
-              "hero-logo-img",
-              { "is-in": logoIndex === cellIndex % items.length },
-            ]}
-            data-hero-logo={logoIndex}
-            data-hero-logo-label={item}
-          >
-            <TechIcon name={item} size={iconSize} />
-          </span>
-        ))}
-      </div>
-    ))
+    cellIndexes.map((cellIndex) => {
+      const pinnedLabel = pinnedLabels[cellIndex];
+      const pinnedIndex = pinnedLabel ? items.indexOf(pinnedLabel) : -1;
+      const activeIndex = pinnedIndex >= 0 ? pinnedIndex : cellIndex % items.length;
+      const activeLabel = items[activeIndex] ?? "";
+
+      return (
+        <div
+          class="hero-logo-cell animate-rise opacity-0"
+          data-hero-logo-cell
+          data-hero-logo-pinned={pinnedIndex >= 0 ? "true" : undefined}
+          data-label={activeLabel}
+          style={`animation-delay: calc(0.55s + ${(cellIndex * 0.12).toFixed(2)}s)`}
+        >
+          {items.map((item, logoIndex) => (
+            <span
+              class:list={[
+                "hero-logo-img",
+                { "is-in": logoIndex === activeIndex },
+              ]}
+              data-hero-logo={logoIndex}
+              data-hero-logo-label={item}
+            >
+              <TechIcon name={item} size={iconSize} />
+            </span>
+          ))}
+        </div>
+      );
+    })
   }
 </div>
 
