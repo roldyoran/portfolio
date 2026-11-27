@@ -3,7 +3,7 @@ import V2Layout from "@/layouts/v2-layout.astro";
 import V2Navbar from "@/components/v2-navbar.astro";
 import V2Hero from "@/components/v2-hero.astro";
 import V2ScrollStudy from "@/components/v2-scroll-study.astro";
-import config, { tablerBrandLabels } from "@/data/content";
+import config, { heroLogoLabels } from "@/data/content";
 
 const title = "Edgar Alvarez — Portfolio v2 (borrador)";
 const description =
@@ -19,7 +19,7 @@ const logosLabel = "Tecnologías";
       hero={config.hero}
       lang="es"
       logosLabel={logosLabel}
-      logoItems={tablerBrandLabels}
+      logoItems={heroLogoLabels}
     />
 
     <V2ScrollStudy />

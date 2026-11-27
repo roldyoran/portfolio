@@ -260,20 +260,21 @@ primero busca el logo propio en `src/components/icons/tech/`; si no existe,
 usa el Tabler real de `techIcons` (`content.ts`).
 
 **Regla del hero:** las tiras de logos de `home.astro` y `v2.astro` usan
-`tablerBrandLabels`, que solo contiene tecnologías con un glifo de marca real
-en Tabler. Los logos `.astro` originales se usan fuera del hero (marquee,
-chips, proyectos, experiencia, about) sin modificarlos.
+`heroLogoLabels`: los glifos de marca reales de Tabler más los logos `.astro`
+de OpenCode, Pi y Claude AI. El hero se renderiza con `tone="mono"`, así que
+esos tres logos propios salen en blanco. El resto de logos `.astro` se usa
+fuera del hero (marquee, chips, proyectos, experiencia, about) sin modificarlos.
 
 | Cobertura | Tecnologías |
 | --------- | ----------- |
 | Marca Tabler (hero) | Go, Rust, TypeScript, JavaScript, Python, MySQL, React, Node.js, Astro, Vue.js, Tailwind CSS, Svelte, GraphQL, Docker, Git, AWS, Cloudflare, OpenAI/GPT |
-| Logo `.astro` original (fuera del hero) | Java, PostgreSQL, Redis, Kubernetes/GKE, Linux, Kafka/Apache Kafka, RabbitMQ, gRPC, CI/CD, FastAPI, Hono, Drizzle ORM, Turso, SQLite, Grafana, GCP/Google Cloud, Cloudflare Workers, Claude/Opus, OpenCode, Pi/Oh-my-pi, AI Harness/Automation |
+| Logo `.astro` original (fuera del hero; OpenCode, Pi y Claude AI también en el hero en mono) | Java, PostgreSQL, Redis, Kubernetes/GKE, Linux, Kafka/Apache Kafka, RabbitMQ, gRPC, CI/CD, FastAPI, Hono, Drizzle ORM, Turso, SQLite, Grafana, GCP/Google Cloud, Cloudflare Workers, Claude/Opus, OpenCode, Pi/Oh-my-pi, AI Harness/Automation |
 | Genérico Tabler (fuera del hero) | SQL → `database`, Prometheus → `chart-line`, Open LLMs → `brain`, Cloudflare D1 → logo Cloudflare original |
 
 El tooltip del hero muestra siempre el label del icono activo
 (`data-label` actualizado por `hero-logos.ts`), nunca el de una capa oculta.
-El tono `mono` del hero usa `brightness(0) invert(1)` sobre los glifos Tabler
-para que todos queden blancos y con el mismo peso visual.
+El tono `mono` del hero usa `brightness(0) invert(1)` sobre Tabler y los
+logos `.astro` para que todos queden blancos y con el mismo peso visual.
 
 ## 9. Reglas de interacción
 

@@ -42,9 +42,10 @@ const techIcons: Record<string, TablerTechIcon> = {
   Cloudflare: "brand-cloudflare",
   "Open LLMs": "brain",
   GPT: "brand-openai",
+  OpenAI: "brand-openai",
 };
 
-/** Hero logo strip: only labels that have a real Tabler brand glyph. */
+/** Labels that have a real Tabler brand glyph. */
 export const tablerBrandLabels: string[] = [
   "Go",
   "Rust",
@@ -64,6 +65,19 @@ export const tablerBrandLabels: string[] = [
   "AWS",
   "Cloudflare",
   "GPT",
+];
+
+/**
+ * Hero logo strip: Tabler brand glyphs plus the project's .astro logos that
+ * the owner wants in the hero. The hero renders with `tone="mono"`, so the
+ * custom OpenCode, Pi and Claude AI logos are forced to white.
+ */
+export const heroLogoLabels: string[] = [
+  ...tablerBrandLabels.filter((label) => label !== "GPT"),
+  "OpenAI",
+  "OpenCode",
+  "Pi",
+  "Claude AI",
 ];
 
 /** Every tech label used by the portfolio, including the custom .astro logos. */
