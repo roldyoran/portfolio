@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
-    "@lucide/astro": "^1.16.0",
+    "@tabler/icons": "^3.53.0",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^7.1.5",
     "motion": "^12.38.0",
