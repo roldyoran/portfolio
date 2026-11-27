@@ -8,15 +8,15 @@
 
 import { mountDockerParticles, type DockerParticleField } from "./docker-particles";
 
-const INTRO_MS = 2600;
+const INTRO_MS = 4800;
 
 const clamp = (value: number, min: number, max: number): number =>
   Math.min(max, Math.max(min, value));
 
-/** Quintic smootherstep — same intro easing as the /docker study. */
-const smoother = (value: number): number => {
+/** Sine in-out: a gentler, more even settle than the /docker quintic. */
+const easeInOutSine = (value: number): number => {
   const t = clamp(value, 0, 1);
-  return t * t * t * (t * (t * 6 - 15) + 10);
+  return 0.5 - Math.cos(Math.PI * t) / 2;
 };
 
 export function initV2Hero(): void {
@@ -44,7 +44,7 @@ export function initV2Hero(): void {
 
   if (field) {
     const heroRect = hero.getBoundingClientRect();
-    field.setSpread(1.8 * Math.hypot(heroRect.width, heroRect.height));
+    field.setSpread(1.25 * Math.hypot(heroRect.width, heroRect.height));
     field.setDisperse(reduceMotion.matches ? 0 : 1);
     field.play();
   }
@@ -53,7 +53,7 @@ export function initV2Hero(): void {
     const start = performance.now();
     const intro = (now: number): void => {
       const progress = clamp((now - start) / INTRO_MS, 0, 1);
-      field?.setDisperse(1 - smoother(progress));
+      field?.setDisperse(1 - easeInOutSine(progress));
       syncView();
       if (progress < 1) {
         requestAnimationFrame(intro);
