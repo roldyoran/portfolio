@@ -13,23 +13,23 @@ conserva los tokens legacy del portafolio anterior; v2 no los importa.
 | `--color-cream`      | `oklch(99.47% 0.004 78)`                     | Superficie clara, texto en oscuro      |
 | `--color-soft-ink`   | `color-mix(in oklch, oklch(99.47% 0.004 78) 62%, oklch(17.30% 0 0))` | Texto secundario en claro |
 | `--color-line`       | `oklch(99.47% 0.004 78 / 0.09)`              | Bordes sutiles en oscuro               |
-| `--color-ember`      | `oklch(80% 0.17 60)`                         | Acento principal en oscuro             |
-| `--color-ember-hover`| `oklch(86% 0.16 64)`                         | Hover del acento                       |
-| `--color-ember-deep` | `oklch(50% 0.15 50)`                         | Acento como texto en claro             |
-| `--color-ember-soft` | `color-mix(in oklch, oklch(80% 0.17 60) 12%, transparent)` | Fondo de hover sutil |
-| `--color-ring`       | `oklch(80% 0.17 60)`                         | Anillo de foco en oscuro               |
+| `--color-ember`      | `oklch(80% 0.17 60)`                         | Único naranja base: CTA, activo y acentos |
+| `--color-ember-hover`| `oklch(86% 0.16 64)`                         | Único naranja secundario: hover del CTA |
+| `--color-ring`       | `var(--color-ember)`                         | Anillo de foco en oscuro (mismo naranja) |
 
 Contrastes verificados: ink↔cream **18.5:1 (AAA)** · ember sobre ink
 **9.33:1 (AAA)** · ink sobre ember **9.33:1 (AAA)** ·
-ember-hover sobre ink **11.09:1 (AAA)** · ember-deep sobre cream
-**6.25:1 (AA)**.
+ember-hover sobre ink **11.09:1 (AAA)**.
+
+Solo existen dos naranjas: `ember` (base) y `ember-hover` (secundario).
+Cualquier otro naranja queda fuera del sistema V2.
 
 Reglas del acento:
 
 1. El acento se reserva para la acción principal, el estado activo y
    metadatos cortos; nunca para párrafos.
 2. En oscuro: `ember` base, `ember-hover` para hover. En claro: texto
-   siempre con `ember-deep`; `ember` solo en detalles grandes o decorativos.
+   siempre con `ink`; `ember` solo en detalles decorativos o bordes.
 3. Nunca `ember` sobre `cream` como texto (2.01:1, no pasa AA).
 
 ## 2. Tipografía — trío v2
@@ -64,12 +64,10 @@ Reglas:
   --color-soft-ink: color-mix(in oklch, oklch(99.47% 0.004 78) 62%, oklch(17.30% 0 0));
   --color-line: oklch(99.47% 0.004 78 / 0.09);
 
+  /* Dos únicos naranjas: base del CTA y su hover. */
   --color-ember: oklch(80% 0.17 60);
   --color-ember-hover: oklch(86% 0.16 64);
-  --color-ember-deep: oklch(50% 0.15 50);
-  --color-ember-soft: color-mix(in oklch, oklch(80% 0.17 60) 12%, transparent);
-
-  --color-ring: oklch(80% 0.17 60);
+  --color-ring: var(--color-ember);
 
   --radius-sm: 0.125rem;
   --radius-md: 0.25rem;
@@ -86,9 +84,9 @@ Reglas:
 ```
 
 Utilidades: `bg-ink text-cream` (base), `bg-cream text-ink` (sección clara
-opt-in), `text-ember` / `bg-ember` / `border-ember`, `text-ember-deep`,
-`font-display` / `font-body` / `font-mono`, `ease-site`. Nunca valores
-arbitrarios de color.
+opt-in), `text-ember` / `bg-ember` / `border-ember`, `font-display` /
+`font-body` / `font-mono`, `ease-site`. Nunca valores arbitrarios de color:
+usa solo `ember` y `ember-hover` para naranja.
 
 v2 es dark-first sin clase `.dark`: el claro es opt-in por sección
 (igual que `/docker`: hero oscuro + resto claro).
@@ -174,7 +172,7 @@ const BASE = "inline-flex items-center justify-center rounded-md font-body trans
 const VARIANTS: Record<Variant, string> = {
   primary: "bg-ember text-ink hover:bg-ember-hover",
   outline: "border border-line text-cream hover:border-ember hover:text-ember",
-  ghost: "text-cream hover:bg-ember-soft hover:text-ember",
+  ghost: "text-cream hover:bg-ember/10 hover:text-ember",
 };
 const SIZES: Record<Size, string> = {
   sm: "h-9 px-3 text-sm",
@@ -191,7 +189,7 @@ const SIZES: Record<Size, string> = {
   `mx-auto w-full max-w-screen-xl px-4 sm:px-6 lg:px-8`.
 - Tailwind primero; CSS propio solo para tokens, primitivas y keyframes.
 - `size-*` en lugar de `w-* h-*`. Probar cada vista en claro
-  (`bg-cream` + `text-ember-deep`) y con `prefers-reduced-motion`.
+  (`bg-cream` + `text-ink`) y con `prefers-reduced-motion`.
 
 ## 7. TypeScript — reglas y tipos avanzados
 
@@ -293,5 +291,5 @@ logos `.astro` para que todos queden blancos y con el mismo peso visual.
 - Todos los botones V2 usan mono en cualquier idioma.
 - El tooltip de logos es solo hover (`(hover: hover) and (pointer: fine)`),
   no aparece en táctil y se actualiza al mismo tiempo que el crossfade.
-- En secciones claras el anillo de foco usa `ember-deep` (el ember brillante
-  no contrasta sobre cream).
+- En secciones claras el anillo de foco usa `ink` (el ember brillante no
+  contrasta sobre cream).

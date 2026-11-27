@@ -91,6 +91,7 @@ src/
   Note: package.json scripts are standard Astro scripts ("dev": "astro dev", "build": "astro build", "preview": "astro preview"). Bun can run these npm scripts. The repository's `packageManager` field may still mention pnpm — that's informational and can be updated if you want to standardize on Bun.
 - Node: project requires Node >= 22.12.0 (see `package.json` engines).
 - Tailwind and styling:
+  - V2 orange rule: only `--color-ember` (base CTA/active) and `--color-ember-hover` (CTA hover) are allowed. Use `ink` for text on cream; do not add another orange token.
   - There is intentionally no `tailwind.config.*` file in this project: the design tokens and theme are declared inside CSS using `@theme` and custom layers. V2 uses `src/styles/v2.css`; the legacy site uses `src/styles/global.css`.
   - Tailwind utilities should take priority over custom CSS for most styling. Use Tailwind utility classes for layout/spacing/typography/responsive behavior. Reserve custom CSS for global tokens, component primitives, and exceptional cases (complex selectors, theme variables, keyframes that are not provided by Tailwind).
   - If you add a `tailwind.config.*` later, ensure `content` globs include `.astro`, `.ts`, `.tsx`, `.js`, and templates under `src/` so Tailwind can scan and generate utilities.

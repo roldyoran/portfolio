@@ -9,12 +9,12 @@
   --color-soft-ink: color-mix(in oklch, oklch(99.47% 0.004 78) 62%, oklch(17.3% 0 0));
   --color-line: oklch(99.47% 0.004 78 / 0.09);
 
+  /* Dos únicos naranjas del sistema: base del CTA y su hover. */
   --color-ember: oklch(80% 0.17 60);
   --color-ember-hover: oklch(86% 0.16 64);
-  --color-ember-deep: oklch(50% 0.15 50);
-  --color-ember-soft: color-mix(in oklch, oklch(80% 0.17 60) 12%, transparent);
 
-  --color-ring: oklch(80% 0.17 60);
+  /* Alias semántico: mismo naranja base, sin un tercer tono. */
+  --color-ring: var(--color-ember);
 
   --radius-sm: 0.125rem;
   --radius-md: 0.25rem;
@@ -67,9 +67,9 @@
     outline-offset: 3px;
   }
 
-  /* En superficies claras el anillo brillante no contrasta: usa el tono profundo. */
+  /* En superficies claras el naranja no contrasta: el anillo usa ink. */
   .v2-lab :focus-visible {
-    outline-color: var(--color-ember-deep);
+    outline-color: var(--color-ink);
   }
 
   @media (prefers-reduced-motion: reduce) {
