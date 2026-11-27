@@ -10,7 +10,7 @@
   --color-line: oklch(99.47% 0.004 78 / 0.09);
 
   /* Dos únicos naranjas del sistema: base del CTA y su hover. */
-  --color-ember: oklch(80% 0.17 60);
+  --color-ember: oklch(80% 0.20 60);
   --color-ember-hover: oklch(86% 0.16 64);
 
   /* Alias semántico: mismo naranja base, sin un tercer tono. */

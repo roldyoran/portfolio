@@ -13,12 +13,12 @@ conserva los tokens legacy del portafolio anterior; v2 no los importa.
 | `--color-cream`      | `oklch(99.47% 0.004 78)`                     | Superficie clara, texto en oscuro      |
 | `--color-soft-ink`   | `color-mix(in oklch, oklch(99.47% 0.004 78) 62%, oklch(17.30% 0 0))` | Texto secundario en claro |
 | `--color-line`       | `oklch(99.47% 0.004 78 / 0.09)`              | Bordes sutiles en oscuro               |
-| `--color-ember`      | `oklch(80% 0.17 60)`                         | Único naranja base: CTA, activo y acentos |
+| `--color-ember`      | `oklch(80% 0.20 60)`                         | Único naranja base: CTA, activo y acentos |
 | `--color-ember-hover`| `oklch(86% 0.16 64)`                         | Único naranja secundario: hover del CTA |
 | `--color-ring`       | `var(--color-ember)`                         | Anillo de foco en oscuro (mismo naranja) |
 
 Contrastes verificados: ink↔cream **18.5:1 (AAA)** · ember sobre ink
-**9.33:1 (AAA)** · ink sobre ember **9.33:1 (AAA)** ·
+**8.81:1 (AAA)** · ink sobre ember **8.81:1 (AAA)** ·
 ember-hover sobre ink **11.09:1 (AAA)**.
 
 Solo existen dos naranjas: `ember` (base) y `ember-hover` (secundario).
@@ -65,7 +65,7 @@ Reglas:
   --color-line: oklch(99.47% 0.004 78 / 0.09);
 
   /* Dos únicos naranjas: base del CTA y su hover. */
-  --color-ember: oklch(80% 0.17 60);
+  --color-ember: oklch(80% 0.20 60);
   --color-ember-hover: oklch(86% 0.16 64);
   --color-ring: var(--color-ember);
 
