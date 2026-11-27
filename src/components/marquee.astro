@@ -1,16 +1,17 @@
 ---
-import type { IconMap } from "@/data/types";
+import TechIcon from "@/components/icons/tech-icon.astro";
 
 interface Props {
   items: string[];
-  icons: IconMap;
   label?: string;
   /** Segundos que tarda un ciclo completo. Más alto = más lento. */
   duration?: number;
   direction?: "left" | "right";
 }
 
-const { items, icons, label = "Technologies", duration = 20, direction = "left" } = Astro.props;
+const { items, label = "Technologies", duration = 20, direction = "left" } = Astro.props;
+
+const groups = [{ visible: true }, { visible: false }, { visible: false }, { visible: false }];
 ---
 
 <div
@@ -18,70 +19,21 @@ const { items, icons, label = "Technologies", duration = 20, direction = "left" 
   style={`--marquee-duration:${duration}s; --marquee-direction:${direction === "right" ? "reverse" : "normal"};`}
 >
   <ul class="marquee__track" aria-label={label}>
-    <li class="marquee__group" aria-hidden="false">
-      {
-        items.map((item) => {
-          const Icon = icons[item];
-          return (
-            <span class="marquee__item">
-              {Icon ? <Icon size={20} class="marquee__icon" aria-hidden="true" /> : null}
-              <span class="marquee__label">{item}</span>
-              <span class="marquee__dot" aria-hidden="true">
-                ●
+    {
+      groups.map((group) => (
+        <li class="marquee__group" aria-hidden={group.visible ? "false" : "true"}>
+          {items.map((item) => (
+              <span class="marquee__item">
+                <TechIcon name={item} size={20} class="marquee__icon" />
+                <span class="marquee__label">{item}</span>
+                <span class="marquee__dot" aria-hidden="true">
+                  ●
+                </span>
               </span>
-            </span>
-          );
-        })
-      }
-    </li>
-    <li class="marquee__group" aria-hidden="true">
-      {
-        items.map((item) => {
-          const Icon = icons[item];
-          return (
-            <span class="marquee__item">
-              {Icon ? <Icon size={20} class="marquee__icon" aria-hidden="true" /> : null}
-              <span class="marquee__label">{item}</span>
-              <span class="marquee__dot" aria-hidden="true">
-                ●
-              </span>
-            </span>
-          );
-        })
-      }
-    </li>
-    <li class="marquee__group" aria-hidden="true">
-      {
-        items.map((item) => {
-          const Icon = icons[item];
-          return (
-            <span class="marquee__item">
-              {Icon ? <Icon size={20} class="marquee__icon" aria-hidden="true" /> : null}
-              <span class="marquee__label">{item}</span>
-              <span class="marquee__dot" aria-hidden="true">
-                ●
-              </span>
-            </span>
-          );
-        })
-      }
-    </li>
-    <li class="marquee__group" aria-hidden="true">
-      {
-        items.map((item) => {
-          const Icon = icons[item];
-          return (
-            <span class="marquee__item">
-              {Icon ? <Icon size={20} class="marquee__icon" aria-hidden="true" /> : null}
-              <span class="marquee__label">{item}</span>
-              <span class="marquee__dot" aria-hidden="true">
-                ●
-              </span>
-            </span>
-          );
-        })
-      }
-    </li>
+          ))}
+        </li>
+      ))
+    }
   </ul>
 </div>
 

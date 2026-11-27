@@ -1,0 +1,31 @@
+---
+import { tablerTechSvg, type TablerTechIcon } from "@/data/tabler-icons";
+
+interface Props {
+  name: TablerTechIcon;
+  size?: number;
+  /** Tabler default is 2; 1.75 keeps small chips from looking heavy. */
+  strokeWidth?: number;
+  class?: string;
+}
+
+const { name, size = 18, strokeWidth = 1.75, class: className } = Astro.props;
+const svg = tablerTechSvg[name];
+---
+
+<span
+  class:list={["tabler-tech-icon inline-flex shrink-0", className]}
+  style={`--tabler-size:${size}px;--tabler-stroke:${strokeWidth}`}
+  aria-hidden="true"
+>
+  <Fragment set:html={svg} />
+</span>
+
+<style>
+  .tabler-tech-icon :global(svg) {
+    display: block;
+    width: var(--tabler-size);
+    height: var(--tabler-size);
+    stroke-width: var(--tabler-stroke);
+  }
+</style>

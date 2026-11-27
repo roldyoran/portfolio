@@ -3,8 +3,9 @@ import ButtonGroup from "@/components/button-group.astro";
 import type { Hero } from "@/data/types";
 import type { Lang } from "@/i18n/config";
 import { useTranslations } from "@/i18n/ui";
-import { techIcons } from "@/data/content";
-import { bentoIcons, aiMonogram } from "@/data/icon-map";
+import TechIcon from "@/components/icons/tech-icon.astro";
+import IconByName from "@/components/icons/icon-by-name.astro";
+import { bentoIconNames } from "@/data/icon-map";
 
 interface Props {
   hero: Hero;
@@ -38,9 +39,9 @@ const backendStack = ["Go", "Python", "TypeScript", "Hono"];
 const cloudStack = ["Kubernetes", "Docker", "Linux", "GCP"];
 const aiStack = ["Claude Code", "OpenCode", "Pi", "AI Harness"];
 
-const BackendIcon = bentoIcons.backend;
-const CloudIcon = bentoIcons.cloud;
-const AiIcon = bentoIcons.ai;
+const backendIcon = bentoIconNames.backend;
+const cloudIcon = bentoIconNames.cloud;
+const aiIcon = bentoIconNames.ai;
 ---
 
 <div class="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-4">
@@ -161,58 +162,43 @@ const AiIcon = bentoIcons.ai;
 
   <!-- B · Backend -->
   <article class="bento-card hero-anim md:col-span-4 flex flex-col gap-4">
-    <span class="icon-chip" data-tip={lang === "es" ? "APIs con Go, Python y TypeScript" : "APIs in Go, Python and TypeScript"}><BackendIcon size={18} /></span>
+    <span class="icon-chip" data-tip={lang === "es" ? "APIs con Go, Python y TypeScript" : "APIs in Go, Python and TypeScript"}><IconByName name={backendIcon} size={18} /></span>
     <h2 class="font-mono text-[0.72rem] tracking-[0.16em] uppercase text-t1">{t.hero.cards.backend}</h2>
     <ul class="flex flex-wrap gap-x-1.5 gap-y-2">
-      {backendStack.map((name) => {
-        const Icon = techIcons[name];
-        return (
-          <li class="chip inline-flex items-center gap-1.5">
-            {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-70" /> : null}
-            {name}
-          </li>
-        );
-      })}
+      {backendStack.map((name) => (
+        <li class="chip inline-flex items-center gap-1.5">
+          <TechIcon name={name} size={14} class="opacity-70" />
+          {name}
+        </li>
+      ))}
     </ul>
   </article>
 
   <!-- C · Cloud -->
   <article class="bento-card hero-anim md:col-span-4 flex flex-col gap-4">
-    <span class="icon-chip" data-tip="Kubernetes · Docker · Linux · GCP"><CloudIcon size={18} /></span>
+    <span class="icon-chip" data-tip="Kubernetes · Docker · Linux · GCP"><IconByName name={cloudIcon} size={18} /></span>
     <h2 class="font-mono text-[0.72rem] tracking-[0.16em] uppercase text-t1">{t.hero.cards.cloud}</h2>
     <ul class="flex flex-wrap gap-x-1.5 gap-y-2">
-      {cloudStack.map((name) => {
-        const Icon = techIcons[name];
-        return (
-          <li class="chip inline-flex items-center gap-1.5">
-            {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-70" /> : null}
-            {name}
-          </li>
-        );
-      })}
+      {cloudStack.map((name) => (
+        <li class="chip inline-flex items-center gap-1.5">
+          <TechIcon name={name} size={14} class="opacity-70" />
+          {name}
+        </li>
+      ))}
     </ul>
   </article>
 
   <!-- D · AI (accent) -->
   <article class="bento-card bento-card-accent hero-anim md:col-span-4 flex flex-col gap-4">
-    <span class="icon-chip icon-chip-accent" data-tip={lang === "es" ? "Claude Code, OpenCode y LLMs abiertos" : "Claude Code, OpenCode and open LLMs"}><AiIcon size={18} /></span>
+    <span class="icon-chip icon-chip-accent" data-tip={lang === "es" ? "Claude Code, OpenCode y LLMs abiertos" : "Claude Code, OpenCode and open LLMs"}><IconByName name={aiIcon} size={18} /></span>
     <h2 class="font-mono text-[0.72rem] tracking-[0.16em] uppercase text-t1">{t.hero.cards.ai}</h2>
     <ul class="flex flex-wrap gap-x-1.5 gap-y-2">
-      {aiStack.map((name) => {
-        const Icon = techIcons[name];
-        return (
-          <li class="chip inline-flex items-center gap-1.5">
-            {Icon ? (
-              <Icon size={14} class="block h-3.5 w-3.5" />
-            ) : (
-              <span class="w-4 h-4 rounded bg-white/10 text-[0.6rem] flex items-center justify-center text-t1 font-mono">
-                {aiMonogram(name)}
-              </span>
-            )}
-            {name}
-          </li>
-        );
-      })}
+      {aiStack.map((name) => (
+        <li class="chip inline-flex items-center gap-1.5">
+          <TechIcon name={name} size={14}  />
+          {name}
+        </li>
+      ))}
     </ul>
   </article>
 </div>

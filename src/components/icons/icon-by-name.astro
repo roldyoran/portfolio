@@ -1,0 +1,29 @@
+---
+import TablerUiIcon from "./tabler-ui-icon.astro";
+import GithubIcon from "./github.astro";
+import LinkedinIcon from "./linkedin.astro";
+import TwitterIcon from "./twitter.astro";
+import { tablerUiSvg, type TablerUiIcon } from "@/data/tabler-ui-icons";
+
+interface Props {
+  name: string;
+  size?: number;
+  strokeWidth?: number;
+  class?: string;
+}
+
+const { name, size = 18, strokeWidth = 1.75, class: className } = Astro.props;
+
+const socialIcons = {
+  github: GithubIcon,
+  linkedin: LinkedinIcon,
+  twitter: TwitterIcon,
+} as const;
+
+const Social = socialIcons[name as keyof typeof socialIcons];
+const uiName = name as TablerUiIcon;
+const hasUiIcon = uiName in tablerUiSvg;
+---
+
+{Social ? <Social size={size} class={className} /> : null}
+{!Social && hasUiIcon ? <TablerUiIcon name={uiName} size={size} strokeWidth={strokeWidth} class={className} /> : null}

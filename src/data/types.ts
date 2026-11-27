@@ -1,3 +1,5 @@
+import type { TablerTechIcon } from "./tabler-icons";
+
 export interface SocialLinks {
   linkedin: string;
   github: string;
@@ -105,14 +107,12 @@ export interface Skill {
 }
 
 export interface SkillWithIcon extends Skill {
-  icon: any;
+  icon: TablerTechIcon | null;
   iconProps: {
     size: number;
     class: string;
   };
 }
-
-export type IconMap = Record<string, any>;
 
 export type IconProps = {
   size: number;

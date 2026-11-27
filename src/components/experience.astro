@@ -1,8 +1,9 @@
 ---
 import type { Lang } from "@/i18n/config";
 import { useTranslations } from "@/i18n/ui";
-import { techIcons } from "@/data/content";
-import { bentoIcons } from "@/data/icon-map";
+import TechIcon from "@/components/icons/tech-icon.astro";
+import IconByName from "@/components/icons/icon-by-name.astro";
+import { bentoIconNames } from "@/data/icon-map";
 
 interface Experience {
   id: number;
@@ -24,8 +25,8 @@ interface Props {
 
 const { experience, lang } = Astro.props;
 const t = useTranslations(lang);
-const WorkIcon = bentoIcons.work;
-const ArrowIcon = bentoIcons.arrowUpRight;
+const workIcon = bentoIconNames.work;
+const arrowIcon = bentoIconNames.arrowUpRight;
 ---
 
 <section id="experience" class="section-inner py-10 md:py-14">
@@ -39,7 +40,7 @@ const ArrowIcon = bentoIcons.arrowUpRight;
     {
       experience.map((exp) => (
         <article class="bento-card reveal-hidden flex flex-col md:flex-row gap-5 md:gap-8 md:items-start">
-          <span class="icon-chip"><WorkIcon size={18} /></span>
+          <span class="icon-chip"><IconByName name={workIcon} size={18} /></span>
           <div class="flex-1 min-w-0">
             <h3 class="font-big text-[1.7rem] md:text-[2rem] leading-none tracking-wide text-t1">
               {lang === "es" && exp.roleEs ? exp.roleEs : exp.role}
@@ -51,15 +52,12 @@ const ArrowIcon = bentoIcons.arrowUpRight;
               {lang === "es" && exp.descriptionEs ? exp.descriptionEs : exp.description}
             </p>
             <ul class="flex flex-wrap gap-x-1.5 gap-y-2 mt-4">
-              {exp.tech.slice(0, 5).map((techItem) => {
-                const Icon = techIcons[techItem];
-                return (
-                  <li class="chip inline-flex items-center gap-1.5">
-                    {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-70" /> : null}
-                    {techItem}
-                  </li>
-                );
-              })}
+              {exp.tech.slice(0, 5).map((techItem) => (
+                <li class="chip inline-flex items-center gap-1.5">
+                  <TechIcon name={techItem} size={14} class="opacity-70" />
+                  {techItem}
+                </li>
+              ))}
             </ul>
           </div>
           <div class="flex md:flex-col items-center md:items-end gap-2 md:text-right shrink-0">
@@ -74,7 +72,7 @@ const ArrowIcon = bentoIcons.arrowUpRight;
                 rel="noopener"
                 class="inline-flex items-center gap-1 font-mono text-[0.68rem] tracking-widest uppercase text-t3 hover:text-t1 transition-colors"
               >
-                {t.experience.docs} <ArrowIcon size={13} />
+                {t.experience.docs} <IconByName name={arrowIcon} size={13} />
               </a>
             )}
           </div>

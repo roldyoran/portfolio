@@ -1,7 +1,7 @@
 ---
-import { ArrowUpRight } from "@lucide/astro";
 import HeroLogos from "@/components/hero-logos.astro";
-import type { Hero, IconMap } from "@/data/types";
+import IconByName from "@/components/icons/icon-by-name.astro";
+import type { Hero } from "@/data/types";
 import type { Lang } from "@/i18n/config";
 import { useTranslations } from "@/i18n/ui";
 
@@ -10,10 +10,9 @@ interface Props {
   lang: Lang;
   logosLabel: string;
   logoItems: string[];
-  logoIcons: IconMap;
 }
 
-const { hero, lang, logosLabel, logoItems, logoIcons } = Astro.props;
+const { hero, lang, logosLabel, logoItems } = Astro.props;
 const t = useTranslations(lang);
 const summary = lang === "es" ? hero.descriptionEs : hero.description;
 ---
@@ -40,12 +39,12 @@ const summary = lang === "es" ? hero.descriptionEs : hero.description;
     <div class="ph-hero__ctas ph-anim" style="--d: 0.5s">
       <a class="ph-hero__cta" href="#contact">
         {t.hero.contactMe}
-        <ArrowUpRight size={16} aria-hidden="true" />
+        <IconByName name="arrow-up-right" size={16} />
       </a>
     </div>
 
     <div class="ph-hero__logos ph-anim" style="--d: 0.6s">
-      <HeroLogos items={logoItems} icons={logoIcons} />
+      <HeroLogos items={logoItems} />
       <p class="sr-only">{logosLabel}</p>
     </div>
   </div>
@@ -140,9 +139,10 @@ const summary = lang === "es" ? hero.descriptionEs : hero.description;
     border-radius: var(--radius-md);
     background: var(--color-ember);
     color: var(--color-ink);
-    font-family: var(--font-body);
+    /* Regla de marca: los CTA “Contáctame / Contact Me” siempre van en mono. */
+    font-family: var(--font-mono);
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     text-decoration: none;
     transition:
       background 0.2s ease,

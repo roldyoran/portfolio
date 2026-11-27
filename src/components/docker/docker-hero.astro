@@ -1,5 +1,5 @@
 ---
-import { ArrowUpRight } from "@lucide/astro";
+import IconByName from "@/components/icons/icon-by-name.astro";
 import DockerLogos from "./docker-logos.astro";
 import { dockerHero } from "@/data/docker-study";
 
@@ -19,7 +19,7 @@ const [subLead, subRest] = dockerHero.subtitle.split(" so ");
         >
           <span class="dk-hero__pill-tag">{dockerHero.pillTag}</span>
           {dockerHero.pill}
-          <ArrowUpRight class="dk-hero__pill-icon" size={12} aria-hidden="true" />
+          <IconByName name="arrow-up-right" size={12} class="dk-hero__pill-icon" />
         </a>
 
         <h1 class="dk-hero__title" id="dk-hero-title">

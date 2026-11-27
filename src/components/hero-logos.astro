@@ -1,40 +1,68 @@
 ---
-import type { IconMap } from "@/data/types";
+import TechIcon from "@/components/icons/tech-icon.astro";
+
+type LogoTone = "color" | "mono";
 
 interface Props {
   items: string[];
-  icons: IconMap;
   /** Visible cells; every cell stacks the full set and shows one at a time. */
   cells?: number;
+  /** "mono" renders every icon in black & white, like the Docker logos. */
+  tone?: LogoTone;
+  /** Tall strip (96px) like the Docker logo row; default is compact. */
+  tall?: boolean;
+  /** Desktop columns. Defaults to 6 (home); /v2 uses 5 like Docker. */
+  columns?: number;
+  /** Columns below 768px. Defaults to 3. */
+  mobileColumns?: number;
+  iconSize?: number;
 }
 
-const { items, icons, cells = 6 } = Astro.props;
+const {
+  items,
+  cells = 6,
+  tone = "color",
+  tall = false,
+  columns = 6,
+  mobileColumns = 3,
+  iconSize = 30,
+} = Astro.props;
 
 // Each cell holds the full logo set stacked on top of each other; the script
 // crossfades from one active logo to the next, like the /docker hero.
 const cellIndexes = Array.from({ length: cells }, (_, cellIndex) => cellIndex);
 ---
 
-<div class="hero-logos" data-hero-logos aria-hidden="true">
+<div
+  class:list={[
+    "hero-logos",
+    { "hero-logos--mono": tone === "mono" },
+    { "hero-logos--tall": tall },
+  ]}
+  style={`--hero-logo-cols:${columns};--hero-logo-cols-mobile:${mobileColumns};--hero-logo-half:${iconSize / 2}px`}
+  data-hero-logos
+  aria-hidden="true"
+>
   {
     cellIndexes.map((cellIndex) => (
       <div
         class="hero-logo-cell animate-rise opacity-0"
         data-hero-logo-cell
+        data-label={items[cellIndex % items.length]}
         style={`animation-delay: calc(0.55s + ${(cellIndex * 0.12).toFixed(2)}s)`}
       >
-        {items.map((item, logoIndex) => {
-          const Icon = icons[item];
-          return Icon ? (
-            <span
-              class:list={["hero-logo-img", { "is-in": logoIndex === cellIndex % items.length }]}
-              data-hero-logo={logoIndex}
-              title={item}
-            >
-              <Icon size={30} />
-            </span>
-          ) : null;
-        })}
+        {items.map((item, logoIndex) => (
+          <span
+            class:list={[
+              "hero-logo-img",
+              { "is-in": logoIndex === cellIndex % items.length },
+            ]}
+            data-hero-logo={logoIndex}
+            data-hero-logo-label={item}
+          >
+            <TechIcon name={item} size={iconSize} />
+          </span>
+        ))}
       </div>
     ))
   }
@@ -42,14 +70,17 @@ const cellIndexes = Array.from({ length: cells }, (_, cellIndex) => cellIndex);
 
 <style>
   .hero-logos {
+    --hero-tooltip-bg: color-mix(in oklch, var(--color-ink) 92%, transparent);
+    --hero-tooltip-border: color-mix(in oklch, var(--color-cream) 12%, transparent);
+
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--hero-logo-cols-mobile, 3), minmax(0, 1fr));
     gap: 0.5rem 1rem;
   }
 
   @media (min-width: 768px) {
     .hero-logos {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-columns: repeat(var(--hero-logo-cols, 6), minmax(0, 1fr));
     }
   }
 
@@ -59,6 +90,73 @@ const cellIndexes = Array.from({ length: cells }, (_, cellIndex) => cellIndex);
     align-items: center;
     justify-content: center;
     min-height: 44px;
+  }
+
+  /* Tooltip del logo activo. El script actualiza data-label en cada crossfade
+     para que nunca muestre el nombre de un icono oculto. */
+  .hero-logo-cell::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: calc(50% + var(--hero-logo-half, 15px) + 8px);
+    left: 50%;
+    z-index: 7;
+    padding: 5px 9px;
+    border: 1px solid var(--hero-tooltip-border);
+    border-radius: 5px;
+    background: var(--hero-tooltip-bg);
+    color: var(--color-cream);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+    max-width: 160px;
+    text-align: center;
+    text-wrap: balance;
+    white-space: normal;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(4px);
+    transition:
+      opacity 0.18s ease,
+      transform 0.18s ease;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 18px rgb(0 0 0 / 0.28);
+  }
+
+  /* Triangulito del tooltip: cuadrado rotado, con solo dos bordes visibles. */
+  .hero-logo-cell::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: calc(50% + var(--hero-logo-half, 15px) + 2px);
+    z-index: 6;
+    width: 8px;
+    height: 8px;
+    border-right: 1px solid var(--hero-tooltip-border);
+    border-bottom: 1px solid var(--hero-tooltip-border);
+    background: var(--hero-tooltip-bg);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(4px) rotate(45deg);
+    transition:
+      opacity 0.18s ease,
+      transform 0.18s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hero-logo-cell:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      transition-delay: 0.14s;
+    }
+
+    .hero-logo-cell:hover::before {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) rotate(45deg);
+      transition-delay: 0.14s;
+    }
   }
 
   .hero-logo-img {
@@ -89,10 +187,32 @@ const cellIndexes = Array.from({ length: cells }, (_, cellIndex) => cellIndex);
     transform: translateY(-6px);
   }
 
-  .hero-logo-img svg {
-    width: 30px;
-    height: 30px;
+  /* Tono mono: iconos en blanco como los logos de Docker */
+  .hero-logos--mono .hero-logo-img {
+    filter: brightness(0) invert(1);
+  }
+
+  .hero-logos--mono .hero-logo-img.is-in {
+    filter: brightness(0) invert(1);
+  }
+
+  .hero-logos--mono .hero-logo-img.is-out {
+    filter: brightness(0) invert(1) blur(3px);
+  }
+
+  .hero-logos--tall .hero-logo-cell {
+    min-height: 96px;
+  }
+
+  .hero-logo-img :global(svg) {
     opacity: 0.92;
+  }
+
+  /* The tall Docker-style strip keeps three cells on phones. */
+  @media (max-width: 599px) {
+    .hero-logos--tall .hero-logo-cell:nth-child(n + 4) {
+      display: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -2,7 +2,7 @@
 import ButtonGroup from "@/components/button-group.astro";
 import type { Lang } from "@/i18n/config";
 import { useTranslations } from "@/i18n/ui";
-import { bentoIcons } from "@/data/icon-map";
+import IconByName from "@/components/icons/icon-by-name.astro";
 import GithubIcon from "@/components/icons/github.astro";
 import LinkedinIcon from "@/components/icons/linkedin.astro";
 
@@ -21,9 +21,6 @@ const t = useTranslations(lang);
 const base = import.meta.env.BASE_URL || '/';
 const baseUrl = base.endsWith('/') ? base : `${base}/`;
 const cvUrl = `${baseUrl}cv/CV-Edgar-Alvarez-estudiante-ingenieria-en-sistemas.pdf`;
-
-const MailIcon = bentoIcons.mail;
-const CvIcon = bentoIcons.cv;
 ---
 
 <script>
@@ -39,7 +36,7 @@ const CvIcon = bentoIcons.cv;
 
   <article class="bento-card reveal-hidden flex flex-col lg:flex-row gap-6 lg:items-center md:p-8">
     <div class="flex items-start gap-4 flex-1 min-w-0">
-      <span class="icon-chip"><MailIcon size={18} /></span>
+      <span class="icon-chip"><IconByName name="mail" size={18} /></span>
       <div class="min-w-0">
         <a href={`mailto:${email}`} class="block text-[1.1rem] md:text-[1.35rem] font-semibold text-t1 hover:text-o2 transition-colors break-all">
           {email}
@@ -83,7 +80,7 @@ const CvIcon = bentoIcons.cv;
           </a>
         )}
         <a href={cvUrl} data-download-cv aria-label={t.hero.downloadCV} data-tip={t.hero.downloadCV} class="icon-chip flex-1 !w-auto !h-14 hover:border-white/25 transition-colors">
-          <CvIcon size={20} />
+          <IconByName name="file-download" size={20} />
         </a>
       </div>
     </div>

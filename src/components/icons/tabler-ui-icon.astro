@@ -1,0 +1,30 @@
+---
+import { tablerUiSvg, type TablerUiIcon } from "@/data/tabler-ui-icons";
+
+interface Props {
+  name: TablerUiIcon;
+  size?: number;
+  strokeWidth?: number;
+  class?: string;
+}
+
+const { name, size = 18, strokeWidth = 1.75, class: className } = Astro.props;
+const svg = tablerUiSvg[name];
+---
+
+<span
+  class:list={["tabler-ui-icon inline-flex shrink-0", className]}
+  style={`--tabler-ui-size:${size}px;--tabler-ui-stroke:${strokeWidth}`}
+  aria-hidden="true"
+>
+  <Fragment set:html={svg} />
+</span>
+
+<style>
+  .tabler-ui-icon :global(svg) {
+    display: block;
+    width: var(--tabler-ui-size);
+    height: var(--tabler-ui-size);
+    stroke-width: var(--tabler-ui-stroke);
+  }
+</style>

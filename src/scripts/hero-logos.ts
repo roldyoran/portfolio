@@ -13,25 +13,39 @@ const FIRST_SWAP_RANGE = 800;
 const EXIT_CLEANUP = 1300;
 
 interface LogoSequence {
+  cell: HTMLElement;
   logos: HTMLElement[];
   active: number;
 }
+
+const labelOf = (logo: HTMLElement | undefined): string => logo?.dataset.heroLogoLabel ?? "";
+
+const syncLabel = (sequence: LogoSequence, logo: HTMLElement | undefined): void => {
+  const label = labelOf(logo);
+  if (label) {
+    sequence.cell.dataset.label = label;
+  } else {
+    delete sequence.cell.dataset.label;
+  }
+};
 
 export function initHeroLogos(): void {
   const root = document.querySelector<HTMLElement>("[data-hero-logos]");
   if (!root) return;
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  if (reduceMotion.matches) return;
-
   const cells = Array.from(root.querySelectorAll<HTMLElement>("[data-hero-logo-cell]"));
   if (cells.length === 0) return;
 
   const sequences: LogoSequence[] = cells.map((cell) => {
     const logos = Array.from(cell.querySelectorAll<HTMLElement>("[data-hero-logo]"));
     const activeIndex = logos.findIndex((logo) => logo.classList.contains("is-in"));
-    return { logos, active: activeIndex < 0 ? 0 : activeIndex };
+    const sequence: LogoSequence = { cell, logos, active: activeIndex < 0 ? 0 : activeIndex };
+    syncLabel(sequence, logos[sequence.active]);
+    return sequence;
   });
+
+  if (reduceMotion.matches) return;
 
   const total = sequences[0]?.logos.length ?? 0;
   if (total < 2) return;
@@ -53,14 +67,30 @@ export function initHeroLogos(): void {
     const sequence = sequences[cellIndex];
     if (!sequence) return;
 
+    /* Never show the same logo twice on screen: skip indexes visible elsewhere. */
+    const taken = new Set<number>();
+    sequences.forEach((other, otherIndex) => {
+      if (otherIndex !== cellIndex) taken.add(other.active);
+    });
+
+    let incoming = sequence.active;
+    if (total > cells.length) {
+      do {
+        incoming = (incoming + 1) % total;
+      } while (taken.has(incoming));
+    } else {
+      incoming = (sequence.active + 1) % total;
+    }
+
     const previous = sequence.logos[sequence.active];
-    sequence.active = (sequence.active + 1) % total;
-    const next = sequence.logos[sequence.active];
+    sequence.active = incoming;
+    const next = sequence.logos[incoming];
 
     previous?.classList.remove("is-in");
     previous?.classList.add("is-out");
     next?.classList.remove("is-out");
     next?.classList.add("is-in");
+    syncLabel(sequence, next);
 
     /* Drop the stale exit state after the fade so every cycle starts clean. */
     if (previous) {

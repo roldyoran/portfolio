@@ -1,8 +1,5 @@
 ---
-import { ExternalLink, Mail, ArrowRight, Check, Star, Folder, Download } from "@lucide/astro";
-import GithubIcon from "@/components/icons/github.astro";
-import LinkedinIcon from "@/components/icons/linkedin.astro";
-import TwitterIcon from "@/components/icons/twitter.astro";
+import IconByName from "@/components/icons/icon-by-name.astro";
 import type { Lang } from "@/i18n/config";
 import { useTranslations } from "@/i18n/ui";
 
@@ -50,22 +47,6 @@ const {
 } = Astro.props;
 
 const t = useTranslations(lang);
-
-const iconComponents: Record<string, any> = {
-  external: ExternalLink,
-  mail: Mail,
-  "arrow-right": ArrowRight,
-  github: GithubIcon,
-  linkedin: LinkedinIcon,
-  twitter: TwitterIcon,
-  folder: Folder,
-  star: Star,
-  briefcase: null,
-  download: Download,
-};
-
-const IconLeft = iconLeft && iconComponents[iconLeft] ? iconComponents[iconLeft] : null;
-const IconRight = iconRight && iconComponents[iconRight] ? iconComponents[iconRight] : null;
 
 const baseStyles =
   "inline-flex items-center justify-center gap-2 font-mono uppercase text-decoration-none cursor-pointer transition-[background-color,color,border-color,box-shadow,transform] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]";
@@ -119,10 +100,10 @@ const computedAriaLabel = ariaLabel || label || '';
       style={primaryClipPath}
     >
       <span class="icon-mail">
-        <Mail size={iconSizes[size]} />
+        <IconByName name="mail" size={iconSizes[size]} />
       </span>
       <span class="icon-check hidden">
-        <Check size={iconSizes[size]} />
+        <IconByName name="check" size={iconSizes[size]} />
       </span>
       <span class="email-label">{copyText}</span>
     </button>
@@ -136,9 +117,9 @@ const computedAriaLabel = ariaLabel || label || '';
       aria-label={computedAriaLabel}
       style={primaryClipPath}
     >
-      {IconLeft && <IconLeft size={iconSizes[size]} />}
+      {iconLeft && <IconByName name={iconLeft} size={iconSizes[size]} />}
       <slot>{label}</slot>
-      {IconRight && <IconRight size={iconSizes[size]} />}
+      {iconRight && <IconByName name={iconRight} size={iconSizes[size]} />}
     </a>
   )
 }

@@ -3,7 +3,7 @@ import ButtonGroup from "@/components/button-group.astro";
 import type { Project } from "@/data/types";
 import type { Lang } from "@/i18n/config";
 import { useTranslations } from "@/i18n/ui";
-import { techIcons } from "@/data/content";
+import TechIcon from "@/components/icons/tech-icon.astro";
 
 interface Props {
   projects: Project[];
@@ -82,15 +82,12 @@ function buildImageSrc(imgPath: string) {
                 {lang === "es" && project.taglineEs ? project.taglineEs : project.tagline}
               </p>
               <ul class="flex flex-wrap gap-x-1.5 gap-y-2 mt-auto pt-1">
-                {topTech.map((techItem) => {
-                  const Icon = techIcons[techItem];
-                  return (
-                    <li class="chip inline-flex items-center gap-1.5">
-                      {Icon ? <Icon size={14} class="block h-3.5 w-3.5 opacity-70" /> : null}
-                      {techItem}
-                    </li>
-                  );
-                })}
+                {topTech.map((techItem) => (
+                  <li class="chip inline-flex items-center gap-1.5">
+                    <TechIcon name={techItem} size={14} class="opacity-70" />
+                    {techItem}
+                  </li>
+                ))}
               </ul>
               <div class="flex items-center gap-3 pt-2 border-t border-line mt-1">
                 <ButtonGroup
@@ -99,7 +96,7 @@ function buildImageSrc(imgPath: string) {
                   href={primaryHref ?? "#"}
                   target="_blank"
                   rel="noopener"
-                  iconRight="external"
+                  iconRight="external-link"
                   label={primaryLabel}
                   class="font-bold"
                 />

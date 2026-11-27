@@ -1,8 +1,10 @@
 ---
 import type { Lang } from "@/i18n/config";
 import { useTranslations } from "@/i18n/ui";
+import TechIcon from "@/components/icons/tech-icon.astro";
+import IconByName from "@/components/icons/icon-by-name.astro";
 import type { SkillWithIcon } from "@/data/types";
-import { bentoIcons, aiMonogram } from "@/data/icon-map";
+import { bentoIconNames } from "@/data/icon-map";
 
 interface Props {
   skillsWithIcons: SkillWithIcon[];
@@ -40,33 +42,24 @@ function skillsFor(match: string[]) {
 
     <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
       {groups.map((g) => {
-        const GroupIcon = bentoIcons[g.iconKey];
+        const groupIcon = bentoIconNames[g.iconKey];
         const items = skillsFor(g.match);
         const isAi = g.key === "AI";
         return (
           <article class:list={["bento-card reveal-hidden flex flex-col gap-3", isAi && "bento-card-accent"]}>
             <div class="flex items-center gap-2.5">
-              <span class:list={["icon-chip", isAi && "icon-chip-accent"]}><GroupIcon size={17} /></span>
+              <span class:list={["icon-chip", isAi && "icon-chip-accent"]}><IconByName name={groupIcon} size={17} /></span>
               <h3 class="font-mono text-[0.68rem] tracking-[0.16em] uppercase text-t1">
                 {t.about.categories[g.key] ?? g.key}
               </h3>
             </div>
             <ul class="flex flex-wrap gap-x-1.5 gap-y-2">
-              {items.map((skill) => {
-                const Icon = skill.icon;
-                return (
-                  <li class="chip inline-flex items-center gap-1.5" title={skill.name}>
-                    {Icon ? (
-                      <Icon size={14} class="block h-3.5 w-3.5 opacity-70" />
-                    ) : (
-                      <span class="w-4 h-4 rounded bg-white/10 text-[0.6rem] flex items-center justify-center text-t1 font-mono">
-                        {aiMonogram(skill.name)}
-                      </span>
-                    )}
-                    {skill.name}
-                  </li>
-                );
-              })}
+              {items.map((skill) => (
+                <li class="chip inline-flex items-center gap-1.5" title={skill.name}>
+                  <TechIcon name={skill.name} size={14} class="opacity-70" />
+                  {skill.name}
+                </li>
+              ))}
             </ul>
           </article>
         );

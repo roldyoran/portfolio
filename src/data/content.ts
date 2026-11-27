@@ -5,103 +5,120 @@
 import type {
   Config,
   Experience,
-  IconMap,
   IconProps,
   Project,
   Skill,
   SkillWithIcon,
 } from "./types";
+import type { TablerTechIcon } from "./tabler-icons";
 
-import ReactIcon from "@/components/icons/tech/react.astro";
-import NodejsIcon from "@/components/icons/tech/nodejs.astro";
-import TypescriptIcon from "@/components/icons/tech/typescript.astro";
-import AwsIcon from "@/components/icons/tech/aws.astro";
-import KubernetesIcon from "@/components/icons/tech/kubernetes.astro";
-import DockerIcon from "@/components/icons/tech/docker.astro";
-import PostgresqlIcon from "@/components/icons/tech/postgresql.astro";
-import GoIcon from "@/components/icons/tech/go.astro";
-import RedisIcon from "@/components/icons/tech/redis.astro";
-import GraphqlIcon from "@/components/icons/tech/graphql.astro";
-import CicdIcon from "@/components/icons/tech/cicd.astro";
-import PythonIcon from "@/components/icons/tech/python.astro";
-import LinuxIcon from "@/components/icons/tech/linux.astro";
-import GcpIcon from "@/components/icons/tech/gcp.astro";
-import AstroIcon from "@/components/icons/tech/astro.astro";
-import TailwindIcon from "@/components/icons/tech/tailwind.astro";
-import VueIcon from "@/components/icons/tech/vue.astro";
-import FastApiIcon from "@/components/icons/tech/fast-api.astro";
-import HonoIcon from "@/components/icons/tech/hono.astro";
-import GitIcon from "@/components/icons/tech/git.astro";
-import GrafanaIcon from "@/components/icons/tech/grafana.astro";
-import TursoIcon from "@/components/icons/tech/turso.astro";
-import RabbitmqIcon from "@/components/icons/tech/rabbitmq.astro";
-import GrpcIcon from "@/components/icons/tech/grpc.astro";
-import CloudflareWorkersIcon from "@/components/icons/tech/cloudflare-workers.astro";
-import SqliteIcon from "@/components/icons/tech/sqlite.astro";
-import KafkaIcon from "@/components/icons/tech/apache-kafka.astro";
-import DrizzleIcon from "@/components/icons/tech/drizzle-orm.astro";
-import ClaudeIcon from "@/components/icons/tech/claude-ai.astro";
-import JavascriptIcon from "@/components/icons/tech/javascript.astro";
-import RustIcon from "@/components/icons/tech/rust.astro";
-import OpenaiIcon from "@/components/icons/tech/openai.astro";
-import JavaIcon from "@/components/icons/tech/java.astro";
-import MysqlIcon from "@/components/icons/tech/mysql.astro";
-import OpenCodeIcon from "@/components/icons/tech/opencode.astro";
-import CloudflareIcon from "@/components/icons/tech/cloudflare.astro";
-import OllamaIcon from "@/components/icons/tech/ollama.astro";
-import PiIcon from "@/components/icons/tech/pi.astro";
-import OhMyPiIcon from "@/components/icons/tech/oh-my-pi.astro";
-import AiHarnessIcon from "@/components/icons/tech/ai-harness.astro";
-
-/** Union of keys used by skills, marquee labels, and About */
-const techIcons: Record<string, any> = {
-  Go: GoIcon,
-  Rust: RustIcon,
-  TypeScript: TypescriptIcon,
-  JavaScript: JavascriptIcon,
-  Python: PythonIcon,
-  Java: JavaIcon,
-  SQL: PostgresqlIcon,
-  PostgreSQL: PostgresqlIcon,
-  MySQL: MysqlIcon,
-  React: ReactIcon,
-  "Node.js": NodejsIcon,
-  Astro: AstroIcon,
-  "Vue.js": VueIcon,
-  "Tailwind CSS": TailwindIcon,
-  FastAPI: FastApiIcon,
-  Hono: HonoIcon,
-  "Drizzle ORM": DrizzleIcon,
-  "Apache Kafka": KafkaIcon,
-  Kafka: KafkaIcon,
-  gRPC: GrpcIcon,
-  GraphQL: GraphqlIcon,
-  "CI/CD": CicdIcon,
-  Redis: RedisIcon,
-  Turso: TursoIcon,
-  SQLite: SqliteIcon,
-  Docker: DockerIcon,
-  Kubernetes: KubernetesIcon,
-  Linux: LinuxIcon,
-  Git: GitIcon,
-  Grafana: GrafanaIcon,
-  RabbitMQ: RabbitmqIcon,
-  AWS: AwsIcon,
-  GCP: GcpIcon,
-  "Google Cloud": GcpIcon,
-  "Cloudflare Workers": CloudflareWorkersIcon,
-  Cloudflare: CloudflareIcon,
-  "Cloudflare D1": CloudflareIcon,
-  "Google Kubernetes Engine": KubernetesIcon,
-  "Claude Code": ClaudeIcon,
-  Opus: ClaudeIcon,
-  OpenCode: OpenCodeIcon,
-  Pi: PiIcon,
-  "Oh-my-pi": OhMyPiIcon,
-  "AI Harness": AiHarnessIcon,
-  "Open LLMs": OllamaIcon,
-  GPT: OpenaiIcon,
+/**
+ * Tech label -> real Tabler icon.
+ *
+ * Only labels with an official Tabler brand glyph (or a neutral generic icon
+ * where no brand exists) live here. Labels that use one of the project's
+ * monochrome `.astro` logos are resolved first by `tech-icon.astro`, so they
+ * do not need a misleading semantic fallback in this map.
+ */
+const techIcons: Record<string, TablerTechIcon> = {
+  Go: "brand-golang",
+  Rust: "brand-rust",
+  TypeScript: "brand-typescript",
+  JavaScript: "brand-javascript",
+  Python: "brand-python",
+  SQL: "database",
+  MySQL: "brand-mysql",
+  React: "brand-react",
+  "Node.js": "brand-nodejs",
+  Astro: "brand-astro",
+  "Vue.js": "brand-vue",
+  "Tailwind CSS": "brand-tailwind",
+  Svelte: "brand-svelte",
+  GraphQL: "brand-graphql",
+  Docker: "brand-docker",
+  Git: "brand-git",
+  Prometheus: "chart-line",
+  AWS: "brand-aws",
+  Cloudflare: "brand-cloudflare",
+  "Open LLMs": "brain",
+  GPT: "brand-openai",
 };
+
+/** Hero logo strip: only labels that have a real Tabler brand glyph. */
+export const tablerBrandLabels: string[] = [
+  "Go",
+  "Rust",
+  "TypeScript",
+  "JavaScript",
+  "Python",
+  "MySQL",
+  "React",
+  "Node.js",
+  "Astro",
+  "Vue.js",
+  "Tailwind CSS",
+  "Svelte",
+  "GraphQL",
+  "Docker",
+  "Git",
+  "AWS",
+  "Cloudflare",
+  "GPT",
+];
+
+/** Every tech label used by the portfolio, including the custom .astro logos. */
+export const techLabels: string[] = [
+  "Go",
+  "Rust",
+  "TypeScript",
+  "JavaScript",
+  "Python",
+  "Java",
+  "SQL",
+  "PostgreSQL",
+  "MySQL",
+  "React",
+  "Node.js",
+  "Astro",
+  "Vue.js",
+  "Tailwind CSS",
+  "Svelte",
+  "FastAPI",
+  "Hono",
+  "Drizzle ORM",
+  "Apache Kafka",
+  "Kafka",
+  "gRPC",
+  "GraphQL",
+  "CI/CD",
+  "Redis",
+  "Turso",
+  "SQLite",
+  "Docker",
+  "Kubernetes",
+  "Linux",
+  "Git",
+  "Grafana",
+  "Prometheus",
+  "RabbitMQ",
+  "AWS",
+  "GCP",
+  "Google Cloud",
+  "Cloudflare Workers",
+  "Cloudflare",
+  "Cloudflare D1",
+  "Google Kubernetes Engine",
+  "Claude Code",
+  "Opus",
+  "OpenCode",
+  "Pi",
+  "Oh-my-pi",
+  "AI Harness",
+  "AI Automation",
+  "Open LLMs",
+  "GPT",
+];
+
 
 export const experience: Experience[] = [
   {
@@ -250,9 +267,9 @@ const config: Config = {
     nameAccent: "Alvarez",
     backdrop: "EDGAR",
     description:
-      "Systems Engineering student focused on backend APIs, Kubernetes and cloud. I ship with Go, Python and TypeScript, and I accelerate delivery with AI Harness: Claude Code, OpenCode and Pi, plus open LLMs (GPT, Opus class) for automation and process tooling.",
+      "Systems student. Backend, Kubernetes and cloud with Go, Python and TypeScript, plus AI harness.",
     descriptionEs:
-      "Estudiante de Ingeniería en Sistemas enfocado en APIs backend, Kubernetes y cloud. Entrego con Go, Python y TypeScript, y acelero con Harness de IA: Claude Code, OpenCode y Pi, además de LLMs abiertos (GPT, clase Opus) para automatización de procesos.",
+      "Estudiante de Sistemas. Backend, Kubernetes y cloud con Go, Python y TypeScript, más harness de IA.",
     tagline: "APIs, K8s & AI Harness<br />shipped to production.",
     taglineEs: "APIs, K8s y Harness de IA<br />en producción.",
     years: "5+",
@@ -319,7 +336,7 @@ export const skillsWithIcons: SkillWithIcon[] = skillsData
     iconProps: getIconProps(skill.category),
   }));
 
-export function getSkillIcon(name: string): any {
+export function getSkillIcon(name: string): TablerTechIcon | null {
   return techIcons[name] ?? null;
 }
 
@@ -346,25 +363,25 @@ export const categories = [
 
 export type Category = (typeof categories)[number];
 
-export const skillsByCategory = categories.reduce(
-  (acc, category) => {
-    acc[category] = getSkillsByCategory(category);
-    return acc;
-  },
-  {} as Record<string, Skill[]>,
-);
+export const skillsByCategory: Record<Category, Skill[]> = {
+  Language: getSkillsByCategory("Language"),
+  Frontend: getSkillsByCategory("Frontend"),
+  Backend: getSkillsByCategory("Backend"),
+  Database: getSkillsByCategory("Database"),
+  DevOps: getSkillsByCategory("DevOps"),
+  Cloud: getSkillsByCategory("Cloud"),
+  AI: getSkillsByCategory("AI"),
+  Automation: getSkillsByCategory("Automation"),
+};
 
-export const skillsWithIconsByCategory = categories.reduce(
-  (acc, category) => {
-    acc[category] = getSkillsWithIconsByCategory(category);
-    return acc;
-  },
-  {} as Record<string, SkillWithIcon[]>,
-);
-
-/** Marquee strip: one icon component per label in config.marquee */
-export const marqueeTechIcons: IconMap = Object.fromEntries(
-  config.marquee.map((label) => [label, techIcons[label] ?? null]),
-) as IconMap;
-
+export const skillsWithIconsByCategory: Record<Category, SkillWithIcon[]> = {
+  Language: getSkillsWithIconsByCategory("Language"),
+  Frontend: getSkillsWithIconsByCategory("Frontend"),
+  Backend: getSkillsWithIconsByCategory("Backend"),
+  Database: getSkillsWithIconsByCategory("Database"),
+  DevOps: getSkillsWithIconsByCategory("DevOps"),
+  Cloud: getSkillsWithIconsByCategory("Cloud"),
+  AI: getSkillsWithIconsByCategory("AI"),
+  Automation: getSkillsWithIconsByCategory("Automation"),
+};
 export default config;

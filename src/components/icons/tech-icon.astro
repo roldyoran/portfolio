@@ -1,0 +1,109 @@
+---
+import TablerTechIcon from "./tabler-tech-icon.astro";
+import AiHarness from "./tech/ai-harness.astro";
+import ApacheKafka from "./tech/apache-kafka.astro";
+import Cicd from "./tech/cicd.astro";
+import ClaudeAi from "./tech/claude-ai.astro";
+import Cloudflare from "./tech/cloudflare.astro";
+import CloudflareWorkers from "./tech/cloudflare-workers.astro";
+import DrizzleOrm from "./tech/drizzle-orm.astro";
+import FastApi from "./tech/fast-api.astro";
+import Gcp from "./tech/gcp.astro";
+import Grafana from "./tech/grafana.astro";
+import Grpc from "./tech/grpc.astro";
+import Hono from "./tech/hono.astro";
+import Java from "./tech/java.astro";
+import Kafka from "./tech/kafka.astro";
+import Kubernetes from "./tech/kubernetes.astro";
+import Linux from "./tech/linux.astro";
+import OhMyPi from "./tech/oh-my-pi.astro";
+import Opencode from "./tech/opencode.astro";
+import Openai from "./tech/openai.astro";
+import Pi from "./tech/pi.astro";
+import Postgresql from "./tech/postgresql.astro";
+import Rabbitmq from "./tech/rabbitmq.astro";
+import Redis from "./tech/redis.astro";
+import Sqlite from "./tech/sqlite.astro";
+import Turso from "./tech/turso.astro";
+import { techIcons } from "@/data/content";
+
+interface Props {
+  /** Human label used in content.ts, e.g. "Redis" or "Cloudflare Workers". */
+  name: string;
+  size?: number;
+  strokeWidth?: number;
+  class?: string;
+  /** auto: custom first, then Tabler. tabler/original force one side. */
+  variant?: "auto" | "tabler" | "original";
+}
+
+const {
+  name,
+  size = 18,
+  strokeWidth = 1.75,
+  class: className,
+  variant = "auto",
+} = Astro.props;
+/**
+ * Labels without an official Tabler brand glyph use the original .astro
+ * logo from `src/components/icons/tech`. They are deliberately rendered
+ * as-is; the hero itself only shows labels with a real Tabler glyph.
+ */
+const customIcons: Record<string, typeof Redis> = {
+  "AI Automation": AiHarness,
+  "AI Harness": AiHarness,
+  "Apache Kafka": ApacheKafka,
+  "CI/CD": Cicd,
+  "Claude Code": ClaudeAi,
+  "Cloudflare D1": Cloudflare,
+  "Cloudflare Workers": CloudflareWorkers,
+  "Drizzle ORM": DrizzleOrm,
+  FastAPI: FastApi,
+  GCP: Gcp,
+  "Google Cloud": Gcp,
+  "Google Kubernetes Engine": Kubernetes,
+  Grafana,
+  gRPC: Grpc,
+  Hono,
+  Java,
+  Kafka,
+  Kubernetes,
+  Linux,
+  Opus: ClaudeAi,
+  "Oh-my-pi": OhMyPi,
+  OpenCode: Opencode,
+  Pi,
+  PostgreSQL: Postgresql,
+  RabbitMQ: Rabbitmq,
+  Redis,
+  SQLite: Sqlite,
+  Turso,
+};
+
+/** Original-only aliases used by the icon comparison section. */
+const originalAliases: Record<string, string> = {
+  GPT: "OpenAI",
+  Cloudflare: "Cloudflare",
+};
+
+const originalIcons: Record<string, typeof Redis> = {
+  ...customIcons,
+  Cloudflare,
+  OpenAI: Openai,
+};
+
+const originalName = originalAliases[name] ?? name;
+const OriginalIcon = originalIcons[originalName];
+const CustomIcon = variant === "auto" ? customIcons[name] : null;
+const TablerIcon = variant === "original" ? null : techIcons[name];
+---
+
+{
+  variant === "original" && OriginalIcon ? (
+    <OriginalIcon size={size} class={className} />
+  ) : CustomIcon ? (
+    <CustomIcon size={size} class={className} />
+  ) : TablerIcon ? (
+    <TablerTechIcon name={TablerIcon} size={size} strokeWidth={strokeWidth} class={className} />
+  ) : null
+}
