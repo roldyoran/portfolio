@@ -2,12 +2,13 @@
 import V2Layout from "@/layouts/v2-layout.astro";
 import V2Navbar from "@/components/v2/navbar.astro";
 import V2Hero from "@/components/v2/hero.astro";
+import V2Experience from "@/components/v2/experience.astro";
 import V2ScrollStudy from "@/components/v2/scroll-study.astro";
 import config, { heroLogoLabels } from "@/data/content";
 
 const title = "Edgar Alvarez — Portfolio v2 (borrador)";
 const description =
-  "Borrador v2 del portafolio de Edgar Alvarez: navbar y hero estilo Docker, más una sección temporal para probar el scroll.";
+  "Borrador v2 del portafolio de Edgar Alvarez: diseño full dark con navbar, hero y una sección de experiencia en tonos oscuros y acento naranja.";
 const logosLabel = "Tecnologías";
 ---
 
@@ -21,6 +22,8 @@ const logosLabel = "Tecnologías";
       logosLabel={logosLabel}
       logoItems={heroLogoLabels}
     />
+
+    <V2Experience />
 
     <V2ScrollStudy />
   </main>
