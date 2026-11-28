@@ -2,8 +2,7 @@
 import TablerTechIcon from "@/components/icons/tabler-tech-icon.astro";
 import type { TablerTechIcon as TablerIconName } from "@/data/tabler-icons";
 
-import AiHarness from "@/components/icons/tech/ai-harness.astro";
-import ApacheKafka from "@/components/icons/tech/apache-kafka.astro";
+import Antigravity from "@/components/icons/tech/antigravity.astro";
 import AstroIcon from "@/components/icons/tech/astro.astro";
 import Aws from "@/components/icons/tech/aws.astro";
 import Cicd from "@/components/icons/tech/cicd.astro";
@@ -24,13 +23,11 @@ import Grpc from "@/components/icons/tech/grpc.astro";
 import Hono from "@/components/icons/tech/hono.astro";
 import Java from "@/components/icons/tech/java.astro";
 import Javascript from "@/components/icons/tech/javascript.astro";
-import Kafka from "@/components/icons/tech/kafka.astro";
 import Kubernetes from "@/components/icons/tech/kubernetes.astro";
 import Linux from "@/components/icons/tech/linux.astro";
 import Mysql from "@/components/icons/tech/mysql.astro";
 import Nodejs from "@/components/icons/tech/nodejs.astro";
 import OhMyPi from "@/components/icons/tech/oh-my-pi.astro";
-import Ollama from "@/components/icons/tech/ollama.astro";
 import Openai from "@/components/icons/tech/openai.astro";
 import Opencode from "@/components/icons/tech/opencode.astro";
 import Pi from "@/components/icons/tech/pi.astro";
@@ -48,14 +45,13 @@ import Vue from "@/components/icons/tech/vue.astro";
 
 interface TechFile {
   file: string;
-  Component: typeof AiHarness;
+  Component: typeof Antigravity;
   tabler?: TablerIconName;
 }
 
-/** All 43 .astro files in src/components/icons/tech, alphabetically. */
+/** All 40 .astro files in src/components/icons/tech, alphabetically. */
 const techFiles: TechFile[] = [
-  { file: "ai-harness", Component: AiHarness },
-  { file: "apache-kafka", Component: ApacheKafka },
+  { file: "antigravity", Component: Antigravity },
   { file: "astro", Component: AstroIcon, tabler: "brand-astro" },
   { file: "aws", Component: Aws, tabler: "brand-aws" },
   { file: "cicd", Component: Cicd },
@@ -76,13 +72,11 @@ const techFiles: TechFile[] = [
   { file: "hono", Component: Hono },
   { file: "java", Component: Java },
   { file: "javascript", Component: Javascript, tabler: "brand-javascript" },
-  { file: "kafka", Component: Kafka },
   { file: "kubernetes", Component: Kubernetes },
   { file: "linux", Component: Linux },
   { file: "mysql", Component: Mysql, tabler: "brand-mysql" },
   { file: "nodejs", Component: Nodejs, tabler: "brand-nodejs" },
   { file: "oh-my-pi", Component: OhMyPi },
-  { file: "ollama", Component: Ollama },
   { file: "openai", Component: Openai, tabler: "brand-openai" },
   { file: "opencode", Component: Opencode },
   { file: "pi", Component: Pi },

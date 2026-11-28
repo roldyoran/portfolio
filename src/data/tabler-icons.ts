@@ -15,6 +15,7 @@ import brandAws from "../../node_modules/@tabler/icons/icons/outline/brand-aws.s
 import brandCloudflare from "../../node_modules/@tabler/icons/icons/outline/brand-cloudflare.svg?raw";
 import brandDocker from "../../node_modules/@tabler/icons/icons/outline/brand-docker.svg?raw";
 import brandGit from "../../node_modules/@tabler/icons/icons/outline/brand-git.svg?raw";
+import brandGithub from "../../node_modules/@tabler/icons/icons/outline/brand-github.svg?raw";
 import brandGithubCopilot from "../../node_modules/@tabler/icons/icons/outline/brand-github-copilot.svg?raw";
 import brandGolang from "../../node_modules/@tabler/icons/icons/outline/brand-golang.svg?raw";
 import brandGraphql from "../../node_modules/@tabler/icons/icons/outline/brand-graphql.svg?raw";
@@ -39,6 +40,7 @@ export const tablerTechSvg = {
   "brand-cloudflare": brandCloudflare,
   "brand-docker": brandDocker,
   "brand-git": brandGit,
+  "brand-github": brandGithub,
   "brand-github-copilot": brandGithubCopilot,
   "brand-golang": brandGolang,
   "brand-graphql": brandGraphql,

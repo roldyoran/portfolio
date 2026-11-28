@@ -11,62 +11,14 @@ import type {
   SkillWithIcon,
 } from "./types";
 import type { TablerTechIcon } from "./tabler-icons";
+import { tablerBrandLabels, techIcons, techLabels } from "./technologies";
 
 /**
- * Tech label -> real Tabler icon.
- *
- * Only labels with an official Tabler brand glyph (or a neutral generic icon
- * where no brand exists) live here. Labels that use one of the project's
- * monochrome `.astro` logos are resolved first by `tech-icon.astro`, so they
- * do not need a misleading semantic fallback in this map.
+ * Tech labels and their icons are catalogued in `./technologies.ts`. That file
+ * is the single source of truth: `TechIcon` resolves every label through it,
+ * and these re-exports keep the legacy `content.ts` API unchanged.
  */
-const techIcons: Record<string, TablerTechIcon> = {
-  Go: "brand-golang",
-  Rust: "brand-rust",
-  TypeScript: "brand-typescript",
-  JavaScript: "brand-javascript",
-  Python: "brand-python",
-  SQL: "database",
-  MySQL: "brand-mysql",
-  React: "brand-react",
-  "Node.js": "brand-nodejs",
-  Astro: "brand-astro",
-  "Vue.js": "brand-vue",
-  "Tailwind CSS": "brand-tailwind",
-  Svelte: "brand-svelte",
-  GraphQL: "brand-graphql",
-  Docker: "brand-docker",
-  Git: "brand-git",
-  "GitHub Copilot": "brand-github-copilot",
-  Prometheus: "chart-line",
-  AWS: "brand-aws",
-  Cloudflare: "brand-cloudflare",
-  "Open LLMs": "brain",
-  GPT: "brand-openai",
-  OpenAI: "brand-openai",
-};
-
-/** Labels that have a real Tabler brand glyph. */
-export const tablerBrandLabels: string[] = [
-  "Go",
-  "Rust",
-  "TypeScript",
-  "JavaScript",
-  "Python",
-  "MySQL",
-  "React",
-  "Node.js",
-  "Astro",
-  "Vue.js",
-  "Tailwind CSS",
-  "Svelte",
-  "GraphQL",
-  "Docker",
-  "Git",
-  "AWS",
-  "Cloudflare",
-  "GPT",
-];
+export { tablerBrandLabels, techIcons, techLabels };
 
 /**
  * Hero logo strip: Tabler brand glyphs plus the project's .astro logos that
@@ -90,61 +42,6 @@ export const heroPinnedLabels: string[] = [
   "GPT",
 ];
 
-/** Every tech label used by the portfolio, including the custom .astro logos. */
-export const techLabels: string[] = [
-  "Go",
-  "Rust",
-  "TypeScript",
-  "JavaScript",
-  "Python",
-  "Java",
-  "SQL",
-  "PostgreSQL",
-  "MySQL",
-  "React",
-  "Node.js",
-  "Astro",
-  "Vue.js",
-  "Tailwind CSS",
-  "Svelte",
-  "FastAPI",
-  "Hono",
-  "Drizzle ORM",
-  "Apache Kafka",
-  "Kafka",
-  "gRPC",
-  "GraphQL",
-  "CI/CD",
-  "Redis",
-  "Turso",
-  "SQLite",
-  "Docker",
-  "Kubernetes",
-  "Linux",
-  "Git",
-  "Grafana",
-  "Prometheus",
-  "RabbitMQ",
-  "AWS",
-  "GCP",
-  "Google Cloud",
-  "Cloudflare Workers",
-  "Cloudflare",
-  "Cloudflare D1",
-  "Google Kubernetes Engine",
-  "Claude Code",
-  "GitHub Copilot",
-  "Opus",
-  "OpenCode",
-  "Pi",
-  "Oh-my-pi",
-  "AI Harness",
-  "AI Automation",
-  "Open LLMs",
-  "GPT",
-];
-
-
 export const experience: Experience[] = [
   {
     id: 1,
@@ -162,7 +59,7 @@ export const experience: Experience[] = [
       "Teaching assistant for the Operating Systems I lab, supporting 139 students in hands-on Linux, virtualization with VirtManager, kernel modules and systems administration. I built distributed lab environments on Kubernetes with gRPC services, Kafka and RabbitMQ messaging, Redis and Valkey caching, plus Go and Rust automations for monitoring, with Grafana dashboards and Locust load testing.",
     descriptionEs:
       "Auxiliar del laboratorio de Sistemas Operativos I, apoyando a 139 estudiantes en Linux, virtualización con VirtManager, módulos del kernel y administración de sistemas. Armé entornos de prácticas distribuidos en Kubernetes con servicios gRPC, mensajería Kafka y RabbitMQ, caché Redis y Valkey, más automatizaciones en Go y Rust para monitoreo, con tableros Grafana y pruebas de carga Locust.",
-    tech: ["Linux", "Kubernetes", "gRPC", "Kafka", "Redis", "Grafana"],
+    tech: ["Linux", "Kubernetes", "gRPC", "Redis", "Grafana"],
     link: "https://roly.top/tutordtt",
   },
 ];
@@ -196,7 +93,6 @@ export const projects: Project[] = [
       "Go",
       "Rust",
       "gRPC",
-      "Apache Kafka",
       "Redis",
       "Prometheus",
       "Grafana",
@@ -252,6 +148,7 @@ export const skillsData: Skill[] = [
   { name: "Kubernetes", category: "DevOps" },
   { name: "Linux", category: "DevOps" },
   { name: "Git", category: "DevOps" },
+  { name: "GitHub", category: "DevOps" },
   { name: "Grafana", category: "DevOps" },
   { name: "RabbitMQ", category: "DevOps" },
   { name: "AWS", category: "Cloud" },
@@ -264,8 +161,7 @@ export const skillsData: Skill[] = [
   { name: "GPT", category: "AI" },
   { name: "Opus", category: "AI" },
   { name: "Open LLMs", category: "AI" },
-  { name: "AI Harness", category: "Automation" },
-  { name: "AI Automation", category: "Automation" },
+  { name: "Antigravity", category: "AI" },
 ];
 
 export const excludedSkills = ["Terraform"];
@@ -292,9 +188,9 @@ const config: Config = {
     nameAccent: "Alvarez",
     backdrop: "EDGAR",
     description:
-      "AI Engineering & DevOps. I build production backends, cloud infrastructure and AI automation with Go, Python and TypeScript.",
+      "Backend and DevOps engineer. I build and run Go and TypeScript services on Kubernetes, with AI agents in my daily workflow.",
     descriptionEs:
-      "AI Engineering & DevOps. Construyo backends de producción, infraestructura cloud y automatización con IA usando Go, Python y TypeScript.",
+      "Ingeniero backend y DevOps. Construyo y opero servicios en Go y TypeScript sobre Kubernetes, con agentes de IA en mi flujo diario.",
     tagline: "APIs, K8s & AI Harness<br />shipped to production.",
     taglineEs: "APIs, K8s y Harness de IA<br />en producción.",
     years: "5+",
@@ -323,7 +219,6 @@ const config: Config = {
     "GCP",
     "CI/CD",
     "Open LLMs",
-    "AI Harness",
     "Claude Code",
   ],
   githubStats: {
@@ -343,7 +238,6 @@ function getIconProps(category: string): IconProps {
     DevOps: 18,
     Cloud: 20,
     AI: 18,
-    Automation: 18,
   };
   return {
     size: sizeByCategory[category] ?? 18,
@@ -365,8 +259,6 @@ export function getSkillIcon(name: string): TablerTechIcon | null {
   return techIcons[name] ?? null;
 }
 
-export { techIcons };
-
 export function getSkillsByCategory(category: string): Skill[] {
   return skills.filter((s) => s.category === category);
 }
@@ -383,7 +275,6 @@ export const categories = [
   "DevOps",
   "Cloud",
   "AI",
-  "Automation",
 ] as const;
 
 export type Category = (typeof categories)[number];
@@ -396,7 +287,6 @@ export const skillsByCategory: Record<Category, Skill[]> = {
   DevOps: getSkillsByCategory("DevOps"),
   Cloud: getSkillsByCategory("Cloud"),
   AI: getSkillsByCategory("AI"),
-  Automation: getSkillsByCategory("Automation"),
 };
 
 export const skillsWithIconsByCategory: Record<Category, SkillWithIcon[]> = {
@@ -407,6 +297,5 @@ export const skillsWithIconsByCategory: Record<Category, SkillWithIcon[]> = {
   DevOps: getSkillsWithIconsByCategory("DevOps"),
   Cloud: getSkillsWithIconsByCategory("Cloud"),
   AI: getSkillsWithIconsByCategory("AI"),
-  Automation: getSkillsWithIconsByCategory("Automation"),
 };
 export default config;

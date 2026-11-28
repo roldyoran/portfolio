@@ -71,12 +71,7 @@ const cellIndexes = Array.from({ length: visibleCells }, (_, index) => index);
               </span>
             </TooltipTrigger>
 
-            <TooltipContent
-              side="top"
-              sideOffset={12}
-              disablePortal
-              class="v2-hero-logos__tooltip"
-            >
+            <TooltipContent side="top" disablePortal>
               <span data-v2-logo-tooltip>{activeLabel}</span>
             </TooltipContent>
           </Tooltip>
@@ -146,13 +141,6 @@ const cellIndexes = Array.from({ length: visibleCells }, (_, index) => index);
     opacity: 0;
     filter: blur(3px);
     transform: translateY(-6px);
-  }
-
-  .v2-hero-logos__tooltip {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.04em;
-    line-height: 1.3;
   }
 
   /* Tono mono: iconos en blanco como los logos de Docker. */

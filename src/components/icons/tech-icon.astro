@@ -1,41 +1,54 @@
 ---
 import TablerTechIcon from "./tabler-tech-icon.astro";
-import AiHarness from "./tech/ai-harness.astro";
-import ApacheKafka from "./tech/apache-kafka.astro";
+import Antigravity from "./tech/antigravity.astro";
+import AstroIcon from "./tech/astro.astro";
+import Aws from "./tech/aws.astro";
 import Cicd from "./tech/cicd.astro";
 import ClaudeAi from "./tech/claude-ai.astro";
 import ClaudeCode from "./tech/claude-code.astro";
-import Cloudflare from "./tech/cloudflare.astro";
 import CloudflareWorkers from "./tech/cloudflare-workers.astro";
+import Cloudflare from "./tech/cloudflare.astro";
+import Docker from "./tech/docker.astro";
 import DrizzleOrm from "./tech/drizzle-orm.astro";
 import FastApi from "./tech/fast-api.astro";
 import Gcp from "./tech/gcp.astro";
+import Git from "./tech/git.astro";
 import GithubCopilot from "./tech/github-copilot.astro";
+import Go from "./tech/go.astro";
 import Grafana from "./tech/grafana.astro";
+import Graphql from "./tech/graphql.astro";
 import Grpc from "./tech/grpc.astro";
 import Hono from "./tech/hono.astro";
 import Java from "./tech/java.astro";
-import Kafka from "./tech/kafka.astro";
+import Javascript from "./tech/javascript.astro";
 import Kubernetes from "./tech/kubernetes.astro";
 import Linux from "./tech/linux.astro";
+import Mysql from "./tech/mysql.astro";
+import Nodejs from "./tech/nodejs.astro";
 import OhMyPi from "./tech/oh-my-pi.astro";
-import Opencode from "./tech/opencode.astro";
 import Openai from "./tech/openai.astro";
+import Opencode from "./tech/opencode.astro";
 import Pi from "./tech/pi.astro";
 import Postgresql from "./tech/postgresql.astro";
+import Python from "./tech/python.astro";
 import Rabbitmq from "./tech/rabbitmq.astro";
+import React from "./tech/react.astro";
 import Redis from "./tech/redis.astro";
+import Rust from "./tech/rust.astro";
 import Sqlite from "./tech/sqlite.astro";
+import Tailwind from "./tech/tailwind.astro";
 import Turso from "./tech/turso.astro";
-import { techIcons } from "@/data/content";
+import Typescript from "./tech/typescript.astro";
+import Vue from "./tech/vue.astro";
+import { getTech, type TechAstroIcon } from "@/data/technologies";
 
 interface Props {
-  /** Human label used in content.ts, e.g. "Redis" or "Cloudflare Workers". */
+  /** Human label from the catalog, e.g. "Redis" or "Cloudflare Workers". */
   name: string;
   size?: number;
   strokeWidth?: number;
   class?: string;
-  /** auto: custom first, then Tabler. tabler/original force one side. */
+  /** auto: catalog icon. tabler/original force one side when it exists. */
   variant?: "auto" | "tabler" | "original";
 }
 
@@ -46,68 +59,84 @@ const {
   class: className,
   variant = "auto",
 } = Astro.props;
+
 /**
- * Labels without an official Tabler brand glyph use the original .astro
- * logo from `src/components/icons/tech`. They are deliberately rendered
- * as-is; the hero itself only shows labels with a real Tabler glyph.
+ * Every original `.astro` logo keyed by its catalog file name. The
+ * `Record<TechAstroIcon, …>` type keeps this map exhaustive: adding a file to
+ * `TECH_ASTRO_ICONS` without importing it here is a type error.
  */
-const customIcons: Record<string, typeof Redis> = {
-  "AI Automation": AiHarness,
-  "AI Harness": AiHarness,
-  "Apache Kafka": ApacheKafka,
-  "CI/CD": Cicd,
-  "Claude AI": ClaudeAi,
-  "Claude Code": ClaudeCode,
-  "Cloudflare D1": Cloudflare,
-  "Cloudflare Workers": CloudflareWorkers,
-  "Drizzle ORM": DrizzleOrm,
-  FastAPI: FastApi,
-  GCP: Gcp,
-  "Google Cloud": Gcp,
-  "GitHub Copilot": GithubCopilot,
-  "Google Kubernetes Engine": Kubernetes,
-  Grafana,
-  gRPC: Grpc,
-  Hono,
-  Java,
-  Kafka,
-  Kubernetes,
-  Linux,
-  Opus: ClaudeAi,
-  "Oh-my-pi": OhMyPi,
-  OpenCode: Opencode,
-  Pi,
-  PostgreSQL: Postgresql,
-  RabbitMQ: Rabbitmq,
-  Redis,
-  SQLite: Sqlite,
-  Turso,
+const logoComponents: Record<TechAstroIcon, typeof Redis> = {
+  antigravity: Antigravity,
+  astro: AstroIcon,
+  aws: Aws,
+  cicd: Cicd,
+  "claude-ai": ClaudeAi,
+  "claude-code": ClaudeCode,
+  "cloudflare-workers": CloudflareWorkers,
+  cloudflare: Cloudflare,
+  docker: Docker,
+  "drizzle-orm": DrizzleOrm,
+  "fast-api": FastApi,
+  gcp: Gcp,
+  git: Git,
+  "github-copilot": GithubCopilot,
+  go: Go,
+  grafana: Grafana,
+  graphql: Graphql,
+  grpc: Grpc,
+  hono: Hono,
+  java: Java,
+  javascript: Javascript,
+  kubernetes: Kubernetes,
+  linux: Linux,
+  mysql: Mysql,
+  nodejs: Nodejs,
+  "oh-my-pi": OhMyPi,
+  openai: Openai,
+  opencode: Opencode,
+  pi: Pi,
+  postgresql: Postgresql,
+  python: Python,
+  rabbitmq: Rabbitmq,
+  react: React,
+  redis: Redis,
+  rust: Rust,
+  sqlite: Sqlite,
+  tailwind: Tailwind,
+  turso: Turso,
+  typescript: Typescript,
+  vue: Vue,
 };
 
-/** Original-only aliases used by the icon comparison section. */
-const originalAliases: Record<string, string> = {
-  GPT: "OpenAI",
-  Cloudflare: "Cloudflare",
-};
+const tech = getTech(name);
 
-const originalIcons: Record<string, typeof Redis> = {
-  ...customIcons,
-  Cloudflare,
-  OpenAI: Openai,
-};
+if (!tech && import.meta.env.DEV) {
+  console.warn(
+    `[TechIcon] "${name}" is not in src/data/technologies.ts; nothing was rendered.`,
+  );
+}
 
-const originalName = originalAliases[name] ?? name;
-const OriginalIcon = originalIcons[originalName];
-const CustomIcon = variant === "auto" ? customIcons[name] : null;
-const TablerIcon = variant === "original" ? null : techIcons[name];
+const originalFile = tech?.original ?? (tech?.icon.kind === "astro" ? tech.icon.file : undefined);
+const OriginalIcon = originalFile ? logoComponents[originalFile] : null;
+
+const tablerName =
+  tech?.tabler ?? (tech?.icon.kind === "tabler" ? tech.icon.name : undefined);
+
+const catalogIcon = tech?.icon;
+const catalogLogo =
+  catalogIcon?.kind === "astro" ? logoComponents[catalogIcon.file] : null;
+
+const ShowOriginal = variant !== "tabler";
+const ShowTabler = variant !== "original";
+
+const RenderLogo = ShowOriginal ? (variant === "auto" ? catalogLogo : OriginalIcon) : null;
+const RenderTabler = ShowTabler && !RenderLogo ? tablerName : null;
 ---
 
 {
-  variant === "original" && OriginalIcon ? (
-    <OriginalIcon size={size} class={className} />
-  ) : CustomIcon ? (
-    <CustomIcon size={size} class={className} />
-  ) : TablerIcon ? (
-    <TablerTechIcon name={TablerIcon} size={size} strokeWidth={strokeWidth} class={className} />
+  RenderTabler ? (
+    <TablerTechIcon name={RenderTabler} size={size} strokeWidth={strokeWidth} class={className} />
+  ) : RenderLogo ? (
+    <RenderLogo size={size} class={className} />
   ) : null
 }

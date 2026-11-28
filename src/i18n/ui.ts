@@ -63,7 +63,6 @@ export const ui = {
         DevOps: "DevOps",
         Cloud: "Cloud",
         AI: "AI",
-        Automation: "Automation",
       },
     },
     contact: {
@@ -142,7 +141,6 @@ export const ui = {
         DevOps: "DevOps",
         Cloud: "Cloud",
         AI: "IA",
-        Automation: "Automatización",
       },
     },
     contact: {

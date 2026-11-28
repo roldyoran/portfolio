@@ -10,7 +10,7 @@ export const tooltipPositioner = tv({
 
 export const tooltipContent = tv({
   base: [
-    "group hidden w-fit px-3 py-1.5",
+    "group hidden w-fit px-3 py-1.5 font-mono",
     "bg-foreground text-background rounded-md",
     "animate-in fade-in zoom-in-95 duration-150",
     "data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards fade-out zoom-out-95",

@@ -1,5 +1,6 @@
 ---
 import IconByName from "@/components/icons/icon-by-name.astro";
+import TablerTechIcon from "@/components/icons/tabler-tech-icon.astro";
 import { Button } from "@/components/starwind/button";
 import { Separator } from "@/components/starwind/separator";
 import {
@@ -64,7 +65,7 @@ const closeMenuLabel = lang === "es" ? "Cerrar menú" : "Close menu";
             size="icon-sm"
             aria-label="GitHub"
           >
-            <IconByName name="github" size={18} />
+            <TablerTechIcon name="brand-github" size={20} />
           </Button>
         </TooltipTrigger>
         <TooltipContent>GitHub</TooltipContent>
@@ -80,7 +81,12 @@ const closeMenuLabel = lang === "es" ? "Cerrar menú" : "Close menu";
       >
         {t.hero.downloadCV}
       </Button>
-      <Button href="#contact" variant="primary" size="sm" class="font-mono hover:bg-ember-hover">
+      <Button
+        href="#contact"
+        variant="primary"
+        size="sm"
+        class="v2-cta-spectrum font-mono hover:bg-ember-hover"
+      >
         {t.nav.hireMe}
       </Button>
     </div>
@@ -129,7 +135,7 @@ const closeMenuLabel = lang === "es" ? "Cerrar menú" : "Close menu";
             variant="primary"
             size="md"
             data-sw-drawer-close
-            class="w-full font-mono hover:bg-ember-hover"
+            class="v2-cta-spectrum w-full font-mono hover:bg-ember-hover"
           >
             {t.nav.hireMe}
           </Button>

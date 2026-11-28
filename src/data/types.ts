@@ -98,8 +98,7 @@ export type SkillCategory =
   | "Database"
   | "DevOps"
   | "Cloud"
-  | "AI"
-  | "Automation";
+  | "AI";
 
 export interface Skill {
   name: string;

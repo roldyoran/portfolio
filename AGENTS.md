@@ -30,7 +30,8 @@ src/
 │       ├── icon-library.astro # Temporary icon comparison study
 │       └── language-switcher.astro
 ├── data/                # Portfolio content (single module) + shared types
-│   ├── content.ts       # config, experience, projects, skills, tech labels + Tabler map
+│   ├── content.ts       # config, experience, projects, skills + re-exported tech lists
+│   ├── technologies.ts  # Tech catalog: every label -> .astro logo or Tabler glyph
 │   ├── icon-map.ts      # Bento UI icon names + AI monogram fallback
 │   ├── tabler-icons.ts  # Raw Tabler tech SVG imports + TablerTechIcon union
 │   ├── tabler-ui-icons.ts # Raw Tabler UI SVG imports + TablerUiIcon union
@@ -108,10 +109,11 @@ src/
 - GitHub stats for the hero section:
   - `getGithubStats()` lives in `src/lib/get-github-stats.ts` and is called from `home.astro` at build time to produce repo/star/follower counters for the hero.
 - Marquee & tech icons:
-  - `TechIcon` is the single entry point for tech labels. It resolves to the original `.astro` logo first (`src/components/icons/tech/`) and falls back to a real Tabler icon from `techIcons` in `content.ts`. Raw Tabler tech SVGs live in `src/data/tabler-icons.ts` and render through `tabler-tech-icon.astro`.
-  - The hero logo strips (`home.astro` and `v2.astro`) use `heroLogoLabels`: real Tabler brand glyphs plus the `.astro` OpenCode, Claude Code, Pi and Claude AI logos, all rendered with `tone="mono"`. `heroPinnedLabels` pins OpenCode, Claude Code, Pi and GPT in the first cells; the remaining cells cycle through the rest. Outside the hero, `TechIcon` can render the original `.astro` brand fallbacks.
-  - `techIcons` contains only real Tabler glyphs (brand or neutral generic where no brand exists: SQL, Prometheus, Open LLMs). `techLabels` is the full ordered list of tech labels.
-  - Tabler has brand glyphs for Go, Rust, TypeScript, JavaScript, Python, MySQL, React, Node.js, Astro, Vue, Tailwind, Svelte, GraphQL, Docker, Git, GitHub Copilot, AWS, Cloudflare and OpenAI. Java, PostgreSQL, Redis, Kubernetes, Linux, Kafka, RabbitMQ, gRPC, CI/CD, FastAPI, Hono, Drizzle, Turso, SQLite, Grafana, GCP, Cloudflare Workers, Claude/Opus, OpenCode, Pi, Oh-my-pi and AI Harness use the original `.astro` logos outside the hero.
+  - **Tech catalog**: `src/data/technologies.ts` is the single source of truth for every technology label (skills, projects, experience, marquee, hero) and its icon. Each entry has a `category`, a primary `icon` (`{ kind: "astro", file }` for the monochrome logos in `src/components/icons/tech/`, or `{ kind: "tabler", name }` for a Tabler glyph), plus optional `original`/`tabler` variants, `generic` (neutral glyph when the brand has no icon: SQL, Prometheus, Open LLMs) and `heroStrip` (labels the hero cycles through). To support a new technology, add one entry here plus its SVG; `TechIcon` warns in development when a label is missing.
+  - `techIcon` resolves through the catalog: `variant="auto"` uses `icon`, `variant="tabler"` forces `tabler`, `variant="original"` forces the `.astro` logo. `techIcons`, `tablerBrandLabels` and `techLabels` are derived from the catalog and re-exported by `content.ts` for backwards compatibility; do not hand-maintain parallel maps.
+  - `TechIcon` is the single entry point for tech labels in components. Raw Tabler tech SVGs live in `src/data/tabler-icons.ts` and render through `tabler-tech-icon.astro`.
+  - The hero logo strips (`home.astro` and `v2.astro`) use `heroLogoLabels`: real Tabler brand glyphs plus the `.astro` OpenCode, Claude Code, Pi and Claude AI logos, all rendered with `tone="mono"`. `heroPinnedLabels` pins OpenCode, Claude Code, Pi and GPT in the first cells of the legacy strip; the remaining cells cycle through the rest. Outside the hero, `TechIcon` can render the original `.astro` brand fallbacks.
+  - Tabler ships brand glyphs for Go, Rust, TypeScript, JavaScript, Python, MySQL, React, Node.js, Astro, Vue, Tailwind, Svelte, GraphQL, Docker, Git, GitHub, GitHub Copilot, AWS, Cloudflare and OpenAI. Java, PostgreSQL, Redis, Kubernetes, Linux, RabbitMQ, gRPC, CI/CD, FastAPI, Hono, Drizzle, Turso, SQLite, Grafana, GCP, Cloudflare Workers, Claude/Opus, OpenCode, Pi, Oh-my-pi and Antigravity use the original `.astro` logos outside the hero.
   - The hero logo tooltip is updated by `hero-logos.ts` from the active logo's `data-hero-logo-label`, so it never reads a hidden layer. It is hover-only (`(hover: hover) and (pointer: fine)`).
   - The marquee animation is handled entirely by Motion in `src/scripts/marquee.ts`. The `<style>` block in `marquee.astro` only contains `width: max-content` and `noscript` fallbacks — no CSS keyframes or animations.
 - SVG icons & UI icons:
@@ -165,6 +167,7 @@ src/
 ## Useful paths
 
 - Content & types: `src/data/content.ts`, `src/data/types.ts`
+- Tech catalog (labels + icons): `src/data/technologies.ts`, glyphs in `src/data/tabler-icons.ts`
 - Styles & tokens: `src/styles/starwind.css` (V2 + Starwind, única hoja v2), `src/styles/global.css` (legacy)
 - Starwind UI: `starwind.config.json`, `src/components/starwind/`, `bunx starwind@latest add <name>`
 - Scripts (client): `src/scripts/*.ts` (legacy) and `src/scripts/v2/` (all V2)
