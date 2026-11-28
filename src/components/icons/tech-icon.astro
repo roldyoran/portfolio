@@ -30,6 +30,7 @@ import Openai from "./tech/openai.astro";
 import Opencode from "./tech/opencode.astro";
 import Pi from "./tech/pi.astro";
 import Postgresql from "./tech/postgresql.astro";
+import PostgresqlOutline from "./tech/postgresql-outline.astro";
 import Python from "./tech/python.astro";
 import Rabbitmq from "./tech/rabbitmq.astro";
 import React from "./tech/react.astro";
@@ -48,8 +49,8 @@ interface Props {
   size?: number;
   strokeWidth?: number;
   class?: string;
-  /** auto: catalog icon. tabler/original force one side when it exists. */
-  variant?: "auto" | "tabler" | "original";
+  /** auto: catalog icon. tabler/original force one side when it exists. mono: outline logo when one exists, else auto. */
+  variant?: "auto" | "tabler" | "original" | "mono";
 }
 
 const {
@@ -96,6 +97,7 @@ const logoComponents: Record<TechAstroIcon, typeof Redis> = {
   opencode: Opencode,
   pi: Pi,
   postgresql: Postgresql,
+  "postgresql-outline": PostgresqlOutline,
   python: Python,
   rabbitmq: Rabbitmq,
   react: React,
@@ -129,7 +131,17 @@ const catalogLogo =
 const ShowOriginal = variant !== "tabler";
 const ShowTabler = variant !== "original";
 
-const RenderLogo = ShowOriginal ? (variant === "auto" ? catalogLogo : OriginalIcon) : null;
+/** Outline logo for mono contexts (hero strip); falls back to `auto`. */
+const MonoIcon = variant === "mono" && tech?.mono ? logoComponents[tech.mono] : null;
+
+const RenderLogo =
+  variant === "mono"
+    ? (MonoIcon ?? catalogLogo)
+    : ShowOriginal
+      ? variant === "auto"
+        ? catalogLogo
+        : OriginalIcon
+      : null;
 const RenderTabler = ShowTabler && !RenderLogo ? tablerName : null;
 ---
 

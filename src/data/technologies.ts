@@ -12,6 +12,7 @@
  *
  * Flags:
  * - `original`: raw logo used by `variant="original"` and the icon study.
+ * - `mono`: outline logo used by `variant="mono"` (hero strip), when one exists.
  * - `tabler`: glyph used by `variant="tabler"` when Tabler ships one.
  * - `generic: true`: neutral Tabler glyph, because the brand has no icon.
  * - `heroStrip: true`: labels the hero line-up cycles through.
@@ -53,6 +54,7 @@ export const TECH_ASTRO_ICONS = [
   "opencode",
   "pi",
   "postgresql",
+  "postgresql-outline",
   "python",
   "rabbitmq",
   "react",
@@ -79,6 +81,8 @@ export interface TechEntry {
   readonly icon: TechIconRef;
   /** Raw `.astro` logo, when the project ships one. */
   readonly original?: TechAstroIcon;
+  /** Outline `.astro` logo for `variant="mono"`; falls back to `icon`. */
+  readonly mono?: TechAstroIcon;
   /** Tabler glyph, when Tabler ships one. */
   readonly tabler?: TablerTechIcon;
   /** True when the Tabler glyph is a neutral stand-in, not the brand logo. */
@@ -98,7 +102,7 @@ export const technologies: readonly TechEntry[] = [
   { label: "SQL", category: "Language", icon: { kind: "tabler", name: "database" }, tabler: "database", generic: true },
 
   /* Databases */
-  { label: "PostgreSQL", category: "Database", icon: { kind: "astro", file: "postgresql" }, original: "postgresql" },
+  { label: "PostgreSQL", category: "Database", icon: { kind: "astro", file: "postgresql" }, original: "postgresql", mono: "postgresql-outline" },
   { label: "MySQL", category: "Database", icon: { kind: "tabler", name: "brand-mysql" }, original: "mysql", tabler: "brand-mysql", heroStrip: true },
   { label: "Redis", category: "Database", icon: { kind: "astro", file: "redis" }, original: "redis" },
   { label: "Turso", category: "Database", icon: { kind: "astro", file: "turso" }, original: "turso" },
