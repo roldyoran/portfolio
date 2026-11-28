@@ -63,12 +63,12 @@ const fakeStats = [
 ];
 ---
 
-<section id="scroll-study" class="v2-lab relative z-10 bg-cream text-ink" aria-labelledby="v2-lab-title">
+<section id="scroll-study" class="v2-lab relative z-10 bg-ink text-cream" aria-labelledby="v2-lab-title">
   <div class="mx-auto w-full max-w-[1140px] px-6 py-24 sm:px-10 md:py-32 lg:px-16">
     <header class="v2-reveal max-w-[760px]" data-v2-reveal>
-      <p class="inline-flex items-center gap-2 rounded border border-ink/20 px-2 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-ink/60">
+      <p class="inline-flex items-center gap-2 rounded border border-cream/20 px-2 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-cream/60">
         V2 · Scroll study
-        <span class="text-ink/60">datos ficticios</span>
+        <span class="text-cream/60">datos ficticios</span>
       </p>
       <h2
         id="v2-lab-title"
@@ -76,35 +76,36 @@ const fakeStats = [
       >
         Contenido falso para mirar el scroll.
       </h2>
-      <p class="mt-6 max-w-[62ch] font-body text-[17px] font-light leading-[1.65] text-ink/60">
+      <p class="mt-6 max-w-[62ch] font-body text-[17px] font-light leading-[1.65] text-cream/60">
         Esta sección no forma parte del portafolio real. Sirve para comprobar tres cosas: que el
-        hero se queda fijo mientras el fondo claro lo tapa, que la navbar se esconde al bajar y
-        reaparece al subir, y que las tarjetas entran cuando llegan al viewport.
+        hero se queda fijo mientras la banda oscura de experiencia lo tapa, que la navbar se
+        esconde al bajar y reaparece al subir, y que las tarjetas entran cuando llegan al
+        viewport.
       </p>
     </header>
 
-    <section id="experience" class="mt-24 md:mt-36" aria-labelledby="v2-experience-title">
-      <div class="v2-reveal grid gap-6 border-t border-ink/10 pt-8 md:grid-cols-12" data-v2-reveal>
+    <section id="experience-muestra" class="mt-24 md:mt-36" aria-labelledby="v2-experience-muestra-title">
+      <div class="v2-reveal grid gap-6 border-t border-cream/10 pt-8 md:grid-cols-12" data-v2-reveal>
         <div class="md:col-span-3">
-          <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-ink/50">
+          <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-cream/50">
             01 · Experiencia
           </p>
-          <p class="mt-2 font-mono text-[12px] text-ink/40">2023 — 2025</p>
+          <p class="mt-2 font-mono text-[12px] text-cream/40">2023 — 2025</p>
         </div>
         <div class="md:col-span-9">
-          <h3 id="v2-experience-title" class="font-display text-[clamp(28px,4vw,48px)] leading-none tracking-[-0.02em]">
+          <h3 id="v2-experience-muestra-title" class="font-display text-[clamp(28px,4vw,48px)] leading-none tracking-[-0.02em]">
             Ingeniero de plataforma
           </h3>
-          <p class="mt-2 font-body text-sm font-medium text-ink">
+          <p class="mt-2 font-body text-sm font-medium text-cream">
             Acme Cloud Labs · Remoto · empresa inventada
           </p>
-          <p class="mt-4 max-w-[62ch] font-body text-[15px] font-light leading-relaxed text-ink/60">
+          <p class="mt-4 max-w-[62ch] font-body text-[15px] font-light leading-relaxed text-cream/60">
             Puesto ficticio. Mantuve una flota de Kubernetes, automaticé releases con Go y Rust y
             dejé dashboards de Grafana que nadie miraba los viernes.
           </p>
           <ul class="mt-5 flex flex-wrap gap-2">
             {["Kubernetes", "Go", "Rust", "CI/CD"].map((label) => (
-              <li class="inline-flex items-center gap-1.5 rounded border border-ink/10 bg-white/60 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.08em] text-ink/60">
+              <li class="inline-flex items-center gap-1.5 rounded border border-cream/10 bg-carbon px-2 py-1 font-mono text-[10px] uppercase tracking-[0.08em] text-cream/60">
                 {label}
               </li>
             ))}
@@ -115,7 +116,7 @@ const fakeStats = [
 
     <section id="projects" class="mt-24 md:mt-36" aria-labelledby="v2-projects-title">
       <div class="v2-reveal" data-v2-reveal>
-        <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-ink/50">
+        <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-cream/50">
           02 · Proyectos
         </p>
         <h2
@@ -130,27 +131,27 @@ const fakeStats = [
         {
           fakeProjects.map((project, index) => (
             <article
-              class="v2-reveal flex min-h-[300px] flex-col rounded-lg border border-ink/10 bg-white/55 p-6 transition-colors duration-300 hover:border-ember/40"
+              class="v2-reveal flex min-h-[300px] flex-col rounded-lg border border-cream/10 bg-carbon p-6 transition-colors duration-300 hover:border-ember/40"
               data-v2-reveal
               style={`--reveal-delay:${index * 80}ms`}
             >
               <div class="flex items-start justify-between gap-4">
-                <span class="font-mono text-[11px] uppercase tracking-[0.12em] text-ink/40">
+                <span class="font-mono text-[11px] uppercase tracking-[0.12em] text-cream/40">
                   {project.index}
                 </span>
-                <span class="font-display text-2xl leading-none text-ink">
+                <span class="font-display text-2xl leading-none text-cream">
                   {project.metric}
                 </span>
               </div>
               <h3 class="mt-8 font-display text-[30px] leading-none tracking-[-0.02em]">
                 {project.name}
               </h3>
-              <p class="mt-4 font-body text-sm font-light leading-relaxed text-ink/60">
+              <p class="mt-4 font-body text-sm font-light leading-relaxed text-cream/60">
                 {project.description}
               </p>
               <ul class="mt-auto flex flex-wrap gap-1.5 pt-6">
                 {project.tech.map((tech) => (
-                  <li class="inline-flex items-center gap-1.5 rounded border border-ink/10 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.08em] text-ink/55">
+                  <li class="inline-flex items-center gap-1.5 rounded border border-cream/10 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.08em] text-cream/55">
                     <TechIcon name={tech.label} size={13} />
                     {tech.label}
                   </li>
@@ -163,9 +164,9 @@ const fakeStats = [
     </section>
 
     <section id="about" class="mt-24 md:mt-36" aria-labelledby="v2-about-title">
-      <div class="v2-reveal grid gap-10 border-t border-ink/10 pt-8 md:grid-cols-12" data-v2-reveal>
+      <div class="v2-reveal grid gap-10 border-t border-cream/10 pt-8 md:grid-cols-12" data-v2-reveal>
         <div class="md:col-span-7">
-          <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-ink/50">
+          <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-cream/50">
             03 · Sobre mí
           </p>
           <h2
@@ -174,21 +175,21 @@ const fakeStats = [
           >
             También sé escribir texto de relleno.
           </h2>
-          <p class="mt-6 max-w-[54ch] font-body text-[15px] font-light leading-relaxed text-ink/60">
+          <p class="mt-6 max-w-[54ch] font-body text-[15px] font-light leading-relaxed text-cream/60">
             Me gustan los sistemas que no hacen ruido: APIs pequeñas, deploys aburridos y
             dashboards que sí se leen. Esta biografía es de mentira para poder probar el layout en
-            claro sin tocar el contenido real.
+            oscuro sin tocar el contenido real.
           </p>
         </div>
 
         <dl class="grid grid-cols-2 gap-3 md:col-span-5">
           {
             fakeStats.map((stat) => (
-              <div class="rounded-lg border border-ink/10 bg-white/55 p-5">
+              <div class="rounded-lg border border-cream/10 bg-carbon p-5">
                 <dd class="font-display text-[clamp(30px,4vw,48px)] leading-none tracking-[-0.03em]">
                   {stat.value}
                 </dd>
-                <dt class="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-ink/50">
+                <dt class="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-cream/50">
                   {stat.label}
                 </dt>
               </div>
@@ -199,10 +200,10 @@ const fakeStats = [
     </section>
 
     <section id="contact" class="mt-24 md:mt-36" aria-labelledby="v2-contact-title">
-      <div class="v2-reveal rounded-lg border border-ink/10 bg-white/55 p-6 md:p-10" data-v2-reveal>
+      <div class="v2-reveal rounded-lg border border-cream/10 bg-carbon p-6 md:p-10" data-v2-reveal>
         <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <div>
-            <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-ink/50">
+            <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-cream/50">
               04 · Contacto
             </p>
             <h2
@@ -211,9 +212,9 @@ const fakeStats = [
             >
               No envíes nada aquí.
             </h2>
-            <p class="mt-4 max-w-[48ch] font-body text-sm font-light leading-relaxed text-ink/60">
-              El correo de abajo es inventado. Está solo para ver cómo se ve un CTA sobre fondo
-              claro y cómo responde el scroll al llegar al final de la página.
+            <p class="mt-4 max-w-[48ch] font-body text-sm font-light leading-relaxed text-cream/60">
+              El correo de abajo es inventado. Está solo para ver cómo se ve un CTA sobre el fondo
+              oscuro y cómo responde el scroll al llegar al final de la página.
             </p>
           </div>
           <Button
@@ -231,7 +232,7 @@ const fakeStats = [
 
     <V2IconLibrary />
 
-    <p class="mt-16 border-t border-ink/10 pt-6 font-mono text-[10px] uppercase tracking-[0.12em] text-ink/40">
+    <p class="mt-16 border-t border-cream/10 pt-6 font-mono text-[10px] uppercase tracking-[0.12em] text-cream/40">
       Sección de prueba · todos los datos son ficticios · eliminar antes de publicar
     </p>
   </div>

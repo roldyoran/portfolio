@@ -96,7 +96,7 @@ const techFiles: TechFile[] = [
 
 <section id="icon-library" class="mt-24 md:mt-36" aria-labelledby="v2-icon-library-title">
   <div class="v2-reveal" data-v2-reveal>
-    <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-ink/50">
+    <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-cream/50">
       05 · Referencia
     </p>
     <h2
@@ -105,8 +105,8 @@ const techFiles: TechFile[] = [
     >
       Sección de iconos.
     </h2>
-    <p class="mt-5 max-w-[62ch] font-body text-sm font-light leading-relaxed text-ink/60">
-      Los <strong class="font-medium text-ink/80">{techFiles.length} archivos</strong> de
+    <p class="mt-5 max-w-[62ch] font-body text-sm font-light leading-relaxed text-cream/60">
+      Los <strong class="font-medium text-cream/80">{techFiles.length} archivos</strong> de
       <code class="font-mono text-[0.92em]">components/icons/tech</code>, en orden alfabético.
       Cada ficha muestra tres versiones: el logo original en color, el glifo Tabler (solo cuando
       existe uno exacto) y el logo original en escala de grises.
@@ -117,28 +117,28 @@ const techFiles: TechFile[] = [
     {
       techFiles.map(({ file, Component, tabler }, index) => (
         <li
-          class="v2-reveal rounded-lg border border-ink/10 bg-white/55 p-4"
+          class="v2-reveal rounded-lg border border-cream/10 bg-carbon p-4"
           data-v2-reveal
           style={`--reveal-delay:${Math.min(index * 25, 300)}ms`}
         >
           <div class="flex items-center justify-between gap-3">
-            <h3 class="font-mono text-[11px] tracking-[0.04em] text-ink/70">
-              {file}<span class="text-ink/30">.astro</span>
+            <h3 class="font-mono text-[11px] tracking-[0.04em] text-cream/70">
+              {file}<span class="text-cream/30">.astro</span>
             </h3>
-            <span class="font-mono text-[9px] uppercase tracking-[0.1em] text-ink/35">
+            <span class="font-mono text-[9px] uppercase tracking-[0.1em] text-cream/35">
               {tabler ? "Tabler / .astro" : "Solo .astro"}
             </span>
           </div>
 
           <div class="mt-4 grid grid-cols-3 gap-2">
-            <div class="flex flex-col items-center justify-between gap-3 rounded-md border border-ink/10 bg-[#2a2a2a] px-2 py-4 text-cream">
+            <div class="flex flex-col items-center justify-between gap-3 rounded-md border border-cream/10 bg-ash px-2 py-4 text-cream">
               <Component size={44} />
               <span class="font-mono text-[9px] uppercase tracking-[0.12em] text-cream/45">
                 Original
               </span>
             </div>
 
-            <div class="flex flex-col items-center justify-between gap-3 rounded-md border border-ink/10 bg-[#2a2a2a] px-2 py-4 text-cream">
+            <div class="flex flex-col items-center justify-between gap-3 rounded-md border border-cream/10 bg-ash px-2 py-4 text-cream">
               <span class="inline-flex grayscale">
                 <Component size={44} />
               </span>
@@ -147,7 +147,7 @@ const techFiles: TechFile[] = [
               </span>
             </div>
 
-            <div class="flex flex-col items-center justify-between gap-3 rounded-md border border-ink/10 bg-[#2a2a2a] px-2 py-4 text-cream">
+            <div class="flex flex-col items-center justify-between gap-3 rounded-md border border-cream/10 bg-ash px-2 py-4 text-cream">
               {tabler ? (
                 <TablerTechIcon name={tabler} size={44} />
               ) : (
