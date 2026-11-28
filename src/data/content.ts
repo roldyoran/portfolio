@@ -23,8 +23,8 @@ export { tablerBrandLabels, techIcons, techLabels };
 /**
  * Hero logo strip: Tabler brand glyphs plus the project's .astro logos that
  * the owner wants in the hero. The hero renders with `tone="mono"`, so the
- * custom OpenCode, Claude Code, Pi, Claude AI and Linux logos are forced to
- * white, and PostgreSQL uses its white outline variant (`mono` file).
+ * custom OpenCode, Claude Code, Pi, Claude AI, Linux and RabbitMQ logos are
+ * forced to white, and PostgreSQL uses its white outline variant (`mono` file).
  */
 export const heroLogoLabels: string[] = [
   "OpenCode",
@@ -32,9 +32,10 @@ export const heroLogoLabels: string[] = [
   "Pi",
   "GPT",
   "Claude AI",
-  ...tablerBrandLabels.filter((label) => label !== "GPT"),
+  ...tablerBrandLabels.filter((label) => label !== "GPT" && label !== "GraphQL"),
   "Linux",
   "PostgreSQL",
+  "RabbitMQ",
 ];
 
 /** Cells that stay visible on every page load instead of cycling away. */
