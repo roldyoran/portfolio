@@ -340,6 +340,88 @@
   }
 }
 
+/* Borde giratorio del CTA. El ángulo se anima como custom property registrada
+   para que el conic-gradient pueda rotar dos trazos con el cream de Starwind. */
+@property --v2-ring-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes v2-ring-spin {
+  to {
+    --v2-ring-angle: 360deg;
+  }
+}
+
+/* CTA con dos trazos crema recorriendo el perímetro al hover/focus. La
+   animación se pausa en reposo y retoma donde quedó. */
+@layer components {
+  .v2-ring-cta {
+    position: relative;
+    display: inline-flex;
+    border-radius: 0.375rem;
+    isolation: isolate;
+    transition: transform 0.3s var(--ease-site);
+  }
+
+  .v2-ring-cta:hover,
+  .v2-ring-cta:focus-within {
+    transform: scale(1.03);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .v2-ring-cta:hover,
+    .v2-ring-cta:focus-within {
+      transform: none;
+    }
+  }
+
+  .v2-ring-cta::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    z-index: -1;
+    padding: 2px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--v2-ring-angle),
+      transparent 0deg,
+      var(--color-cream) 12deg,
+      transparent 26deg,
+      transparent 180deg,
+      var(--color-cream) 192deg,
+      transparent 206deg
+    );
+    /* Deja solo la banda de 2px: el centro queda enmascarado, así el
+       gradiente no puede asomar dentro del botón. */
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    animation: v2-ring-spin 3s linear infinite;
+    animation-play-state: paused;
+    transition: opacity 0.3s var(--ease-site);
+    pointer-events: none;
+  }
+
+  .v2-ring-cta:hover::before,
+  .v2-ring-cta:focus-within::before {
+    opacity: 1;
+    animation-play-state: running;
+  }
+
+  .v2-ring-cta__button {
+    position: relative;
+    z-index: 1;
+  }
+}
+
 /* Reveal primitives for the temporary scroll-study section. */
 @layer components {
   .v2-reveal {

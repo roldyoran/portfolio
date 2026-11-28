@@ -13,6 +13,7 @@ import {
   SheetTrigger,
 } from "@/components/starwind/sheet";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/starwind/tooltip";
+import RingCta from "@/components/v2/ring-cta.astro";
 import V2NavMenu from "@/components/v2/nav-menu.astro";
 import config from "@/data/content";
 import type { Lang } from "@/i18n/config";
@@ -81,14 +82,7 @@ const closeMenuLabel = lang === "es" ? "Cerrar menú" : "Close menu";
       >
         {t.hero.downloadCV}
       </Button>
-      <Button
-        href="#contact"
-        variant="primary"
-        size="sm"
-        class="font-mono uppercase tracking-widest hover:bg-ember-hover"
-      >
-        {t.nav.hireMe}
-      </Button>
+      <RingCta href="#contact" size="sm">{t.nav.hireMe}</RingCta>
     </div>
 
     <Sheet class="flex max-[1079px]:ml-auto">
@@ -130,15 +124,15 @@ const closeMenuLabel = lang === "es" ? "Cerrar menú" : "Close menu";
           >
             {t.hero.downloadCV}
           </Button>
-          <Button
+          <RingCta
             href="#contact"
-            variant="primary"
             size="md"
             data-sw-drawer-close
-            class="w-full font-mono uppercase tracking-widest hover:bg-ember-hover"
+            class="w-full"
+            buttonClass="w-full"
           >
             {t.nav.hireMe}
-          </Button>
+          </RingCta>
         </SheetFooter>
       </SheetContent>
     </Sheet>

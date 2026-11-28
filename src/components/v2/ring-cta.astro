@@ -1,0 +1,25 @@
+---
+import { Button } from "@/components/starwind/button";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends Omit<HTMLAttributes<"a">, "class" | "href"> {
+  href: string;
+  size?: "sm" | "md";
+  class?: string;
+  buttonClass?: string;
+}
+
+const { href, size = "sm", class: className, buttonClass, ...rest } = Astro.props;
+---
+
+<span class:list={["v2-ring-cta", className]}>
+  <Button
+    {...rest}
+    href={href}
+    variant="primary"
+    size={size}
+    class:list={["v2-ring-cta__button font-mono uppercase tracking-widest", buttonClass]}
+  >
+    <slot />
+  </Button>
+</span>
