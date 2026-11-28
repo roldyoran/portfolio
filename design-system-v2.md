@@ -2,7 +2,7 @@
 
 Sistema base para el rediseño del portafolio. Extraído de `/docker`.
 Todos los colores en OKLCH. Implementación Tailwind v4 CSS-first
-(`@theme` en `src/styles/v2.css`, sin `tailwind.config`). `global.css`
+(`@theme` en `src/styles/starwind.css`, sin `tailwind.config`). `global.css`
 conserva los tokens legacy del portafolio anterior; v2 no los importa.
 
 ## 1. Paleta

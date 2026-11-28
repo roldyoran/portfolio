@@ -1,0 +1,66 @@
+---
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "@/components/starwind/navigation-menu";
+
+export interface NavItem {
+  href: `#${string}`;
+  label: string;
+}
+
+interface Props {
+  items: NavItem[];
+  label: string;
+  orientation?: "horizontal" | "vertical";
+  /** Marks the section that is active on first paint; the navbar script keeps it in sync. */
+  activeHref?: `#${string}`;
+  /** Closes the Starwind Sheet that hosts the menu (mobile drawer). */
+  closeOnNavigate?: boolean;
+  class?: string;
+}
+
+const {
+  items,
+  label,
+  orientation = "horizontal",
+  activeHref,
+  closeOnNavigate = false,
+  class: className,
+} = Astro.props;
+
+const isVertical = orientation === "vertical";
+
+const rootClass = [
+  "flex-none",
+  isVertical ? "w-full justify-start" : "ml-auto justify-end max-[1079px]:hidden",
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+
+const listClass = isVertical ? "w-full flex-col items-stretch" : undefined;
+const linkClass = isVertical ? "w-full p-3 text-base" : "px-3 py-2";
+---
+
+<NavigationMenu size="sm" orientation={orientation} aria-label={label} class={rootClass}>
+  <NavigationMenuList class={listClass}>
+    {
+      items.map((item) => (
+        <NavigationMenuItem>
+          <NavigationMenuLink
+            href={item.href}
+            active={item.href === activeHref}
+            data-v2-nav-link={isVertical ? undefined : ""}
+            data-sw-drawer-close={closeOnNavigate ? "" : undefined}
+            class={linkClass}
+          >
+            {item.label}
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      ))
+    }
+  </NavigationMenuList>
+</NavigationMenu>

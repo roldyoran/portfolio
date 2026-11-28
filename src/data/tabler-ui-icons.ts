@@ -25,6 +25,7 @@ import gitBranch from "../../node_modules/@tabler/icons/icons/outline/git-branch
 import globe from "../../node_modules/@tabler/icons/icons/outline/globe.svg?raw";
 import mail from "../../node_modules/@tabler/icons/icons/outline/mail.svg?raw";
 import mapPin from "../../node_modules/@tabler/icons/icons/outline/map-pin.svg?raw";
+import menu2 from "../../node_modules/@tabler/icons/icons/outline/menu-2.svg?raw";
 import search from "../../node_modules/@tabler/icons/icons/outline/search.svg?raw";
 import server from "../../node_modules/@tabler/icons/icons/outline/server.svg?raw";
 import sparkles from "../../node_modules/@tabler/icons/icons/outline/sparkles.svg?raw";
@@ -52,6 +53,7 @@ export const tablerUiSvg = {
   globe,
   mail,
   "map-pin": mapPin,
+  "menu-2": menu2,
   search,
   server,
   sparkles,

@@ -1,0 +1,384 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/forms";
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant rtl (&:where([dir="rtl"], [dir="rtl"] *:not([dir="rtl"] [dir="ltr"], [dir="rtl"] [dir="ltr"] *)));
+@custom-variant ltr (&:where(:not([dir="rtl"], [dir="rtl"] *:not([dir="rtl"] [dir="ltr"], [dir="rtl"] [dir="ltr"] *))));
+
+@theme {
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--starwind-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--starwind-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@theme inline {
+  /* Tipografía v2: Starwind usa la fuente de cuerpo y la display del portafolio. */
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-accent: var(--primary-accent);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-accent: var(--secondary-accent);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-error: var(--error);
+  --color-error-foreground: var(--error-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-outline: var(--outline);
+
+  --radius-xs: calc(var(--radius) - 0.375rem);
+  --radius-sm: calc(var(--radius) - 0.25rem);
+  --radius-md: calc(var(--radius) - 0.125rem);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 0.25rem);
+  --radius-2xl: calc(var(--radius) + 0.5rem);
+  --radius-3xl: calc(var(--radius) + 1rem);
+
+  --color-sidebar: var(--sidebar-background);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-outline: var(--sidebar-outline);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+}
+
+/* Paleta v2 (dark-first). Los tokens de Starwind apuntan a los del portafolio:
+   ink/cream para superficies y texto, ember/ember-hover para CTA y acentos.
+   No se añaden naranjas nuevos: primary y primary-accent reutilizan ember. */
+:root,
+.dark {
+  --background: var(--color-ink);
+  --foreground: var(--color-cream);
+  --card: color-mix(in oklch, var(--color-cream) 5%, var(--color-ink));
+  --card-foreground: var(--color-cream);
+  --popover: color-mix(in oklch, var(--color-cream) 7%, var(--color-ink));
+  --popover-foreground: var(--color-cream);
+  --primary: var(--color-ember);
+  --primary-foreground: var(--color-ink);
+  --primary-accent: var(--color-ember-hover);
+  --secondary: color-mix(in oklch, var(--color-cream) 12%, var(--color-ink));
+  --secondary-foreground: var(--color-cream);
+  --secondary-accent: var(--color-ember);
+  --muted: color-mix(in oklch, var(--color-cream) 6%, var(--color-ink));
+  --muted-foreground: var(--color-soft-ink);
+  --accent: var(--color-line);
+  --accent-foreground: var(--color-cream);
+  --info: var(--color-sky-300);
+  --info-foreground: var(--color-sky-950);
+  --success: var(--color-green-300);
+  --success-foreground: var(--color-green-950);
+  --warning: var(--color-amber-300);
+  --warning-foreground: var(--color-amber-950);
+  --error: var(--color-red-800);
+  --error-foreground: var(--color-neutral-50);
+  --border: var(--color-line);
+  --input: var(--color-line);
+  --outline: var(--color-ember);
+  --radius: 0.375rem;
+
+  /* sidebar variables */
+  --sidebar-background: var(--color-ink);
+  --sidebar-foreground: var(--color-cream);
+  --sidebar-primary: var(--color-ember);
+  --sidebar-primary-foreground: var(--color-ink);
+  --sidebar-accent: var(--color-line);
+  --sidebar-accent-foreground: var(--color-cream);
+  --sidebar-border: var(--color-line);
+  --sidebar-outline: var(--color-ember);
+
+  --chart-1: var(--color-ember);
+  --chart-2: var(--color-ember-hover);
+  --chart-3: var(--color-cream);
+  --chart-4: var(--color-soft-ink);
+  --chart-5: color-mix(in oklch, var(--color-cream) 30%, var(--color-ink));
+}
+
+@layer base {
+  * {
+    @apply border-border outline-outline/50;
+  }
+  body {
+    @apply bg-background text-foreground scheme-light dark:scheme-dark;
+  }
+  button {
+    @apply cursor-pointer;
+  }
+}
+
+
+/* ==========================================================================
+   Design System v2 — tokens y primitivas del portafolio v2.
+   Fusionado desde v2.css: Starwind es la única hoja de estilos de v2.
+   ========================================================================== */
+
+
+/* Design System v2 — tokens únicos del lienzo limpio (ver design-system-v2.md).
+   Vive en esta hoja junto a Starwind; no hay tailwind.config. */
+
+@theme {
+  --color-ink: oklch(17.3% 0 0);
+  --color-cream: oklch(99.47% 0.004 78);
+  --color-soft-ink: color-mix(in oklch, oklch(99.47% 0.004 78) 62%, oklch(17.3% 0 0));
+  --color-line: oklch(99.47% 0.004 78 / 0.09);
+
+  /* Dos únicos naranjas del sistema: base del CTA y su hover. */
+  --color-ember: oklch(80% 0.20 60);
+  --color-ember-hover: oklch(86% 0.16 64);
+
+  /* Alias semántico: mismo naranja base, sin un tercer tono. */
+  --color-ring: var(--color-ember);
+
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.375rem;
+
+  --ease-site: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --animate-rise: rise 0.9s var(--ease-site) forwards;
+  --animate-fade-in: fade-in 0.6s ease-out forwards;
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* display/body mapean a las fuentes actuales del portafolio (Bebas + Space Grotesk) */
+/* display/body son las Docker (trío v2 §2 del design-system) */
+@theme inline {
+  --font-display: var(--font-docker-display), system-ui, sans-serif;
+  --font-body: var(--font-docker-body), system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    background: var(--color-ink);
+    color: var(--color-cream);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-ember);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 3px;
+  }
+
+  /* En superficies claras el naranja no contrasta: el anillo usa ink. */
+  .v2-lab :focus-visible {
+    outline-color: var(--color-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   V2 navbar — réplica estructural del navbar de /docker con la marca del
+   portafolio. El CSS vive aquí (no en el componente) para que los tokens y
+   las primitivas de v2 se lean en un solo archivo.
+   ========================================================================== */
+
+@layer components {
+  .v2-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    padding: 12px clamp(16px, 3vw, 48px) 0;
+    opacity: 0;
+    animation: v2-nav-in 0.9s ease 0.5s forwards;
+    transition:
+      transform 0.45s var(--ease-site),
+      opacity 0.9s ease;
+  }
+
+  @keyframes v2-nav-in {
+    to {
+      opacity: 1;
+    }
+  }
+
+  .v2-nav {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1344px;
+    min-height: 56px;
+    margin: 0 auto;
+    padding: 0 8px;
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+    background: var(--color-ink);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.4);
+    color: var(--color-cream);
+  }
+
+  .v2-wordmark {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 8px;
+    min-height: 54px;
+    padding: 0 16px 0 8px;
+    color: var(--color-cream);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .v2-wordmark:hover {
+    color: #fff;
+  }
+
+  .v2-wordmark__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--color-ember);
+  }
+
+  .v2-nav__pct {
+    padding-left: 4px;
+    color: var(--color-soft-ink);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    line-height: 1;
+  }
+
+  .v2-nav__utils {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 6px;
+    padding-left: 8px;
+  }
+
+  @media (max-width: 1079px) {
+    .v2-nav__utils,
+    .v2-nav__pct {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .v2-header {
+      opacity: 1;
+      transform: none;
+      animation: none;
+      transition: none;
+    }
+  }
+}
+
+/* Reveal primitives for the temporary scroll-study section. */
+@layer components {
+  .v2-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s var(--ease-site) var(--reveal-delay, 0ms),
+      transform 0.7s var(--ease-site) var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+
+  .v2-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .v2-reveal,
+    .v2-reveal.is-visible {
+      opacity: 1;
+      transform: none;
+      transition: none;
+      will-change: auto;
+    }
+  }
+}
+
+/* La sección clara nace con las esquinas superiores curvas y las endereza
+   según el scroll; el negro del hero queda detrás de los recortes. */
+.v2-lab {
+  border-top-left-radius: var(--v2-lab-radius, 48px);
+  border-top-right-radius: var(--v2-lab-radius, 48px);
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-lab {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}

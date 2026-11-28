@@ -114,7 +114,8 @@ const techFiles: TechFile[] = [
     <p class="mt-5 max-w-[62ch] font-body text-sm font-light leading-relaxed text-ink/60">
       Los <strong class="font-medium text-ink/80">{techFiles.length} archivos</strong> de
       <code class="font-mono text-[0.92em]">components/icons/tech</code>, en orden alfabético.
-      La columna Tabler solo aparece cuando existe un glifo exacto para esa tecnología.
+      Cada ficha muestra tres versiones: el logo original en color, el glifo Tabler (solo cuando
+      existe uno exacto) y el logo original en escala de grises.
     </p>
   </div>
 
@@ -135,11 +136,20 @@ const techFiles: TechFile[] = [
             </span>
           </div>
 
-          <div class="mt-4 grid grid-cols-2 gap-2">
+          <div class="mt-4 grid grid-cols-3 gap-2">
             <div class="flex flex-col items-center justify-between gap-3 rounded-md border border-ink/10 bg-[#2a2a2a] px-2 py-4 text-cream">
               <Component size={44} />
               <span class="font-mono text-[9px] uppercase tracking-[0.12em] text-cream/45">
-                Original .astro
+                Original
+              </span>
+            </div>
+
+            <div class="flex flex-col items-center justify-between gap-3 rounded-md border border-ink/10 bg-[#2a2a2a] px-2 py-4 text-cream">
+              <span class="inline-flex grayscale">
+                <Component size={44} />
+              </span>
+              <span class="font-mono text-[9px] uppercase tracking-[0.12em] text-cream/45">
+                En gris
               </span>
             </div>
 

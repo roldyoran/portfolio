@@ -1,0 +1,146 @@
+---
+import IconByName from "@/components/icons/icon-by-name.astro";
+import { Button } from "@/components/starwind/button";
+import { Separator } from "@/components/starwind/separator";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/starwind/sheet";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/starwind/tooltip";
+import V2NavMenu from "@/components/v2/nav-menu.astro";
+import config from "@/data/content";
+import type { Lang } from "@/i18n/config";
+import { useTranslations } from "@/i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const navLinks = [
+  { href: "#home", label: t.nav.home },
+  { href: "#experience", label: t.nav.work },
+  { href: "#projects", label: t.nav.projects },
+  { href: "#about", label: t.nav.about },
+  { href: "#contact", label: t.nav.contact },
+] satisfies { href: `#${string}`; label: string }[];
+
+const base = import.meta.env.BASE_URL || "/";
+const baseUrl = base.endsWith("/") ? base : `${base}/`;
+const cvUrl = `${baseUrl}cv/CV-Edgar-Alvarez-estudiante-ingenieria-en-sistemas.pdf`;
+const githubUrl = config.social.github;
+
+const navLabel = lang === "es" ? "Navegación principal" : "Main navigation";
+const mobileNavLabel = lang === "es" ? "Navegación móvil" : "Mobile navigation";
+const menuLabel = lang === "es" ? "Menú" : "Menu";
+const closeMenuLabel = lang === "es" ? "Cerrar menú" : "Close menu";
+---
+
+<header class="v2-header" data-v2-header>
+  <div class="v2-nav" data-v2-nav>
+    <a class="v2-wordmark" href="#home" aria-label="Edgar Alvarez — inicio">
+      <span class="v2-wordmark__dot" aria-hidden="true"></span>
+      <span>@roldyoran</span>
+    </a>
+    <span class="v2-nav__pct" id="v2-scroll-pct" aria-hidden="true">00%</span>
+
+    <V2NavMenu items={navLinks} label={navLabel} activeHref="#home" />
+
+    <div class="v2-nav__utils">
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            href={githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="ghost"
+            size="icon-sm"
+            aria-label="GitHub"
+          >
+            <IconByName name="github" size={18} />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>GitHub</TooltipContent>
+      </Tooltip>
+
+      <Button
+        href={cvUrl}
+        variant="outline"
+        size="sm"
+        target="_blank"
+        rel="noopener"
+        class="font-mono"
+      >
+        {t.hero.downloadCV}
+      </Button>
+      <Button href="#contact" variant="primary" size="sm" class="font-mono hover:bg-ember-hover">
+        {t.nav.hireMe}
+      </Button>
+    </div>
+
+    <Sheet class="flex max-[1079px]:ml-auto">
+      <SheetTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label={menuLabel}
+          class="hidden max-[1079px]:inline-flex"
+        >
+          <IconByName name="menu-2" size={20} />
+        </Button>
+      </SheetTrigger>
+
+      <SheetContent side="right" closeLabel={closeMenuLabel}>
+        <SheetHeader>
+          <SheetTitle>{menuLabel}</SheetTitle>
+          <SheetDescription class="sr-only">{mobileNavLabel}</SheetDescription>
+        </SheetHeader>
+
+        <V2NavMenu
+          items={navLinks}
+          label={mobileNavLabel}
+          orientation="vertical"
+          closeOnNavigate
+        />
+
+        <Separator />
+
+        <SheetFooter>
+          <Button
+            href={cvUrl}
+            variant="outline"
+            size="md"
+            target="_blank"
+            rel="noopener"
+            data-sw-drawer-close
+            class="w-full font-mono"
+          >
+            {t.hero.downloadCV}
+          </Button>
+          <Button
+            href="#contact"
+            variant="primary"
+            size="md"
+            data-sw-drawer-close
+            class="w-full font-mono hover:bg-ember-hover"
+          >
+            {t.nav.hireMe}
+          </Button>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  </div>
+</header>
+
+<script>
+  import { initV2Navbar } from "@/scripts/v2/navbar";
+
+  initV2Navbar();
+</script>

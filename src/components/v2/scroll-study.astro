@@ -1,8 +1,8 @@
 ---
 import TechIcon from "@/components/icons/tech-icon.astro";
 import IconByName from "@/components/icons/icon-by-name.astro";
-import V2Button from "@/components/v2-button.astro";
-import V2IconLibrary from "@/components/v2-icon-library.astro";
+import { Button } from "@/components/starwind/button";
+import V2IconLibrary from "@/components/v2/icon-library.astro";
 
 interface FakeTech {
   label: string;
@@ -216,10 +216,15 @@ const fakeStats = [
               claro y cómo responde el scroll al llegar al final de la página.
             </p>
           </div>
-          <V2Button href="mailto:hola@example.com" class="w-fit">
+          <Button
+            href="mailto:hola@example.com"
+            variant="primary"
+            size="md"
+            class="w-fit font-mono hover:bg-ember-hover"
+          >
             hola@example.com
             <IconByName name="arrow-up-right" size={16} />
-          </V2Button>
+          </Button>
         </div>
       </div>
     </section>
@@ -242,7 +247,7 @@ const fakeStats = [
 </noscript>
 
 <script>
-  import { initV2ScrollStudy } from "@/scripts/v2-scroll-study";
+  import { initV2ScrollStudy } from "@/scripts/v2/scroll-study";
 
   initV2ScrollStudy();
 </script>

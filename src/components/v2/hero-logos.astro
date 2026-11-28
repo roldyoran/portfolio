@@ -1,0 +1,205 @@
+---
+import TechIcon from "@/components/icons/tech-icon.astro";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/starwind/tooltip";
+
+type LogoTone = "color" | "mono";
+
+interface Props {
+  /** Ordered logo list. Duplicates are removed so no icon can appear twice. */
+  items: string[];
+  /** Number of visible cells. */
+  cells?: number;
+  /** "mono" renders every icon in black & white, like the Docker logos. */
+  tone?: LogoTone;
+  /** Tall strip (96px) like the Docker logo row. */
+  tall?: boolean;
+  /** Desktop columns. */
+  columns?: number;
+  /** Columns below 768px. */
+  mobileColumns?: number;
+  iconSize?: number;
+}
+
+const {
+  items,
+  cells = 5,
+  tone = "color",
+  tall = false,
+  columns = 5,
+  mobileColumns = 3,
+  iconSize = 52,
+} = Astro.props;
+
+const labels = [...new Set(items)];
+const visibleCells = Math.min(cells, labels.length);
+const cellIndexes = Array.from({ length: visibleCells }, (_, index) => index);
+---
+
+<div
+  class:list={[
+    "v2-hero-logos",
+    { "v2-hero-logos--mono": tone === "mono" },
+    { "v2-hero-logos--tall": tall },
+  ]}
+  style={`--v2-logo-cols:${columns};--v2-logo-cols-mobile:${mobileColumns};--v2-logo-size:${iconSize}px`}
+  data-v2-hero-logos
+  aria-hidden="true"
+>
+  {
+    cellIndexes.map((cellIndex) => {
+      const activeLabel = labels[cellIndex] ?? "";
+
+      return (
+        <div
+          class="v2-hero-logos__cell animate-rise opacity-0"
+          data-v2-logo-cell
+          data-label={activeLabel}
+          style={`animation-delay: calc(0.55s + ${(cellIndex * 0.12).toFixed(2)}s)`}
+        >
+          <Tooltip>
+            <TooltipTrigger>
+              <span class="v2-hero-logos__stack">
+                {labels.map((label, labelIndex) => (
+                  <span
+                    class:list={["v2-hero-logos__icon", { "is-in": labelIndex === cellIndex }]}
+                    data-v2-logo
+                    data-label={label}
+                  >
+                    <TechIcon name={label} size={iconSize} />
+                  </span>
+                ))}
+              </span>
+            </TooltipTrigger>
+
+            <TooltipContent
+              side="top"
+              sideOffset={12}
+              disablePortal
+              class="v2-hero-logos__tooltip"
+            >
+              <span data-v2-logo-tooltip>{activeLabel}</span>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      );
+    })
+  }
+</div>
+
+<style>
+  .v2-hero-logos {
+    display: grid;
+    grid-template-columns: repeat(var(--v2-logo-cols-mobile, 3), minmax(0, 1fr));
+    gap: 0.5rem 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .v2-hero-logos {
+      grid-template-columns: repeat(var(--v2-logo-cols, 5), minmax(0, 1fr));
+    }
+  }
+
+  .v2-hero-logos__cell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  .v2-hero-logos__cell [data-slot="tooltip"] {
+    display: block;
+  }
+
+  /* Starwind's trigger resolves to this stack, so hovering anywhere reveals the label. */
+  .v2-hero-logos__stack {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .v2-hero-logos__icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(6px);
+    transition:
+      opacity 1.1s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1),
+      filter 1.1s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .v2-hero-logos__icon.is-in {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+
+  .v2-hero-logos__icon.is-out {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(-6px);
+  }
+
+  .v2-hero-logos__tooltip {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+  }
+
+  /* Tono mono: iconos en blanco como los logos de Docker. */
+  .v2-hero-logos--mono .v2-hero-logos__icon {
+    filter: brightness(0) invert(1);
+  }
+
+  .v2-hero-logos--mono .v2-hero-logos__icon.is-in {
+    filter: brightness(0) invert(1);
+  }
+
+  .v2-hero-logos--mono .v2-hero-logos__icon.is-out {
+    filter: brightness(0) invert(1) blur(3px);
+  }
+
+  .v2-hero-logos--tall .v2-hero-logos__cell {
+    min-height: 96px;
+  }
+
+  .v2-hero-logos__icon :global(svg) {
+    width: auto;
+    height: var(--v2-logo-size, 30px);
+    opacity: 0.92;
+  }
+
+  /* The tall Docker-style strip keeps three cells on phones. */
+  @media (max-width: 599px) {
+    .v2-hero-logos--tall .v2-hero-logos__cell:nth-child(n + 4) {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .v2-hero-logos__cell {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    .v2-hero-logos__icon {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { initV2HeroLogos } from "@/scripts/v2/hero-logos";
+
+  initV2HeroLogos();
+</script>

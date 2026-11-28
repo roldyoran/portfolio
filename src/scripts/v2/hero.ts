@@ -6,7 +6,7 @@
  * assembly and keeps the mesh aligned with the art zone on resize.
  */
 
-import { mountDockerParticles, type DockerParticleField } from "./docker-particles";
+import { mountDockerParticles, type DockerParticleField } from "@/scripts/docker-particles";
 
 const INTRO_MS = 4800;
 
