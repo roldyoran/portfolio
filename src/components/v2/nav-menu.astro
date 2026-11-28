@@ -60,9 +60,9 @@ const linkClass = isVertical ? "w-full p-3 text-base" : "px-3 py-2";
             <span
               class:list={[
                 "relative transition-colors duration-300",
-                "group-hover/link:text-ember group-focus-visible/link:text-ember",
+                "group-hover/link:text-(--v2-nav-hover) group-focus-visible/link:text-(--v2-nav-hover)",
                 "after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-center after:scale-x-0",
-                "after:bg-ember after:transition-all after:duration-300 after:ease-site after:content-['']",
+                "after:bg-(--v2-nav-hover) after:transition-all after:duration-300 after:ease-site after:content-['']",
                 "group-hover/link:after:scale-x-100 group-focus-visible/link:after:scale-x-100",
               ]}
             >
