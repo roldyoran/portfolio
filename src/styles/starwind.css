@@ -85,24 +85,25 @@
   --color-chart-5: var(--chart-5);
 }
 
-/* Paleta v2 (dark-first). Los tokens de Starwind apuntan a los del portafolio:
-   ink/cream para superficies y texto, ember/ember-hover para CTA y acentos.
-   No se añaden naranjas nuevos: primary y primary-accent reutilizan ember. */
+/* Paleta v2 (dark-only). Los tokens de Starwind apuntan a los del portafolio:
+   ink/carbon/ash para superficies y cream para texto; ember/ember-hover son
+   el único acento (naranja saturado). No hay modo claro ni azules. */
 :root,
 .dark {
   --background: var(--color-ink);
   --foreground: var(--color-cream);
-  --card: color-mix(in oklch, var(--color-cream) 5%, var(--color-ink));
+  --card: var(--color-carbon);
   --card-foreground: var(--color-cream);
-  --popover: color-mix(in oklch, var(--color-cream) 7%, var(--color-ink));
+  --popover: var(--color-carbon);
   --popover-foreground: var(--color-cream);
   --primary: var(--color-ember);
+  /* Naranja saturado con texto ink: 7.27:1 (AAA en texto normal). */
   --primary-foreground: var(--color-ink);
   --primary-accent: var(--color-ember-hover);
   --secondary: color-mix(in oklch, var(--color-cream) 12%, var(--color-ink));
   --secondary-foreground: var(--color-cream);
   --secondary-accent: var(--color-ember);
-  --muted: color-mix(in oklch, var(--color-cream) 6%, var(--color-ink));
+  --muted: color-mix(in oklch, var(--color-cream) 7%, var(--color-ink));
   --muted-foreground: var(--color-soft-ink);
   --accent: var(--color-line);
   --accent-foreground: var(--color-cream);
@@ -159,16 +160,22 @@
    Vive en esta hoja junto a Starwind; no hay tailwind.config. */
 
 @theme {
-  --color-ink: oklch(17.3% 0 0);
-  --color-cream: oklch(99.47% 0.004 78);
-  --color-soft-ink: color-mix(in oklch, oklch(99.47% 0.004 78) 62%, oklch(17.3% 0 0));
-  --color-line: oklch(99.47% 0.004 78 / 0.09);
+  /* Full dark: tres escalones de superficie. ink es la base de la página,
+     carbon levanta la banda de experiencia y ash define cards y hover.
+     Oscurecidos sin tocar naranjas ni tonos de texto. */
+  --color-ink: oklch(11.5% 0.003 55);
+  --color-carbon: oklch(16.5% 0.004 55);
+  --color-ash: oklch(21.5% 0.005 55);
+  --color-cream: oklch(98.4% 0.008 80);
+  --color-soft-ink: color-mix(in oklch, oklch(98.4% 0.008 80) 66%, oklch(11.5% 0.003 55));
+  --color-line: oklch(98.4% 0.008 80 / 0.1);
 
-  /* Dos únicos naranjas del sistema: base del CTA y su hover. */
-  --color-ember: oklch(80% 0.20 60);
-  --color-ember-hover: oklch(86% 0.16 64);
+  /* Único acento: naranja saturado. ember = CTA/activo, ember-hover = hover.
+     Sobre ink: 7.68:1 y 9.74:1 · ink sobre ember: 7.68:1 (AAA). */
+  --color-ember: oklch(72% 0.19 47);
+  --color-ember-hover: oklch(78% 0.16 55);
 
-  /* Alias semántico: mismo naranja base, sin un tercer tono. */
+  /* Alias semántico: el anillo de foco usa el mismo naranja. */
   --color-ring: var(--color-ember);
 
   --radius-sm: 0.125rem;
@@ -222,11 +229,7 @@
     outline-offset: 3px;
   }
 
-  /* En superficies claras el naranja no contrasta: el anillo usa ink. */
-  .v2-lab :focus-visible {
-    outline-color: var(--color-ink);
-  }
-
+  /* Full dark: el anillo ember contrasta sobre ink, carbon y ash. */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation: none !important;
@@ -270,11 +273,22 @@
     min-height: 56px;
     margin: 0 auto;
     padding: 0 8px;
-    border: 1px solid var(--color-line);
+    border: 1px solid color-mix(in oklch, var(--color-cream) 16%, transparent);
     border-radius: 8px;
-    background: var(--color-ink);
-    box-shadow: 0 4px 12px rgb(0 0 0 / 0.3);
+    /* La pill toma el tono de la sección que tiene detrás (ink/carbon): el
+       script escribe --v2-nav-bg. El borde y la sombra la separan del fondo. */
+    --v2-nav-hover: var(--color-ember);
+    --v2-ring: var(--color-cream);
+    background: var(--v2-nav-bg, var(--color-ink));
+    box-shadow: 0 18px 40px -28px rgb(0 0 0 / 0.9);
     color: var(--color-cream);
+    transition:
+      transform 0.45s var(--ease-site),
+      opacity 0.9s ease,
+      background-color 0.45s ease,
+      color 0.45s ease,
+      border-color 0.45s ease,
+      box-shadow 0.45s ease;
   }
 
   .v2-wordmark {
@@ -296,7 +310,7 @@
   }
 
   .v2-wordmark:hover {
-    color: #fff;
+    color: var(--color-cream);
   }
 
   .v2-wordmark__dot {
@@ -384,13 +398,14 @@
     z-index: -1;
     padding: 2px;
     border-radius: inherit;
+    /* --v2-ring lo define cada contexto (crema por defecto, ember en el CTA). */
     background: conic-gradient(
       from var(--v2-ring-angle),
       transparent 0deg,
-      var(--color-cream) 18deg,
+      var(--v2-ring, var(--color-cream)) 18deg,
       transparent 40deg,
       transparent 180deg,
-      var(--color-cream) 198deg,
+      var(--v2-ring, var(--color-cream)) 198deg,
       transparent 220deg
     );
     /* Deja solo la banda de 2px: el centro queda enmascarado, así el
@@ -422,6 +437,30 @@
   }
 }
 
+/* CTA del navbar: el naranja saturado sobre la pill oscura. Nivel utilities
+   para imponerse a Starwind. */
+@layer utilities {
+  .v2-nav .v2-ring-cta__button {
+    background-color: var(--color-ember);
+    color: var(--color-ink);
+  }
+
+  /* Hover: naranja más claro y el anillo crema. */
+  .v2-nav .v2-ring-cta__button:hover {
+    background-color: var(--color-ember-hover);
+    color: var(--color-ink);
+  }
+
+  .v2-nav .v2-ring-cta:hover {
+    --v2-ring: var(--color-cream);
+  }
+
+  /* Hovers de botones fantasma y outline: velo uniforme en oscuro. */
+  .v2-nav [data-slot="button"]:not(.v2-ring-cta__button):hover {
+    background-color: color-mix(in oklch, var(--color-cream) 12%, transparent);
+  }
+}
+
 /* Reveal primitives for the temporary scroll-study section. */
 @layer components {
   .v2-reveal {
@@ -450,8 +489,8 @@
   }
 }
 
-/* La sección clara nace con las esquinas superiores curvas y las endereza
-   según el scroll; el negro del hero queda detrás de los recortes. */
+/* Las bandas oscuras nacen con las esquinas superiores curvas y las enderezan
+   según el scroll; el tono de la sección anterior queda detrás de los recortes. */
 .v2-lab {
   border-top-left-radius: var(--v2-lab-radius, 48px);
   border-top-right-radius: var(--v2-lab-radius, 48px);
