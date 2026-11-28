@@ -79,6 +79,7 @@ src/
 
 - **TypeScript only**: All scripts, modules, and logic must be written in TypeScript (`.ts` or `.astro` files).
 - **No JavaScript**: Plain JavaScript (`.js`) files are not allowed. Never create `.js` files or use `any` types unless absolutely unavoidable.
+- **TypeScript instructions (obligatorio)**: antes de leer o editar cualquier `.ts` / `.tsx` (incluidos los `<script>` de los `.astro`, que tambien son TypeScript), lee siempre las instrucciones TypeScript del repo: `.agents/skills/typescript-best-practices/SKILL.md` (mas sus ejemplos en `references/patterns.md`) y `.agents/skills/typescript-advanced-types/SKILL.md` cuando haya logica de tipos compleja (generics, conditional/mapped/template-literal types, utility types). Aplica su disciplina: discriminated unions, branded types, `unknown` antes que `any`, sin `as`, jerarquia de narrowing, exhaustividad con `never`, `satisfies`, validacion en el borde y tipos derivados del schema.
 
 ## Naming conventions
 
@@ -102,7 +103,7 @@ src/
 - Tailwind and styling:
   - V2 orange rule: only `--color-ember` (base CTA/active) and `--color-ember-hover` (CTA hover) are allowed. Use `ink` for text on cream; do not add another orange token.
   - There is intentionally no `tailwind.config.*` file in this project: the design tokens and theme are declared inside CSS using `@theme` and custom layers. V2 uses a single stylesheet, `src/styles/starwind.css` (design-system tokens + Starwind tokens + v2 primitives); the legacy site uses `src/styles/global.css`. There is no `v2.css` anymore.
-  - Tailwind utilities should take priority over custom CSS for most styling. Use Tailwind utility classes for layout/spacing/typography/responsive behavior. Reserve custom CSS for global tokens, component primitives, and exceptional cases (complex selectors, theme variables, keyframes that are not provided by Tailwind).
+  - **Tailwind-first (obligatorio)**: usa siempre Tailwind en todo lo que se pueda. Tailwind utilities take priority over custom CSS for all styling. Use Tailwind utility classes for layout/spacing/typography/responsive behavior. Reserve custom CSS only for global tokens, component primitives, and exceptional cases (complex selectors, theme variables, keyframes that are not provided by Tailwind). Cuando crees libreria de componentes, design tokens o patrones responsive, lee antes `.agents/skills/tailwind-design-system/SKILL.md` (y `references/details.md` si el caso lo requiere).
   - If you add a `tailwind.config.*` later, ensure `content` globs include `.astro`, `.ts`, `.tsx`, `.js`, and templates under `src/` so Tailwind can scan and generate utilities.
 - Editing content:
   - Edit `src/data/content.ts` for site copy: site config, experience, projects, skills, tech icon maps, marquee labels, and any derived lists. Types are in `src/data/types.ts` (only edit types if needed).
