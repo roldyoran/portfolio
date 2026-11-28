@@ -55,10 +55,13 @@ function mulberry32(seed: number): () => number {
   };
 }
 
-function buildMesh(cols: number, rows: number, seed: number): MeshParticle[] {
+function buildMesh(cols: number, rows: number, seed: number, topCut = 0): MeshParticle[] {
   const random = mulberry32(seed);
   const particles: MeshParticle[] = [];
-  for (let j = 0; j < rows; j += 1) {
+  /* topCut quita las N filas superiores manteniendo el espaciado (v no se
+     reescala): la malla nace más abajo en lugar de comprimirse. */
+  const firstRow = Math.min(Math.max(0, Math.floor(topCut)), Math.max(0, rows - 1));
+  for (let j = firstRow; j < rows; j += 1) {
     const v = rows === 1 ? 0.5 : j / (rows - 1);
     for (let i = 0; i < cols; i += 1) {
       const u = cols === 1 ? 0.5 : i / (cols - 1);
@@ -79,9 +82,18 @@ function buildMesh(cols: number, rows: number, seed: number): MeshParticle[] {
   return particles;
 }
 
-export function mountDockerParticles(canvas: HTMLCanvasElement): DockerParticleField | null {
+interface DockerParticleOptions {
+  /** Filas superiores que no se generan (densidad intacta, malla más baja). */
+  topCutRows?: number;
+}
+
+export function mountDockerParticles(
+  canvas: HTMLCanvasElement,
+  options?: DockerParticleOptions,
+): DockerParticleField | null {
   const context = canvas.getContext("2d");
   if (!context) return null;
+  const topCutRows = Math.max(0, Math.floor(options?.topCutRows ?? 0));
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let width = 1;
@@ -101,7 +113,7 @@ export function mountDockerParticles(canvas: HTMLCanvasElement): DockerParticleF
 
   let cols = 48;
   let rows = 17;
-  let particles = buildMesh(cols, rows, 20261126);
+  let particles = buildMesh(cols, rows, 20261126, topCutRows);
   let ink = "#fffdfa";
 
   const readColor = (): void => {
@@ -180,10 +192,11 @@ export function mountDockerParticles(canvas: HTMLCanvasElement): DockerParticleF
 
     const nextCols = width < 700 ? 28 : clamp(Math.round(width / 26), 44, 64);
     const nextRows = width < 700 ? 15 : 17;
-    if (nextCols !== cols || nextRows !== rows || particles.length !== nextCols * nextRows) {
+    const expectedLength = nextCols * (nextRows - Math.min(topCutRows, nextRows - 1));
+    if (nextCols !== cols || nextRows !== rows || particles.length !== expectedLength) {
       cols = nextCols;
       rows = nextRows;
-      particles = buildMesh(cols, rows, 20261126);
+      particles = buildMesh(cols, rows, 20261126, topCutRows);
     }
 
     if (!centerX && !centerY) {

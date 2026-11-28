@@ -31,7 +31,8 @@ export function initV2Hero(): void {
   hero.dataset.v2HeroInit = "1";
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const field: DockerParticleField | null = mountDockerParticles(canvas);
+  /* Sin las 4 filas superiores: la malla nace más abajo, misma densidad. */
+  const field: DockerParticleField | null = mountDockerParticles(canvas, { topCutRows: 4 });
 
   const syncView = (): void => {
     if (!field) return;
