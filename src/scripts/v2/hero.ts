@@ -25,6 +25,11 @@ export function initV2Hero(): void {
   const zone = document.querySelector<HTMLElement>("[data-v2-zone]");
   if (!hero || !canvas || !zone) return;
 
+  // El script del componente puede re-ejecutarse (HMR en dev): un segundo
+  // init duplicaría observers y rAF loops sobre el mismo canvas.
+  if (hero.dataset.v2HeroInit === "1") return;
+  hero.dataset.v2HeroInit = "1";
+
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const field: DockerParticleField | null = mountDockerParticles(canvas);
 
