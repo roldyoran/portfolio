@@ -1,36 +1,67 @@
 # Design System v2 — Portfolio
 
-Sistema base para el rediseño del portafolio. Extraído de `/docker`.
-Todos los colores en OKLCH. Implementación Tailwind v4 CSS-first
-(`@theme` en `src/styles/starwind.css`, sin `tailwind.config`). `global.css`
-conserva los tokens legacy del portafolio anterior; v2 no los importa.
+Sistema base para el rediseño del portafolio. **Full dark**: no existe modo
+claro ni sección clara. Todos los colores en OKLCH. Implementación Tailwind v4
+CSS-first (`@theme` en `src/styles/starwind.css`, sin `tailwind.config`).
+`global.css` conserva los tokens legacy del portafolio anterior; v2 no los
+importa. `docker.css` es el estudio aparte de `/docker` y no forma parte de v2.
 
-## 1. Paleta
+## 1. Paleta — full dark
+
+Tres escalones de superficie y un único acento naranja. Nada de azules: los
+azules Docker solo viven en el estudio `/docker`.
 
 | Token          | Valor                                        | Uso                                    |
 | -------------- | -------------------------------------------- | -------------------------------------- |
-| `--color-ink`        | `oklch(17.30% 0 0)`                          | Fondo base (dark-first), texto en claro |
-| `--color-cream`      | `oklch(99.47% 0.004 78)`                     | Superficie clara, texto en oscuro      |
-| `--color-soft-ink`   | `color-mix(in oklch, oklch(99.47% 0.004 78) 62%, oklch(17.30% 0 0))` | Texto secundario en claro |
-| `--color-line`       | `oklch(99.47% 0.004 78 / 0.09)`              | Bordes sutiles en oscuro               |
-| `--color-ember`      | `oklch(80% 0.20 60)`                         | Único naranja base: CTA, activo y acentos |
-| `--color-ember-hover`| `oklch(86% 0.16 64)`                         | Único naranja secundario: hover del CTA |
-| `--color-ring`       | `var(--color-ember)`                         | Anillo de foco en oscuro (mismo naranja) |
+| `--color-ink`        | `oklch(11.5% 0.003 55)` · `#060504`      | Fondo base de la página y del hero |
+| `--color-carbon`     | `oklch(16.5% 0.004 55)` · `#100e0d`      | Banda elevada: experiencia y cards |
+| `--color-ash`        | `oklch(21.5% 0.005 55)` · `#1b1917`      | Superficies sobre carbon (tiles, hover denso) |
+| `--color-cream`      | `oklch(98.4% 0.008 80)` · `#fdf9f4`      | Texto principal y trazos |
+| `--color-soft-ink`   | `color-mix(in oklch, cream 66%, ink)`    | Texto secundario |
+| `--color-line`       | `oklch(98.4% 0.008 80 / 0.1)`            | Bordes y separadores |
+| `--color-ember`      | `oklch(72% 0.19 47)` · `#ff761c`         | Único acento: CTA, activo y foco |
+| `--color-ember-hover`| `oklch(78% 0.16 55)` · `#ff9845`         | Hover del CTA |
+| `--color-ring`       | `var(--color-ember)`                     | Anillo de foco |
 
-Contrastes verificados: ink↔cream **18.5:1 (AAA)** · ember sobre ink
-**8.81:1 (AAA)** · ink sobre ember **8.81:1 (AAA)** ·
-ember-hover sobre ink **11.09:1 (AAA)**.
+Contrastes verificados (WCAG 2.2):
 
-Solo existen dos naranjas: `ember` (base) y `ember-hover` (secundario).
-Cualquier otro naranja queda fuera del sistema V2.
+| Combinación | Ratio | Nivel |
+| ----------- | ----- | ----- |
+| cream sobre ink | **19.5:1** | AAA |
+| cream sobre carbon | **18.4:1** | AAA |
+| soft-ink sobre ink | **7.30:1** | AAA |
+| ember sobre ink | **7.68:1** | AAA (texto normal) |
+| ember sobre carbon | **7.27:1** | AAA (texto normal) |
+| ember sobre ash | **6.61:1** | AA texto normal / AAA grande |
+| ink sobre ember | **7.68:1** | AAA |
+| ember-hover sobre ink | **9.74:1** | AAA |
+| ink sobre ember-hover | **9.74:1** | AAA |
+
+Solo existen dos naranjas: `ember` (base) y `ember-hover` (hover). Cualquier
+otro naranja queda fuera del sistema V2. El texto dentro de un botón naranja
+siempre es `ink`; nunca `cream`.
 
 Reglas del acento:
 
-1. El acento se reserva para la acción principal, el estado activo y
+1. El acento se reserva para la acción principal, el estado activo, el foco y
    metadatos cortos; nunca para párrafos.
-2. En oscuro: `ember` base, `ember-hover` para hover. En claro: texto
-   siempre con `ink`; `ember` solo en detalles decorativos o bordes.
-3. Nunca `ember` sobre `cream` como texto (2.01:1, no pasa AA).
+2. `ember` es base y `ember-hover` el hover; no se inventan tonos intermedios.
+3. Texto sobre `ember` o `ember-hover`: siempre `ink` (7.68:1 / 9.74:1).
+   `cream` sobre naranja queda prohibido (~2.7:1).
+4. Metadatos: `cream/60` o superior. El suelo del sistema es `cream/40`,
+   que sobre ink/carbon sigue pasando AA por el fondo tan oscuro.
+5. Los logos de marca (`TechIcon`) conservan su color propio: son contenido,
+   no tokens del sistema.
+
+### Escalones de superficie
+
+El ritmo de scroll se lee por contraste de superficie, no por bordes:
+
+| Sección | Superficie | Nota |
+| ------- | ---------- | ---- |
+| Hero | `ink` | Base fija (sticky). |
+| Experiencia | `carbon` | Un escalón por encima del hero; el cambio se nota al hacer scroll. `pt-24 md:pt-32` separa el título del borde superior; el header cierra con `pb-6` y la lista arranca con `mt-2 md:mt-4`, así el primer rol queda pegado al titular. |
+| Resto de secciones | `ink` | Vuelve a la base; las cards usan `carbon` y los tiles `ash`. |
 
 ## 2. Tipografía — trío v2
 
@@ -51,7 +82,8 @@ Reglas:
 3. Secundaria para todo texto corrido e interfaz.
 4. Mono para metadatos, código, navegación y utilidades.
 5. Todos los botones V2 usan `--font-mono`, sin excepciones. El punto de
-   entrada es `v2-button.astro` (variantes `primary` y `outline`).
+   entrada es el `Button` de Starwind (`variant="primary"` = ember + ink,
+   `variant="outline"`); no hay componente de botón propio.
 
 ## 3. Implementación Tailwind
 
@@ -59,14 +91,17 @@ Reglas:
 @import "tailwindcss";
 
 @theme {
-  --color-ink: oklch(17.30% 0 0);
-  --color-cream: oklch(99.47% 0.004 78);
-  --color-soft-ink: color-mix(in oklch, oklch(99.47% 0.004 78) 62%, oklch(17.30% 0 0));
-  --color-line: oklch(99.47% 0.004 78 / 0.09);
+  /* Tres escalones de superficie + un único acento naranja. */
+  --color-ink: oklch(11.5% 0.003 55);
+  --color-carbon: oklch(16.5% 0.004 55);
+  --color-ash: oklch(21.5% 0.005 55);
+  --color-cream: oklch(98.4% 0.008 80);
+  --color-soft-ink: color-mix(in oklch, oklch(98.4% 0.008 80) 66%, oklch(11.5% 0.003 55));
+  --color-line: oklch(98.4% 0.008 80 / 0.1);
 
   /* Dos únicos naranjas: base del CTA y su hover. */
-  --color-ember: oklch(80% 0.20 60);
-  --color-ember-hover: oklch(86% 0.16 64);
+  --color-ember: oklch(72% 0.19 47);
+  --color-ember-hover: oklch(78% 0.16 55);
   --color-ring: var(--color-ember);
 
   --radius-sm: 0.125rem;
@@ -83,13 +118,15 @@ Reglas:
 }
 ```
 
-Utilidades: `bg-ink text-cream` (base), `bg-cream text-ink` (sección clara
-opt-in), `text-ember` / `bg-ember` / `border-ember`, `font-display` /
-`font-body` / `font-mono`, `ease-site`. Nunca valores arbitrarios de color:
-usa solo `ember` y `ember-hover` para naranja.
+Utilidades: `bg-ink text-cream` (base), `bg-carbon` (banda de experiencia y
+cards), `bg-ash` (tiles sobre carbon), `text-ember` / `bg-ember` /
+`border-ember`, `font-display` / `font-body` / `font-mono`, `ease-site`.
+Nunca valores arbitrarios de color: usa solo `ember` y `ember-hover` para
+naranja y `ink` para el texto sobre naranja.
 
-v2 es dark-first sin clase `.dark`: el claro es opt-in por sección
-(igual que `/docker`: hero oscuro + resto claro).
+v2 es **full dark** (`<html class="dark">`): no hay modo claro ni secciones
+claras. El contraste entre secciones se logra subiendo un escalón de
+superficie (`ink` → `carbon` → `ink`), no invirtiendo la paleta.
 
 ## 4. Animación
 
@@ -132,14 +169,21 @@ Fade puro sin desplazamiento: 0.5s de retardo, 0.9s de duración,
 easing `ease`. Con `prefers-reduced-motion`: visible sin animación.
 Implementado en `v2-navbar.ts`: el header queda **siempre visible**.
 No se oculta ni se traslada al hacer scroll; solo actualiza el porcentaje y
-la sección activa. La barra tiene fondo sólido `--color-ink` (sin blur ni
-transparencia), también en el drawer móvil.
+la sección activa.
 
-El hero es `position: sticky; top: 0`: se queda fijo mientras la sección
-clara siguiente (fondo sólido, `relative`) se desliza encima. La sección
-clara arranca con las esquinas superiores a 48px y `v2-scroll-study.ts`
-las lleva a 0 según avanza el scroll (`--v2-lab-radius`), de modo que el
-negro del hero se ve en los recortes y se «descurva» al bajar.
+La pill es sólida (sin blur ni transparencia) y su fondo sigue el tono de la
+sección que tiene detrás: el script detecta el primer fondo opaco de la
+sección y escribe `--v2-nav-bg` (`ink` o `carbon`). No hay tema claro: al
+ser full dark no existe el modo `data-section-theme` ni inversión a cream.
+El CTA principal del navbar es `ember` con texto `ink` (7.27:1) y pasa a
+`ember-hover` en hover, con un anillo crema animado en el perímetro.
+
+El hero es `position: sticky; top: 0`: se queda fijo mientras la banda
+`carbon` siguiente (fondo sólido, `relative`) se desliza encima. La banda
+arranca con las esquinas superiores a 48px y `v2-experience.ts` las lleva a 0
+según avanza el scroll (`--v2-lab-radius`), de modo que el tono `ink` del
+hero se ve en los recortes y se «descurva» al bajar. Esa curva es la que hace
+legible el pequeño salto de superficie al entrar en experiencia.
 
 El copy del hero se apila en una sola columna: nombre completo en una línea
 (`white-space: nowrap` + `clamp()`) y resumen. El bloque se ancla arriba para
@@ -148,48 +192,33 @@ queda ocupado por el texto en lugar de dos columnas separadas.
 
 ## 5. Componentes (Astro)
 
-Sin React/CVA: props tipadas + `class:list`. Patrón Base → Variantes →
-Tamaños → Estados (`hover:` con token hover, `focus-visible:` con
-`outline-ring`, `disabled:` con opacidad, `aria-*` donde aplique).
-Reglas de tipos aplicables en §7.
-
-`v2-button.astro` es el CTA reutilizable de V2: renderiza `<a>` si recibe
-`href` o `<button>` si no, aplica `.v2-btn` + variante (`primary`/`outline`) y
-usa mono siempre. Se usa en el navbar, el menú móvil y los CTAs de sección.
+Todo lo que tenga comportamiento se construye con Starwind
+(`@/components/starwind/*`): `Button`, `Sheet`, `Tooltip`, `NavigationMenu`,
+`Separator`… La regla Starwind-first aplica también a los CTAs: no existe
+`v2-button.astro`. Para un CTA:
 
 ```astro
----
-type Variant = "primary" | "outline" | "ghost";
-type Size = "sm" | "md" | "lg";
-
-interface Props {
-  variant?: Variant;
-  size?: Size;
-}
-const { variant = "primary", size = "md" } = Astro.props;
-
-const BASE = "inline-flex items-center justify-center rounded-md font-body transition-colors ease-site focus-visible:outline-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50";
-const VARIANTS: Record<Variant, string> = {
-  primary: "bg-ember text-ink hover:bg-ember-hover",
-  outline: "border border-line text-cream hover:border-ember hover:text-ember",
-  ghost: "text-cream hover:bg-ember/10 hover:text-ember",
-};
-const SIZES: Record<Size, string> = {
-  sm: "h-9 px-3 text-sm",
-  md: "h-10 px-4",
-  lg: "h-11 px-8",
-};
----
-<button class:list={[BASE, VARIANTS[variant], SIZES[size]]}><slot /></button>
+<Button href="#contacto" variant="primary" size="sm" class="font-mono">
+  Contáctame
+</Button>
 ```
+
+`variant="primary"` resuelve a `--primary` (ember) con
+`--primary-foreground` (ink), y `variant="outline"` usa el borde `--input`
+sobre el fondo oscuro. Lo único propio de V2 es el envoltorio
+`v2-ring-cta` (anillo cónico animado) y el `font-mono` de los botones.
+
+Los componentes propios se reservan a lo que Starwind no cubre (conveyor de
+logos, timeline editorial, estudio de iconos). El resto de reglas de
+tipado aplican en §7.
 
 ## 6. Responsive y reglas
 
 - Breakpoints: `md:` (~768px), `lg:` (~1024px). Contenedor:
   `mx-auto w-full max-w-screen-xl px-4 sm:px-6 lg:px-8`.
 - Tailwind primero; CSS propio solo para tokens, primitivas y keyframes.
-- `size-*` en lugar de `w-* h-*`. Probar cada vista en claro
-  (`bg-cream` + `text-ink`) y con `prefers-reduced-motion`.
+- `size-*` en lugar de `w-* h-*`. Probar cada vista con `prefers-reduced-motion`
+  y en los tres escalones de superficie (ink, carbon, ash).
 
 ## 7. TypeScript — reglas y tipos avanzados
 
@@ -291,5 +320,7 @@ logos `.astro` para que todos queden blancos y con el mismo peso visual.
 - Todos los botones V2 usan mono en cualquier idioma.
 - El tooltip de logos es solo hover (`(hover: hover) and (pointer: fine)`),
   no aparece en táctil y se actualiza al mismo tiempo que el crossfade.
-- En secciones claras el anillo de foco usa `ink` (el ember brillante no
-  contrasta sobre cream).
+- El anillo de foco es siempre `ember` (`--color-ring`): 7.68:1 sobre ink y
+  7.27:1 sobre carbon. No hay superficies claras donde haya que invertirlo.
+- La navbar nunca cambia a un tema claro; solo sincroniza su fondo con el
+  escalón de superficie de la sección que tiene detrás.

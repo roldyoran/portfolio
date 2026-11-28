@@ -101,7 +101,8 @@ src/
   Note: package.json scripts are standard Astro scripts ("dev": "astro dev", "build": "astro build", "preview": "astro preview"). Bun can run these npm scripts. The repository's `packageManager` field may still mention pnpm — that's informational and can be updated if you want to standardize on Bun.
 - Node: project requires Node >= 22.12.0 (see `package.json` engines).
 - Tailwind and styling:
-  - V2 orange rule: only `--color-ember` (base CTA/active) and `--color-ember-hover` (CTA hover) are allowed. Use `ink` for text on cream; do not add another orange token.
+  - V2 orange rule: only `--color-ember` (base CTA/active) and `--color-ember-hover` (CTA hover) are allowed. Text on orange is always `ink`; text on dark is `cream`/`soft-ink`. Do not add another orange token.
+  - V2 is **full dark**: `ink` (base) → `carbon` (raised band: experience) → `ink` (rest), with `carbon` cards + `ash` tiles. No light/cream section backgrounds and no Docker blues in v2 (blues live only in the `/docker` study, `docker.css`).
   - There is intentionally no `tailwind.config.*` file in this project: the design tokens and theme are declared inside CSS using `@theme` and custom layers. V2 uses a single stylesheet, `src/styles/starwind.css` (design-system tokens + Starwind tokens + v2 primitives); the legacy site uses `src/styles/global.css`. There is no `v2.css` anymore.
   - **Tailwind-first (obligatorio)**: usa siempre Tailwind en todo lo que se pueda. Tailwind utilities take priority over custom CSS for all styling. Use Tailwind utility classes for layout/spacing/typography/responsive behavior. Reserve custom CSS only for global tokens, component primitives, and exceptional cases (complex selectors, theme variables, keyframes that are not provided by Tailwind). Cuando crees libreria de componentes, design tokens o patrones responsive, lee antes `.agents/skills/tailwind-design-system/SKILL.md` (y `references/details.md` si el caso lo requiere).
   - If you add a `tailwind.config.*` later, ensure `content` globs include `.astro`, `.ts`, `.tsx`, `.js`, and templates under `src/` so Tailwind can scan and generate utilities.
@@ -145,7 +146,7 @@ src/
   - Token mapping in `src/styles/starwind.css` (do not reintroduce Starwind's blue theme):
     - `--background` → `--color-ink`, `--foreground` → `--color-cream`
     - `--primary` → `--color-ember`, `--primary-foreground` → `--color-ink`, `--primary-accent` → `--color-ember-hover`
-    - `--card` / `--popover` / `--secondary` / `--muted` → neutral surfaces derived with `color-mix` from cream/ink; `--accent` → `--color-line`
+    - `--card` / `--popover` → `--color-carbon`; `--secondary` / `--muted` → neutral surfaces derived with `color-mix` from cream/ink; `--accent` → `--color-line`
     - `--muted-foreground` → `--color-soft-ink`
     - `--border` / `--input` → `--color-line`, `--outline` → `--color-ember`
     - `--radius` → `0.375rem` (matches v2 sm/md/lg scale)
