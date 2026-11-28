@@ -55,7 +55,7 @@ const summary = lang === "es" ? hero.descriptionEs : hero.description;
   .v2-hero {
     --v2-hero-h: calc(max(620px, 62svh) + 96px - 98px);
     --v2-logo-h: 96px;
-    --v2-grid-margin: 48px;
+    --v2-grid-margin: 64px;
 
     position: sticky;
     top: 0;
@@ -104,7 +104,7 @@ const summary = lang === "es" ? hero.descriptionEs : hero.description;
     grid-template-rows: minmax(0, 1fr);
     align-items: start;
     width: 100%;
-    max-width: 1440px;
+    max-width: 1200px;
     min-height: 0;
     margin: 0 auto var(--v2-logo-h);
     padding: 0 var(--v2-grid-margin);
@@ -121,7 +121,7 @@ const summary = lang === "es" ? hero.descriptionEs : hero.description;
     align-items: flex-start;
     align-self: start;
     width: 100%;
-    max-width: 1180px;
+    max-width: 960px;
     margin-top: 36px;
   }
 
@@ -180,9 +180,9 @@ const summary = lang === "es" ? hero.descriptionEs : hero.description;
 
   .v2-hero__logos {
     position: absolute;
-    right: 64px;
+    right: 80px;
     bottom: 40px;
-    left: 64px;
+    left: 80px;
     z-index: 2;
   }
 
@@ -212,7 +212,7 @@ const summary = lang === "es" ? hero.descriptionEs : hero.description;
 
   @media (max-width: 1023px) {
     .v2-hero {
-      --v2-grid-margin: 40px;
+      --v2-grid-margin: 48px;
     }
 
     .v2-hero__zone {
@@ -222,7 +222,7 @@ const summary = lang === "es" ? hero.descriptionEs : hero.description;
 
   @media (max-width: 767px) {
     .v2-hero {
-      --v2-grid-margin: 28px;
+      --v2-grid-margin: 32px;
     }
 
     .v2-hero__sub {
@@ -233,7 +233,7 @@ const summary = lang === "es" ? hero.descriptionEs : hero.description;
   @media (max-width: 599px) {
     .v2-hero {
       --v2-hero-h: calc(min(max(560px, 72svh), 640px) + 96px - 98px);
-      --v2-grid-margin: 20px;
+      --v2-grid-margin: 24px;
     }
 
     .v2-hero__grid {
@@ -255,8 +255,8 @@ const summary = lang === "es" ? hero.descriptionEs : hero.description;
     }
 
     .v2-hero__logos {
-      right: 32px;
-      left: 32px;
+      right: 24px;
+      left: 24px;
     }
   }
 
