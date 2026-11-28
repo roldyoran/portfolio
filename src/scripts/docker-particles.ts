@@ -89,7 +89,6 @@ export function mountDockerParticles(canvas: HTMLCanvasElement): DockerParticleF
   let dpr = 1;
   let centerX = 0;
   let centerY = 0;
-  let zoneSize = 1080;
   let disperse = 1;
   let spread = 0;
   let zoom = 1;
@@ -101,7 +100,7 @@ export function mountDockerParticles(canvas: HTMLCanvasElement): DockerParticleF
   let visible = true;
 
   let cols = 48;
-  let rows = 16;
+  let rows = 17;
   let particles = buildMesh(cols, rows, 20261126);
   let ink = "#fffdfa";
 
@@ -180,7 +179,7 @@ export function mountDockerParticles(canvas: HTMLCanvasElement): DockerParticleF
     canvas.height = Math.round(height * dpr);
 
     const nextCols = width < 700 ? 28 : clamp(Math.round(width / 26), 44, 64);
-    const nextRows = width < 700 ? 14 : 16;
+    const nextRows = width < 700 ? 15 : 17;
     if (nextCols !== cols || nextRows !== rows || particles.length !== nextCols * nextRows) {
       cols = nextCols;
       rows = nextRows;
@@ -190,7 +189,6 @@ export function mountDockerParticles(canvas: HTMLCanvasElement): DockerParticleF
     if (!centerX && !centerY) {
       centerX = width / 2;
       centerY = height / 2;
-      zoneSize = Math.min(width, height) * 0.9;
     }
 
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -267,10 +265,9 @@ export function mountDockerParticles(canvas: HTMLCanvasElement): DockerParticleF
   reduceMotion.addEventListener("change", onMotionChange);
 
   return {
-    setView(nextCenterX, nextCenterY, nextSize) {
+    setView(nextCenterX, nextCenterY) {
       centerX = nextCenterX;
       centerY = nextCenterY;
-      zoneSize = Math.max(1, nextSize);
       if (!playing) draw();
     },
     setDisperse(value) {
