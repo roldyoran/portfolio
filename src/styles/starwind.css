@@ -387,11 +387,11 @@
     background: conic-gradient(
       from var(--v2-ring-angle),
       transparent 0deg,
-      var(--color-cream) 12deg,
-      transparent 26deg,
+      var(--color-cream) 18deg,
+      transparent 40deg,
       transparent 180deg,
-      var(--color-cream) 192deg,
-      transparent 206deg
+      var(--color-cream) 198deg,
+      transparent 220deg
     );
     /* Deja solo la banda de 2px: el centro queda enmascarado, así el
        gradiente no puede asomar dentro del botón. */
@@ -404,7 +404,7 @@
       linear-gradient(#000 0 0);
     mask-composite: exclude;
     opacity: 0;
-    animation: v2-ring-spin 3s linear infinite;
+    animation: v2-ring-spin 4.5s linear infinite;
     animation-play-state: paused;
     transition: opacity 0.3s var(--ease-site);
     pointer-events: none;
